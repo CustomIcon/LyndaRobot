@@ -16,7 +16,7 @@ def shell(command):
     stdout,stderr = process.communicate()
     return (stdout,stderr)
 
-@dev_user
+@dev_plus
 @run_async
 def shellExecute(bot: Bot, update: Update):
     cmd = update.message.text.split(' ',maxsplit=1)
