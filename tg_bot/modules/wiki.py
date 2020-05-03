@@ -13,14 +13,17 @@ def wiki(bot: Bot, update: Update):
     search_str = message.text.split(' ', 1)
     if len(search_str) == 1:
         searchterm = 'Usage: /wiki [search terms]'
+        message.reply_text(searchterm, parse_mode=ParseMode.MARKDOWN)
+        return
     results = wikipedia.search(search_str)
     if not results:
         error = 'There were no results matching the query.'
         message.reply_text(error, parse_mode=ParseMode.MARKDOWN)
     else:
         summary = wikipedia.summary(search_str)
+        summary = summary[:100] + '...' if len(summary) > 100 else summary
         reply_text = (summary)
-        message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
