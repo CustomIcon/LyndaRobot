@@ -20,9 +20,10 @@ def wiki(bot: Bot, update: Update):
         error = 'There were no results matching the query.'
         message.reply_text(error, parse_mode=ParseMode.MARKDOWN)
     else:
+        summary = f"<b>{search}</b>\n"
         summary = wikipedia.summary(search_str)
         summary = summary[:100] + '...' if len(summary) > 100 else summary
-        summary += f"""<a href="https://en.wikipedia.org/wiki/{search_str.replace(" ", "%20")}">Read more...</a>"""
+        summary += f"""<a href="https://en.wikipedia.org/wiki/{search_str}">Read more...</a>"""
         reply_text = (summary)
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
