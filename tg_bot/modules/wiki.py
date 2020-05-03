@@ -19,6 +19,7 @@ def wiki(bot: Bot, update: Update):
         error = 'There were no results matching the query.'
         message.reply_text(error, parse_mode=ParseMode.MARKDOWN)
     else:
+        summary = wikipedia.summary(search_str)
         reply_text = (summary)
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
