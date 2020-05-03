@@ -22,10 +22,10 @@ def wiki(bot: Bot, update: Update):
     else:
         summary = f"<b>{search_str}</b>\n"
         summary = wikipedia.summary(search_str)
-        summary = summary[:100] + '...' if len(summary) > 100 else summary
+        summary = summary[:250] + '...' if len(summary) > 250 else summary
         summary += f"""<a href="https://en.wikipedia.org/wiki/{search_str}">Read more...</a>"""
         reply_text = (summary)
-    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(reply_text, parse_mode=ParseMode.HTML)
 
 
 __help__ = """
