@@ -27,10 +27,10 @@ def wiki(bot: Bot, update: Update):
         result = f"<b>{search}</b>\n\n"
         result += f"<i>{res}</i>\n"
         result += f"""<a href="https://en.wikipedia.org/wiki/{search.replace(" ", "%20")}">Read more...</a>"""
-        if len(result) > 350:
-            with open("result.txt", 'w') as f:
+        if len(result) > 4000:
+            with open("result.html", 'w') as f:
                 f.write(f"{result}\n")
-            with open("result.txt", 'rb') as f:
+            with open("result.html", 'rb') as f:
                 bot.send_document(document=f, filename=f.name,
                     reply_to_message_id=update.message.message_id, chat_id=update.effective_chat.id,
                     parse_mode=ParseMode.HTML)
