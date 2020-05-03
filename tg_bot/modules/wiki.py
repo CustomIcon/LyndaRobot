@@ -18,17 +18,6 @@ def wiki(bot: Bot, update: Update):
     if not results:
         error = 'There were no results matching the query.'
         message.reply_text(error, parse_mode=ParseMode.MARKDOWN)
-    try:
-		summary = wikipedia.summary(search_str)
-    except wikipedia.exceptions.DisambiguationError as e:
-		if not e.options:
-            messageerror = 'There were no results matching the query.'
-			message.reply_text(messageerror, parse_mode=ParseMode.MARKDOWN)
-		try:
-			summary = wikipedia.summary(search_str)
-		except:
-            messageambiguous = 'Query was too ambiguous'
-            message.reply_text(messageambiguous, parse_mode=ParseMode.MARKDOWN)
     else:
         reply_text = (summary)
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
