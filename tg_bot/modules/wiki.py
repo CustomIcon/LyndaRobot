@@ -39,8 +39,8 @@ def wiki(bot: Bot, update: Update):
 
 
 __help__ = """
- - /wiki oogabooga
- - /wikipedia oogabooga
+ - /wiki - Search Query with /wiki <query>
+ - /wikipedia - Same as /wiki
 """
 
 WIKI_HANDLER = DisableAbleCommandHandler(["wiki", "wikipedia"], wiki)
