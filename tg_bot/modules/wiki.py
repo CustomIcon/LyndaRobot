@@ -22,6 +22,7 @@ def wiki(bot: Bot, update: Update):
     else:
         summary = wikipedia.summary(search_str)
         summary = summary[:100] + '...' if len(summary) > 100 else summary
+        summary += f"""<a href="https://en.wikipedia.org/wiki/{search_str.replace(" ", "%20")}">Read more...</a>"""
         reply_text = (summary)
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
