@@ -11,7 +11,7 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 def wiki(bot: Bot, update: Update):
     message = update.effective_message
     search_str = message.text.split(' ', 1)
-    if len(text) == 1:
+    if len(search_str) == 1:
         searchterm = 'Usage: /wiki [search terms]'
         message.reply_text(searchterm, parse_mode=ParseMode.MARKDOWN)
     results = wikipedia.search(search_str)
