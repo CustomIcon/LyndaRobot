@@ -183,19 +183,19 @@ def manga(bot: Bot, update: Update, args):
 __help__ = """
 Get information about anime, manga or characters with the help of this module! All data is fetched from [MyAnimeList](https://myanimelist.net).
 *Available commands:*
- - /sanime <anime>: returns information about the anime.
- - /scharacter <character>: returns information about the character.
- - /smanga <manga>: returns information about the manga.
+ - /anime <anime>: returns information about the anime.
+ - /character <character>: returns information about the character.
+ - /manga <manga>: returns information about the manga.
  - /upcoming: returns a list of new anime in the upcoming seasons.
  """
 
 __mod_name__ = "MyAnimeList"
         
         
-ANIME_HANDLER = CommandHandler("sanime", anime, pass_args=True)
-CHARACTER_HANDLER = CommandHandler("scharacter", character, pass_args=True)
+ANIME_HANDLER = CommandHandler("anime", anime, pass_args=True)
+CHARACTER_HANDLER = CommandHandler("character", character, pass_args=True)
 UPCOMING_HANDLER = CommandHandler("upcoming", upcoming)
-MANGA_HANDLER = CommandHandler("smanga", manga, pass_args=True)
+MANGA_HANDLER = CommandHandler("manga", manga, pass_args=True)
 
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
