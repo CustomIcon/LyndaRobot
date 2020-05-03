@@ -20,7 +20,7 @@ def wiki(bot: Bot, update: Update):
     else:
         summary = wikipedia.summary(search_str)
         reply_text = (summary)
-    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+        message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
