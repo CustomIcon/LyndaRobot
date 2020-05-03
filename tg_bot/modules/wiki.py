@@ -14,15 +14,12 @@ def wiki(bot: Bot, update: Update):
     if len(text) == 1:
         searchterm = 'Usage: /wiki [search terms]'
         message.reply_text(searchterm, parse_mode=ParseMode.MARKDOWN)
-    search_str = ' '.join(contents[1:])
     results = wikipedia.search(search_str)
     if not results:
         error = 'There were no results matching the query.'
         message.reply_text(error, parse_mode=ParseMode.MARKDOWN)
-
     try:
 		summary = wikipedia.summary(results[0], sentences = 2)
-    
     except wikipedia.exceptions.DisambiguationError as e:
 		if not e.options:
             messageerror = 'There were no results matching the query.'
