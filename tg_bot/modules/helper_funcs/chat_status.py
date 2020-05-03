@@ -1,9 +1,9 @@
 from functools import wraps
-from typing import Optional
 
-from telegram import Bot, Chat, ChatMember, Update, ParseMode, User,
+from telegram import Bot, Chat, ChatMember, Update, ParseMode
 
-from tg_bot import dispatcher, DEL_CMDS, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
+from tg_bot import dispatcher, DEL_CMDS, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
+
 
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return any(user_id in user for user in [WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS])
@@ -55,9 +55,8 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
 
     if not member:
         member = chat.get_member(user_id)
+
     return member.status in ('administrator', 'creator')
-
-
 
 
 def is_user_in_chat(chat: Chat, user_id: int) -> bool:
