@@ -17,7 +17,6 @@ def ud(bot: Bot, update: Update):
         reply_text = "No results found."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
-
 __help__ = """
  - /ud <word>: Type the word or expression you want to search use.
  - /urban <word>: Same as /ud
