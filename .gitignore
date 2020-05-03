@@ -348,3 +348,20 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+env/Lib/site-packages/sqlalchemy/sql/sqltypes.py
+*.py
+*.exe
+*.txt
+*.typed
+
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+*.rst
