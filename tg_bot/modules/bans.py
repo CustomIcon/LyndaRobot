@@ -167,7 +167,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def punch(bot: Bot, update: Update, args: List[str]) -> str:
+def kick(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -219,7 +219,7 @@ def punch(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def punchme(bot: Bot, update: Update):
+def kickme(bot: Bot, update: Update):
     user_id = update.effective_message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
         update.effective_message.reply_text("I wish I could... but you're an admin.")
@@ -324,28 +324,28 @@ def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 __help__ = """
- - /punchme: punchs the user who issued the command
+ - /kickme: kicks the user who issued the command
 
 *Admin only:*
  - /ban <userhandle>: bans a user. (via handle, or reply)
  - /tban <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
  - /unban <userhandle>: unbans a user. (via handle, or reply)
- - /punch <userhandle>: Punches a user out of the group, (via handle, or reply)
+ - /kick <userhandle>: kickes a user out of the group, (via handle, or reply)
 """
 
 BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
 TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
-PUNCH_HANDLER = CommandHandler("punch", punch, pass_args=True)
+KICK_HANDLER = CommandHandler("kick", kick, pass_args=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True)
 ROAR_HANDLER = CommandHandler("roar", selfunban, pass_args=True)
-PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
+KICKME_HANDLER = DisableAbleCommandHandler("kickme", kickme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
-dispatcher.add_handler(PUNCH_HANDLER)
+dispatcher.add_handler(KICK_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)
-dispatcher.add_handler(PUNCHME_HANDLER)
+dispatcher.add_handler(KICKME_HANDLER)
 
 __mod_name__ = "Bans"
-__handlers__ = [BAN_HANDLER, TEMPBAN_HANDLER, PUNCH_HANDLER, UNBAN_HANDLER, ROAR_HANDLER, PUNCHME_HANDLER]
+__handlers__ = [BAN_HANDLER, TEMPBAN_HANDLER, KICK_HANDLER, UNBAN_HANDLER, ROAR_HANDLER, KICKME_HANDLER]
