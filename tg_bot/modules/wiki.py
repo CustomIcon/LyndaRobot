@@ -18,7 +18,7 @@ import wikipedia
 
 def wiki(bot: Bot, update: Update, args):
     reply = " ".join(args)
-    summary = '{} <a href="{}">more</a>'
+    summary = '{} {}'
     update.message.reply_text(summary.format(wikipedia.summary(reply, sentences=3), wikipedia.page(reply).url))
 		
 __help__ = """
