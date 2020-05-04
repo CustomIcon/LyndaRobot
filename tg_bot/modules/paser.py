@@ -62,7 +62,7 @@ def moon(bot: Bot, update: Update):
     ]
     for i in animation_chars:
         message.edit_text(i)
-        sleep(0.2)
+        sleep(0.5)
 
 @run_async
 def clock(bot: Bot, update: Update):
@@ -85,16 +85,12 @@ def clock(bot: Bot, update: Update):
 
                 "🕑🕐🕛🕙🕘🕗🕕🕔🕓🕒",
 
-                "🕐🕛🕙🕘🕗🕕🕔🕓🕒🕑",
-
-                "🕛🕙🕘🕗🕕🕔🕓🕒🕑🕐",
-
                 "*tick-tock*"
     ]
     for i in animation_chars:
         message.edit_text(i)
-        sleep(0.2)
-
+        sleep(0.5)
+        
 __help__ = """
  - /police : *Sirens* Polize iz here
  - /moon : Cycles all the phases of the moon emojis.
