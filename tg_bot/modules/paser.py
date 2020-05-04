@@ -40,7 +40,6 @@ def police(bot: Bot, update: Update):
 @run_async
 def moon(bot: Bot, update: Update):
     message = update.effective_message.reply_text('/moon')
-    
 
     animation_chars = [
                 "🌗🌘🌑🌒🌓🌔🌕🌖",
@@ -58,9 +57,8 @@ def moon(bot: Bot, update: Update):
                 "🌕🌖🌗🌘🌑🌒🌓🌔",
 
                 "🌖🌗🌘🌑🌒🌓🌔🌕",
-
+      
                 "~moon"
-
     ]
     for i in animation_chars:
         message.edit_text(i)
@@ -70,7 +68,6 @@ def moon(bot: Bot, update: Update):
 def clock(bot: Bot, update: Update):
     message = update.effective_message.reply_text('/moon')
     
-
     animation_chars = [
                 "🕙🕘🕖🕕🕔🕓🕒🕑🕐🕛",
 
@@ -93,12 +90,10 @@ def clock(bot: Bot, update: Update):
                 "🕛🕙🕘🕗🕕🕔🕓🕒🕑🕐",
 
                 "*tick-tock*"
-
     ]
     for i in animation_chars:
         message.edit_text(i)
         sleep(0.5)
-
 
 __help__ = """
  - /police : *Sirens* Polize iz here
@@ -116,4 +111,10 @@ dispatcher.add_handler(CLOCK_HANDLER)
 
 __mod_name__ = "Parser"
 __command_list__ = ["police", "moon", "clock"]
+
+dispatcher.add_handler(POLICE_HANDLER)
+dispatcher.add_handler(MOON_HANDLER)
+
+__mod_name__ = "Parser"
+__command_list__ = ["police", "moon"]
 __handlers__ = [POLICE_HANDLER, MOON_HANDLER]
