@@ -79,6 +79,12 @@ def abuse(bot: Bot, update: Update):
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(random.choice(fun_strings.ABUSE_STRINGS))
 
+@run_async
+def insult(bot: Bot, update: Update):
+    msg = update.effective_message
+    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
+    reply_text(random.choice(fun_strings.INSULT_STRINGS))
+
 
 @run_async
 def shrug(bot: Bot, update: Update):
@@ -126,6 +132,7 @@ __help__ = """
  - /decide : Randomly answers yes/no/maybe
  - /toss : Tosses A coin
  - /abuse : Abuses the cunt
+ - /insult : Insults the retar
  - /bluetext : check urself :V
  - /roll : Roll a dice.
  - /rlg : Join ears,nose,mouth and create an emo ;-;
@@ -141,6 +148,7 @@ RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
+INSULT_HANDLER = DisableAbleCommandHandler("insult", insult)
 
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
@@ -152,8 +160,9 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 dispatcher.add_handler(ABUSE_HANDLER)
+dispatcher.add_handler(INSULT_HANDLER)
 
 __mod_name__ = "Fun"
-__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table"]
+__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table", "insult", "abuse"]
 __handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
-                DECIDE_HANDLER, TABLE_HANDLER, ABUSE_HANDLER]
+                DECIDE_HANDLER, TABLE_HANDLER, ABUSE_HANDLER, INSULT_HANDLER]
