@@ -1,0 +1,3 @@
+[console_scripts]
+tswift = tswift:main
+

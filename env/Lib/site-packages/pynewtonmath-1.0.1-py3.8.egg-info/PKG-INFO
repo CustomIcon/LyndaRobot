@@ -1,0 +1,18 @@
+Metadata-Version: 1.2
+Name: pynewtonmath
+Version: 1.0.1
+Summary: Python 3 wrapper for the Newton math API
+Home-page: https://github.com/benpryke/PyNewtonMath
+Author: Benjamin Pryke
+Author-email: benprykedev@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: newton API REST math maths restful
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3
