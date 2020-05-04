@@ -365,3 +365,5 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 *.rst
+.vscode/settings.json
+*.json
