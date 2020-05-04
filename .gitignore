@@ -367,3 +367,4 @@ pip-selfcheck.json
 *.rst
 .vscode/settings.json
 *.json
+*.json
