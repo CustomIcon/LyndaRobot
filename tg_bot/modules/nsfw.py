@@ -38,7 +38,7 @@ def hentai(bot: Bot, update: Update):
 
 def neko(bot: Bot, update: Update):
     msg = update.effective_message
-    nsfw = requests.get("https://api.computerfreaker.cf/v1/nsfwneko).json()
+    nsfw = requests.get("https://api.computerfreaker.cf/v1/nsfwneko").json()
     url = nsfw.get("url")
     # do shit with url if you want to
     if not url:
