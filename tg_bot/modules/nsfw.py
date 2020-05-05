@@ -26,14 +26,21 @@ def boobs(bot: Bot, update: Update):
     final = "http://media.oboobs.ru/{}".format(nsfw)
     update.message.reply_photo(final)
 
+def boobs(bot: Bot, update: Update):
+    nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json()[0]["url"]
+    update.message.reply_photo(nsfw)
+
 __help__ = """
- - /boobs: Sends Random Boobs pic.
- - /butts: Sends Random Butts pic.
+ - /boobs: Sends Random tiddie pic.
+ - /butts: Sends Random bun pic.
+ - /hentai: Sends Random Hentai Images.
 """
 
 __mod_name__ = "NSFW"
 BUTTS_HANDLER = DisableAbleCommandHandler("butts", butts)
 BOOBS_HANDLER = DisableAbleCommandHandler("boobs", boobs)
+HENTAI_HANDLER = DisableAbleCommandHandler("hentai", hentai)
 
 dispatcher.add_handler(BUTTS_HANDLER)
 dispatcher.add_handler(BOOBS_HANDLER)
+dispatcher.add_handler(HENTAI_HANDLER)
