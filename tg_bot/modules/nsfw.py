@@ -60,3 +60,4 @@ DVA_HANDLER = DisableAbleCommandHandler("dva", dva)
 dispatcher.add_handler(HENTAI_HANDLER)
 dispatcher.add_handler(NEKO_HANDLER)
 dispatcher.add_handler(DVA_HANDLER)
+
