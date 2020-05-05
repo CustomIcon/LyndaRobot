@@ -26,7 +26,7 @@ def boobs(bot: Bot, update: Update):
     final = "http://media.oboobs.ru/{}".format(nsfw)
     update.message.reply_photo(final)
 
-def boobs(bot: Bot, update: Update):
+def hentai(bot: Bot, update: Update):
     nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json()[0]["url"]
     update.message.reply_photo(nsfw)
 
