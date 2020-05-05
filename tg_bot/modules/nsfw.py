@@ -27,8 +27,13 @@ def boobs(bot: Bot, update: Update):
     update.message.reply_photo(final)
 
 def hentai(bot: Bot, update: Update):
-    nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json()[0]["url"]
-    update.message.reply_photo(nsfw)
+    message = update.effective_message
+    nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json
+    if not shibe:
+        await update.effective_message.reply_text("`Couldn't fetch a cat for you :(`")
+        return
+    try:
+        update.effective_message(file=json[0], reply_to=message.reply_photo)
 
 __help__ = """
  - /boobs: Sends Random tiddie pic.
