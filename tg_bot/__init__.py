@@ -77,7 +77,7 @@ if ENV:
     WALL_API = os.environ.get('WALL_API', None)
     LASTFM_API_KEY = os.environ.get('LASTFM_API_KEY', None)
     DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', None)
-
+    API_WEATHER = os.environ.get('API_WEATHER', None)
 
 else:
     from tg_bot.config import Development as Config
@@ -138,6 +138,7 @@ else:
     WALL_API = Config.WALL_API
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     DEEPFRY_TOKEN = Config.DEEPFRY_TOKEN
+    API_WEATHER = Config.API_WEATHER
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 

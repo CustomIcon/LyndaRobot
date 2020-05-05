@@ -45,6 +45,7 @@ class Config(object):
     WALL_API = None # Get one from https://wall.alphacoders.com/api.php
     LASTFM_API_KEY = None # Get one from https://last.fm/api/
     DEEPFRY_TOKEN = None
+    API_WEATHER = None
 
 class Production(Config):
     LOGGER = True
