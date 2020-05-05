@@ -41,11 +41,26 @@ def wall(bot: Bot, update: Update, args):
                 bot.send_document(chat_id, document=wallpaper,
                 filename='wallpaper', caption=caption, reply_to_message_id=msg_id,
                 timeout=60)
+@run_async               
+def animewall(bot: Bot, update: Update):
+    msg = update.effective_message
+    nsfw = r.get("https://api.computerfreaker.cf/v1/anime").json()
+    url = nsfw.get("url")
+    # do shit with url if you want to
+    if not url:
+        msg.reply_text("No URL was received from the API!")
+        return
+    msg.reply_photo(url)
+
+
 
 __help__ = """
  - /wall <query>: get a a wallpaper from wall.alphacoders.com
+ - /animewall: get a a wallpaper from wall.alphacoders.com
 """
 
 __mod_name__ = "Wallpaper"
 WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, pass_args=True)
+ANIMEWALL_HANDLER = DisableAbleCommandHandler("animewall", animewall)
+dispatcher.add_handler(ANIMEWALL_HANDLER)
 dispatcher.add_handler(WALLPAPER_HANDLER)
