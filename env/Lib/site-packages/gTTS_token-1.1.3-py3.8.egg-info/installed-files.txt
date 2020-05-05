@@ -1,0 +1,11 @@
+..\gtts_token\__init__.py
+..\gtts_token\__pycache__\__init__.cpython-38.pyc
+..\gtts_token\__pycache__\gtts_token.cpython-38.pyc
+..\gtts_token\__pycache__\version.cpython-38.pyc
+..\gtts_token\gtts_token.py
+..\gtts_token\version.py
+PKG-INFO
+SOURCES.txt
+dependency_links.txt
+requires.txt
+top_level.txt
