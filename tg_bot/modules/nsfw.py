@@ -30,10 +30,10 @@ def hentai(bot: Bot, update: Update):
     message = update.effective_message
     nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json
     if not shibe:
-        await update.effective_message.reply_text("`Couldn't fetch a cat for you :(`")
+        await message.reply_text("`No hentai for you!`")
         return
     try:
-        update.effective_message(file=json[0], reply_to=message.reply_photo)
+        message.reply_photo(file=json[0])
 
 __help__ = """
  - /boobs: Sends Random tiddie pic.
