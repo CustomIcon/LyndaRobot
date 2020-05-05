@@ -12,7 +12,7 @@ import requests
 from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
-from tg_bot import dispatcher
+from tg_bot import dispatcher, updater
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin
 
@@ -27,12 +27,17 @@ def boobs(bot: Bot, update: Update):
     update.message.reply_photo(final)
 
 def hentai(bot: Bot, update: Update):
-    message = update.effective_message
-    nsfw = requests.get('https://api.computerfreaker.cf/v1/hentai').json
-    if not shibe:
-        message.reply_text("`No hentai for you!`")
-    try:
-        message.reply_photo(file=json[0])
+    msg = update.effective_message
+    nsfw = requests.get("https://api.computerfreaker.cf/v1/hentai").json()
+    if nsfw.status_code != 200:
+        msg.reply_text("Error connecting to the API!")
+        return
+    url = nsfw.get("url")
+    # do shit with url if you want to
+    if not url:
+        msg.reply_text("No URL was received from the API!")
+        return
+    msg.reply_photo(url)
 
 __help__ = """
  - /boobs: Sends Random tiddie pic.
