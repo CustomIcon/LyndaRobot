@@ -29,9 +29,6 @@ def boobs(bot: Bot, update: Update):
 def hentai(bot: Bot, update: Update):
     msg = update.effective_message
     nsfw = requests.get("https://api.computerfreaker.cf/v1/hentai").json()
-    if nsfw.status_code != 200:
-        msg.reply_text("Error connecting to the API!")
-        return
     url = nsfw.get("url")
     # do shit with url if you want to
     if not url:
