@@ -76,6 +76,7 @@ if ENV:
     AI_API_KEY = os.environ.get('AI_API_KEY', None)
     WALL_API = os.environ.get('WALL_API', None)
     LASTFM_API_KEY = os.environ.get('LASTFM_API_KEY', None)
+    DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', None)
 
 
 else:
@@ -136,6 +137,7 @@ else:
     AI_API_KEY = Config.AI_API_KEY
     WALL_API = Config.WALL_API
     LASTFM_API_KEY = Config.LASTFM_API_KEY
+    DEEPFRY_TOKEN = Config.DEEPFRY_TOKEN
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
