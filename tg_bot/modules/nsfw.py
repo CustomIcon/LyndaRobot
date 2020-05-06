@@ -49,11 +49,38 @@ def dva(bot: Bot, update: Update):
         return
     msg.reply_photo(url)
 
+@sudo_plus
+def boobs(bot: Bot, update: Update):
+    nsfw = requests.get('http://api.oboobs.ru/noise/1').json()[0]["preview"]
+    final = "http://media.oboobs.ru/{}".format(nsfw)
+    update.message.reply_photo(final)
 
+@sudo_plus
+def butts(bot: Bot, update: Update):
+    nsfw = requests.get('http://api.obutts.ru/noise/1').json()[0]["preview"]
+    final = "http://media.obutts.ru/{}".format(nsfw)
+    update.message.reply_photo(final)
+
+		
+
+
+
+
+# __help__ = """
+#  - /hentai: Sends Random Hentai Images.
+#  - /neko: Sends Random neko source Images.
+#  - /dva: Sends Random D.VA source Images.
+# """
+
+# __mod_name__ = "NSFW"
 HENTAI_HANDLER = DisableAbleCommandHandler("hentai", hentai)
 NEKO_HANDLER = DisableAbleCommandHandler("neko", neko)
 DVA_HANDLER = DisableAbleCommandHandler("dva", dva)
+BOOBS_HANDLER = DisableAbleCommandHandler("boobs", boobs)
+BUTTS_HANDLER = DisableAbleCommandHandler("butts", butts)
 
+dispatcher.add_handler(BUTTS_HANDLER)
+dispatcher.add_handler(BOOBS_HANDLER)
 dispatcher.add_handler(HENTAI_HANDLER)
 dispatcher.add_handler(NEKO_HANDLER)
 dispatcher.add_handler(DVA_HANDLER)
