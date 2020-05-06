@@ -103,10 +103,4 @@ dispatcher.add_handler(CLOCK_HANDLER)
 
 __mod_name__ = "Parser"
 __command_list__ = ["police", "moon", "clock"]
-
-dispatcher.add_handler(POLICE_HANDLER)
-dispatcher.add_handler(MOON_HANDLER)
-
-__mod_name__ = "Parser"
-__command_list__ = ["police", "moon"]
-__handlers__ = [POLICE_HANDLER, MOON_HANDLER]
+__handlers__ = [POLICE_HANDLER, MOON_HANDLER, CLOCK_HANDLER]

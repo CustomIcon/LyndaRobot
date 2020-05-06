@@ -26,3 +26,4 @@ typing
 gtts
 PTable
 wikipedia
+pyowm
