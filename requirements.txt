@@ -27,3 +27,4 @@ gtts
 PTable
 wikipedia
 pyowm
+animu-cf
