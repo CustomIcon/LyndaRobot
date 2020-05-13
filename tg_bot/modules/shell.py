@@ -1,3 +1,5 @@
+# Shell command executor
+# Written by t.me/Zero_cool7870 and t.me/TheRealPhoenix
 from tg_bot import dispatcher, LOGGER
 from telegram import Bot, Update
 from telegram.ext.dispatcher import run_async
@@ -5,8 +7,6 @@ from tg_bot.modules.helper_funcs.chat_status import dev_plus
 from tg_bot.modules.helper_funcs.misc import sendMessage
 from telegram.ext import CommandHandler
 from subprocess import Popen, PIPE
-
-
 
 def shell(command):
     process = Popen(command,stdout=PIPE,shell=True,stderr=PIPE)

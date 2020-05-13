@@ -1,4 +1,4 @@
-![Lynda](https://test1.mannu.me/LyndaRobot.jpg)
+![Lynda](https://img4.goodfon.com/original/2120x1348/3/58/ayanami-azur-lane-art-anime-devushka-strela.jpg)
 # LyndaRobot
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/04423a6d18ab43d396ab738fca5ba804)](https://www.codacy.com/manual/Dank-del/EnterpriseAL?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dank-del/EnterpriseAL&amp;utm_campaign=Badge_Grade)
 
