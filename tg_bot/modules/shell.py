@@ -8,8 +8,6 @@ from tg_bot.modules.helper_funcs.misc import sendMessage
 from telegram.ext import CommandHandler
 from subprocess import Popen, PIPE
 
-
-
 def shell(command):
     process = Popen(command,stdout=PIPE,shell=True,stderr=PIPE)
     stdout,stderr = process.communicate()
