@@ -88,7 +88,7 @@ def vapor(bot: Bot, update: Update, args: List[str]):
 @run_async
 def kan(bot: Bot, update: Update):
     msg = update.effective_message
-    text = msg.reply_to_message
+    text = msg.reply_to_message.text
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=kannagen&text={text}").json()
     url = r.get("message")
     if not url:
@@ -99,11 +99,12 @@ def kan(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
+    os.remove("temp.webp")
 
 @run_async
 def changemymind(bot: Bot, update: Update):
     msg = update.effective_message
-    text = msg.reply_to_message
+    text = msg.reply_to_message.text
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=changemymind&text={text}").json()
     url = r.get("message")
     if not url:
@@ -114,11 +115,12 @@ def changemymind(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
+    os.remove("temp.webp")
 
 @run_async
 def trumptweet(bot: Bot, update: Update):
     msg = update.effective_message
-    text = msg.reply_to_message
+    text = msg.reply_to_message.text
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=trumptweet&text={text}").json()
     url = r.get("message")
     if not url:
@@ -129,6 +131,7 @@ def trumptweet(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
+    os.remove("temp.webp")
 
 
 @run_async
