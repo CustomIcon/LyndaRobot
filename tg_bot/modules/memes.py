@@ -99,7 +99,6 @@ def kan(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
-    os.remove("temp.webp")
 
 @run_async
 def changemymind(bot: Bot, update: Update):
@@ -115,7 +114,6 @@ def changemymind(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
-    os.remove("temp.webp")
 
 @run_async
 def trumptweet(bot: Bot, update: Update):
@@ -131,7 +129,6 @@ def trumptweet(bot: Bot, update: Update):
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
-    os.remove("temp.webp")
 
 
 @run_async
