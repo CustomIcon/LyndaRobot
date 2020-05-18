@@ -3,6 +3,7 @@ import math
 import os
 import urllib.request as urllib
 from typing import List
+import requests
 
 from PIL import Image
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
@@ -25,6 +26,23 @@ def stickerid(bot: Bot, update: Update):
     else:
         update.effective_message.reply_text("Please reply to a sticker to get its ID.")
 
+
+
+
+@run_async
+def kan(bot: Bot, update: Update):
+    msg = update.effective_message
+    text = update.message.reply_to_message.text
+    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=kannagen&text={text}").json()
+    url = r.get("message")
+    if not url:
+        msg.reply_text("No URL was received from the API!")
+        return
+    with open("temp.png","wb") as f:
+        f.write(requests.get(url).content)
+    img = Image.open("temp.png")
+    img.save("temp.webp","webp")
+    msg.reply_document(open("temp.webp","rb"))
 
 @run_async
 def getsticker(bot: Bot, update: Update):
@@ -202,13 +220,16 @@ __help__ = """
 - /stickerid: reply to a sticker to me to tell you its file ID.
 - /getsticker: reply to a sticker to me to upload its raw PNG file.
 - /kang: reply to a sticker to add it to your pack.
+- /kan: reply a text to kannafy.
 """
 
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
 KANG_HANDLER = DisableAbleCommandHandler("kang", kang, pass_args=True, admin_ok=True)
+KAN_HANDLER = DisableAbleCommandHandler("kan", kan)
 
 dispatcher.add_handler(STICKERID_HANDLER)
 dispatcher.add_handler(GETSTICKER_HANDLER)
 dispatcher.add_handler(KANG_HANDLER)
+dispatcher.add_handler(KAN_HANDLER)
