@@ -9,11 +9,12 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 
 def ddlc(bot: Bot, update: Update):
     msg = update.effective_message
-    character = msg.text.split(' ', 1)
-    background = msg.text.split(' ', 2)
-    body = msg.text.split(' ', 3)
-    face = msg.text.split(' ', 4)
-    text = msg.text.split(' ', 5)
+    args = update.effective_message.text.split(" ", 5)
+    character = args[1]
+    background = args[2]
+    body = args[3]
+    face = args[4]
+    text = args[5]
     rq = requests.get(f"https://nekobot.xyz/api/imagegen?type=ddlc&character={character}&background={background}&body={body}&face={face}&text={text}").json()
     message = rq.get("message")
     # do shit with url if you want to
