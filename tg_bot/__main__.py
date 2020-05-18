@@ -24,12 +24,12 @@ You can find the list of available commands with /help.
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a part of Eagle Union.
+I'm a part of AV Union.
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [Aman_Ahmed](https://t.me/Aman_Ahmed)
-Blacklist module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
-Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
+I'm managed by [This Person](https://t.me/Denzid)
+For Any Support Join @AnieSupport
+
 *Main* commands available:
  - /start: start the bot
  - /help: PM's you this message.
@@ -45,9 +45,9 @@ And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
-Lynda is hosted on one of Digital Ocean Servers. \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+Anie is hosted on one of Digital Ocean Servers. \
+You can donate to the original writer of the Base code, Denzid
+There are two ways of supporting him; [Contact](t.me/denzid), or [Pay](https://www.instamojo.com/@educatorfoundation/)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
