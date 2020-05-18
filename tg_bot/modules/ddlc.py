@@ -26,12 +26,11 @@ def ddlc(bot: Bot, update: Update):
 
 
 __help__ = """
-Characters: monika, yuri, natsuki, sayori __or__ m, y, n , s
-Background: bedroom, class, closet, club, corridor, house, kitchen, residential, sayori_bedroom
-Body: there is only 1 or 2 for monika and 1, 1b, 2, 2b for the rest
-Face: Every Alphabet Letter, For Yuri: y1, y2, y3, y4, y5, y6, y7
-Text: BOTTOM TEXT
- - /ddlc - generates a poster inspired by Doki Doki Literature Club
+Characters - monika, yuri, natsuki, sayori __or__ m, y, n , s
+Background - bedroom, class, closet, club, corridor, house, kitchen, residential, sayori_bedroom
+Body - there is only 1 or 2 for monika and 1, 1b, 2, 2b for the rest
+Face - Every Alphabet Letter, For Yuri: y1, y2, y3, y4, y5, y6, y7
+Text - BOTTOM TEXT
 """
 __mod_name__ = "DDLC"
 
