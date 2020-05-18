@@ -4,10 +4,9 @@ import os
 from telegram import Update, Bot
 from telegram.ext import run_async
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from tg_bot import dispatcher, updater
+from tg_bot.modules.disable import DisableAbleCommandHandler
 
-@run_async
 def ddlc(bot: Bot, update: Update):
     msg = update.effective_message
     args = update.effective_message.text.split(" ", 5)
@@ -34,10 +33,9 @@ __help__ = """
    Face: Every Alphabet Letter, For Yuri (y1, y2, y3, y4, y5, y6, y7)
    Text = BOTTOM TEXT
 """
-
 __mod_name__ = "DDLC"
 
-DDLC_HANDLER = DisableAbleCommandHandler("ddlc", ddlc, pass_args=True)
+DDLC_HANDLER = DisableAbleCommandHandler("ddlc", ddlc)
 
 dispatcher.add_handler(DDLC_HANDLER)
 
