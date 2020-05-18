@@ -1,3 +1,4 @@
+# Copyrights HarukaAya :)))))
 import html
 from typing import Optional, List
 import re
@@ -9,10 +10,9 @@ from telegram.utils.helpers import mention_html
 from tg_bot.modules.helper_funcs.chat_status import user_not_admin, user_admin
 from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import reporting_sql as sql
-from tg_bot import dispatcher, LOGGER, SUDO_USERS, SARDEGNA_USERS
+from tg_bot import dispatcher, LOGGER
 
 REPORT_GROUP = 5
-REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
