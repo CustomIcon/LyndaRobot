@@ -1,7 +1,7 @@
 import requests
 import os
 
-from telegram import Update, Bot, ParseMode
+from telegram import Update, Bot
 from telegram.ext import run_async
 
 from tg_bot import dispatcher, updater
@@ -14,8 +14,8 @@ def ddlc(bot: Bot, update: Update):
     body = msg.text.split(' ', 3)
     face = msg.text.split(' ', 4)
     text = msg.text.split(' ', 5)
-    nsfw = requests.get(f"https://nekobot.xyz/api/imagegen?type=ddlc&character={character}&background={background}&body={body}&face={face}&text={text}").json()
-    message = nsfw.get("message")
+    rq = requests.get(f"https://nekobot.xyz/api/imagegen?type=ddlc&character={character}&background={background}&body={body}&face={face}&text={text}").json()
+    message = rq.get("message")
     # do shit with url if you want to
     if not message:
         msg.reply_text("No URL was received from the API!")
@@ -34,7 +34,7 @@ __help__ = """
 """
 __mod_name__ = "DDLC"
 
-DDLC_HANDLER = DisableAbleCommandHandler(["ddlc"], ddlc, pass_args=True)
+DDLC_HANDLER = DisableAbleCommandHandler("ddlc", ddlc)
 
 dispatcher.add_handler(DDLC_HANDLER)
 
