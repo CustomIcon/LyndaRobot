@@ -7,6 +7,7 @@ from telegram.ext import run_async
 from tg_bot import dispatcher, updater
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
+@run_async
 def ddlc(bot: Bot, update: Update):
     msg = update.effective_message
     args = update.effective_message.text.split(" ", 5)
