@@ -2,6 +2,7 @@ import html
 import random
 import time
 from typing import List
+import requests
 
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
@@ -62,6 +63,25 @@ def slap(bot: Bot, update: Update, args: List[str]):
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
+@run_async
+def pat(bot: Bot, update: Update):
+    msg = update.effective_message
+    pat = requests.get("https://some-random-api.ml/animu/pat").json()
+    link = pat.get("link")
+    if not link:
+        msg.reply_text("No URL was received from the API!")
+        return
+    msg.reply_video(link)
+
+@run_async
+def hug(bot: Bot, update: Update):
+    msg = update.effective_message
+    hug = requests.get("https://some-random-api.ml/animu/hug").json()
+    link = hug.get("link")
+    if not link:
+        msg.reply_text("No URL was received from the API!")
+        return
+    msg.reply_video(link)
 
 @run_async
 def roll(bot: Bot, update: Update):
@@ -136,8 +156,12 @@ __help__ = """
  - /bluetext : check urself :V
  - /roll : Roll a dice.
  - /rlg : Join ears,nose,mouth and create an emo ;-;
+ - /pat : pats a user by a reply to the message
+ - /hug : hugs a user by a reply to the message
 """
 
+PAT_HANDLER = DisableAbleCommandHandler("pat", pat)
+HUG_HANDLER = DisableAbleCommandHandler("hug", hug)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
@@ -161,8 +185,11 @@ dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 dispatcher.add_handler(ABUSE_HANDLER)
 dispatcher.add_handler(INSULT_HANDLER)
+dispatcher.add_handler(PAT_HANDLER)
+dispatcher.add_handler(HUG_HANDLER)
+
 
 __mod_name__ = "Fun"
-__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table", "insult", "abuse"]
+__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table", "insult", "abuse", "pat", "hug"]
 __handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
-                DECIDE_HANDLER, TABLE_HANDLER, ABUSE_HANDLER, INSULT_HANDLER]
+                DECIDE_HANDLER, TABLE_HANDLER, ABUSE_HANDLER, INSULT_HANDLER, PAT_HANDLER, HUG_HANDLER]

@@ -3,6 +3,7 @@ import math
 import os
 import urllib.request as urllib
 from typing import List
+import requests
 
 from PIL import Image
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
@@ -208,6 +209,7 @@ __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
 KANG_HANDLER = DisableAbleCommandHandler("kang", kang, pass_args=True, admin_ok=True)
+
 
 dispatcher.add_handler(STICKERID_HANDLER)
 dispatcher.add_handler(GETSTICKER_HANDLER)
