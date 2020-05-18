@@ -89,7 +89,7 @@ def vapor(bot: Bot, update: Update, args: List[str]):
 def kan(bot: Bot, update: Update):
     msg = update.effective_message
     if not msg.reply_to_message:
-        msg.reply_text("I need a message to kannify.")
+        msg.reply_text("need to reply to a message to kannify.")
     else:
         text = msg.reply_to_message.text
         r = requests.get(f"https://nekobot.xyz/api/imagegen?type=kannagen&text={text}").json()
