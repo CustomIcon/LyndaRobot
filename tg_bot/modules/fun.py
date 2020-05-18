@@ -76,7 +76,7 @@ def pat(bot: Bot, update: Update):
 @run_async
 def hug(bot: Bot, update: Update):
     msg = update.effective_message
-    hug = requests.get("https://some-random-api.ml/animu/pat").json()
+    hug = requests.get("https://some-random-api.ml/animu/hug").json()
     link = hug.get("link")
     if not link:
         msg.reply_text("No URL was received from the API!")
