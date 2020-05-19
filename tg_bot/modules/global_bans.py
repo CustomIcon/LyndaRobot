@@ -387,7 +387,7 @@ def __user_info__(user_id):
         user = sql.get_gbanned_user(user_id)
         if user.reason:
             text += f"\n<b>Reason:</b> {html.escape(user.reason)}"
-        text += "\n<b>Appeal Chat:</b> @Aman_Ahmed"
+        text += "\n<b>Appeal Chat:</b> @AnieSupport"
     else:
         text = text.format("No")
     return text
@@ -407,7 +407,7 @@ __help__ = """
 
 Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible.\
-Note: You can appeal gbans or ask gbans at @Aman_Ahmed
+Note: You can appeal gbans or ask gbans at @Aniesupport
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban, pass_args=True)
