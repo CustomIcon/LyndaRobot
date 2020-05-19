@@ -18,17 +18,27 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
+I am an AV themed group management bot.
 You can find the list of available commands with /help.
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a part of AV Union.
+
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [This Person](https://t.me/Denzid)
-For Any Support Join @AnieSupport
+ text += "Join [Anie Support Group](https://t.me/anieSupport) ( @AnieSupport ) if you need any support or help\n\n\
+Follow [Anie](https://t.me/anienews) ( @anieSupport ) if you want to keep up with the news, updates and bot downtime!\n\n\
+Made with love by @bossown\n\nWant to add me to your group? [Click here!](t.me/aniebot?startgroup=true)"
+
+    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/anieSupport")]]
+    keyboard += [[InlineKeyboardButton(text="🛠 Control panel", callback_data="cntrl_panel_M")]]
+    keyboard += [[InlineKeyboardButton(text="🇺🇸 Language", callback_data="set_lang_"), 
+        InlineKeyboardButton(text="❔ Help", callback_data="help_back")]]
+
+    update.effective_message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.MARKDOWN)
+
+
 
 *Main* commands available:
  - /start: start the bot
