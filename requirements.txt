@@ -28,3 +28,6 @@ PTable
 wikipedia
 pyowm
 animu-cf
+uptime
+py-cpuinfo
+nekos.py
