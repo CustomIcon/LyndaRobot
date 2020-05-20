@@ -77,81 +77,97 @@ def erokemo(bot: Bot, update: Update):
     target = 'erokemo'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def lesbian(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'les'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def wallpaper(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'wallpaper'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def lewdk(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'lewdk'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def ngif(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'ngif'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def tickle(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'tickle'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def lewd(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'lewd'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def feed(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'feed'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def eroyuri(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'eroyuri'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def eron(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'eron'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def cum(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'cum_jpg'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def bjgif(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'bj'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def bj(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'blowjob'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def nekonsfw(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'nsfw_neko_gif'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def solo(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'solo'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def kemonomimi(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'kemonomimi'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def avatarlewd(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'nsfw_avatar'
@@ -162,6 +178,7 @@ def avatarlewd(bot: Bot, update: Update):
     msg.reply_document(open("temp.webp","rb"))
     os.remove("temp.webp")
 
+@run_async
 def gasm(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'gasm'
@@ -172,21 +189,25 @@ def gasm(bot: Bot, update: Update):
     msg.reply_document(open("temp.webp","rb"))
     os.remove("temp.webp")
 
+@run_async
 def poke(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'poke'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def anal(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'anal'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def hentai(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'hentai'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def avatar(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'nsfw_avatar'
@@ -197,11 +218,13 @@ def avatar(bot: Bot, update: Update):
     msg.reply_document(open("temp.webp","rb"))
     os.remove("temp.webp")
 
+@run_async
 def erofeet(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'erofeet'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def holo(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'holo'
@@ -215,42 +238,49 @@ def holo(bot: Bot, update: Update):
 #         return
 #     msg.reply_photo(nekos.img(target))
 
+@run_async
 def pussygif(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'pussy'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def tits(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'tits'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def holoero(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'holoero'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def pussy(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'pussy_jpg'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def hentaigif(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'random_hentai_gif'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def classic(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'classic'
     msg.reply_video(nekos.img(target))
 
-#pussy lick
+@run_async
 def kuni(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'kuni'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def waifu(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'waifu'
@@ -261,51 +291,61 @@ def waifu(bot: Bot, update: Update):
     msg.reply_document(open("temp.webp","rb"))
     os.remove("temp.webp")
 
+@run_async
 def kiss(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'kiss'
     msg.reply_video(nekos.img(target))    
 
+@run_async
 def femdom(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'femdom'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def cuddle(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'cuddle'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def erok(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'erok'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def foxgirl(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'fox_girl'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def titsgif(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'boobs'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def ero(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'ero'
     msg.reply_photo(nekos.img(target))
 
+@run_async
 def smug(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'smug'
     msg.reply_video(nekos.img(target))
 
+@run_async
 def baka(bot: Bot, update: Update):
     msg = update.effective_message
     target = 'baka'
     msg.reply_video(nekos.img(target))
-
+    
+@run_async
 def dva(bot: Bot, update: Update):
     msg = update.effective_message
     nsfw = requests.get("https://api.computerfreaker.cf/v1/dva").json()
