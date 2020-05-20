@@ -339,7 +339,7 @@ __help__ = """
  - /cum: Sends Random Cum Images.
  - /bjgif: Sends Random Blow Job GIFs.
  - /bj: Sends Random Blow Job source Images.
- - /nekonsfw: Sends Random D.VA source Images.
+ - /nekonsfw: Sends Random NSFW Neko source Images.
  - /solo: Sends Random NSFW Neko GIFs.
  - /kemonomimi: Sends Random KemonoMimi source Images.
  - /avatarlewd: Sends Random Avater Lewd Stickers.
