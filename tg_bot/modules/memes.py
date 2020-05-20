@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import glob
 import requests
+import nekos
 
 import nltk # shitty lib, but it does work
 nltk.download('punkt')
@@ -103,6 +104,18 @@ def kan(bot: Bot, update: Update):
         img.save("temp.webp","webp")
         msg.reply_document(open("temp.webp","rb"))
         os.remove("temp.webp")
+
+@run_async
+def eightball(bot: Bot, update: Update):
+    msg = update.effective_message
+    target = '8ball'
+    with open("temp.png","wb") as f:
+        f.write(nekos.img(target)).content)
+    img = Image.open("temp.png")
+    img.save("temp.webp","webp")
+    msg.reply_document(open("temp.webp","rb"))
+    os.remove("temp.webp")
+
 
 @run_async
 def changemymind(bot: Bot, update: Update):
@@ -267,6 +280,7 @@ Some memes command, find it all out yourself!
 - /kan: reply a text to kannafy.
 - /changemymind: reply a text to stickerize.
 - /trumptweet: reply a text for trump tweet.
+- /eightball: shakes 8ball.
 """
 
 __mod_name__ = "Memes and etc."
@@ -280,6 +294,7 @@ SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
 KAN_HANDLER = DisableAbleCommandHandler("kan", kan)
 CHANGEMYMIND_HANDLER = DisableAbleCommandHandler("changemymind", changemymind)
 TRUMPTWEET_HANDLER = DisableAbleCommandHandler("trumptweet", trumptweet)
+EIGHTBALL_HANDLER = DisableAbleCommandHandler("eightball", eightball)
 
 dispatcher.add_handler(SHOUT_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
@@ -290,3 +305,4 @@ dispatcher.add_handler(DEEPFRY_HANDLER)
 dispatcher.add_handler(KAN_HANDLER)
 dispatcher.add_handler(CHANGEMYMIND_HANDLER)
 dispatcher.add_handler(TRUMPTWEET_HANDLER)
+dispatcher.add_handler(EIGHTBALL_HANDLER)
