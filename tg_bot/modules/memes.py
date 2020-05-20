@@ -2,7 +2,6 @@ import random, re, string, io, asyncio
 from PIL import Image
 from io import BytesIO
 import base64
-from spongemock import spongemock
 from zalgo_text import zalgo
 import os
 from pathlib import Path
@@ -110,12 +109,11 @@ def eightball(bot: Bot, update: Update):
     msg = update.effective_message
     target = '8ball'
     with open("temp.png","wb") as f:
-        f.write(nekos.img(target)).content)
+        f.write(requests.get(nekos.img(target)).content)
     img = Image.open("temp.png")
     img.save("temp.webp","webp")
     msg.reply_document(open("temp.webp","rb"))
     os.remove("temp.webp")
-
 
 @run_async
 def changemymind(bot: Bot, update: Update):
