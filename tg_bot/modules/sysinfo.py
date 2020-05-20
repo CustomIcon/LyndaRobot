@@ -10,7 +10,7 @@ from uptime import uptime
 from telegram import ChatAction
 from telegram import Message, Update, Bot, User
 from telegram.ext import run_async
-
+from tg_bot.modules.helper_funcs.chat_status import dev_plus
 
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
@@ -28,6 +28,7 @@ def get_size(bytes, suffix="B"):
             return f"{bytes:.2f}{unit}{suffix}"
         bytes /= factor
 
+@dev_plus
 @run_async
 def sysinfo(bot: Bot, update: Update):
     update.message.chat.send_action(ChatAction.TYPING)
@@ -55,7 +56,8 @@ def sysinfo(bot: Bot, update: Update):
     update.message.reply_text(server_status, parse_mode="Markdown")
 
 __help__ = """
- - /sysinfo - Gives information about bot hosted server. **Dev Only!**
+ **Dev Only!**
+ - /sysinfo - Gives information about bot hosted server.
 """
 __mod_name__ = "System Info"
 SYSINFO_HANDLER = DisableAbleCommandHandler("sysinfo", sysinfo)
