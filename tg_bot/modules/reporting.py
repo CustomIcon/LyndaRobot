@@ -1,4 +1,5 @@
-# Copyrights HarukaAya :)))))
+# Haruka Aya  
+# Copyright (C) 2020  HarukaNetwork https://github.com/HarukaNetwork
 import html
 from typing import Optional, List
 import re
@@ -10,9 +11,10 @@ from telegram.utils.helpers import mention_html
 from tg_bot.modules.helper_funcs.chat_status import user_not_admin, user_admin
 from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import reporting_sql as sql
-from tg_bot import dispatcher, LOGGER
+from tg_bot import dispatcher, LOGGER, SUDO_USERS, SARDEGNA_USERS
 
 REPORT_GROUP = 5
+REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
@@ -61,11 +63,9 @@ def report(bot: Bot, update: Update) -> str:
         chat_name = chat.title or chat.first or chat.username
         admin_list = chat.get_administrators()
 
-        #if reported_user == "483808054":
-        #    continue
-       # 
-        #if user.id == "435606081":
-        #    continue
+        if reported_user.id in REPORT_IMMUNE_USERS:
+            message.reply_text("Uh? You reporting whitelisted users?")
+            return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
             msg = "<b>{}:</b>" \
@@ -192,7 +192,6 @@ def control_panel_user(bot, update):
 def buttons(bot: Bot, update):
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")
-    chat = update.effective_chat
     if splitter[1] == "kick":
         try:
             bot.kickChatMember(splitter[0], splitter[2])
