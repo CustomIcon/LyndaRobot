@@ -1,4 +1,4 @@
-from tg_bot import dispatcher
+from haruka import dispatcher
 
 RUN_STRINGS = (
     "Куда ты собрался?",
