@@ -1,6 +1,8 @@
 ![Lynda](https://img4.goodfon.com/original/2120x1348/3/58/ayanami-azur-lane-art-anime-devushka-strela.jpg)
 # LyndaRobot
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/04423a6d18ab43d396ab738fca5ba804)](https://www.codacy.com/manual/Dank-del/EnterpriseAL?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dank-del/EnterpriseAL&amp;utm_campaign=Badge_Grade)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)  
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AmaanAhmed/LydiaRobot)
 
