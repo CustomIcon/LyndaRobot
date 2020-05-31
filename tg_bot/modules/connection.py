@@ -16,7 +16,12 @@ user_admin = chat_status.user_admin
 ADMIN_STATUS = ('administrator', 'creator')
 MEMBER_STAUS = ('member',)
 
-
+def connected(bot, update, chat, user_id, need_admin=True):
+    user = update.effective_user  # type: Optional[User]
+    spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id, update.effective_message)
+    if spam == True:
+        return
+        
 @user_admin
 @run_async
 def allow_connections(bot: Bot, update: Update, args: List[str]):
