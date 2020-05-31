@@ -22,7 +22,7 @@ Hi {}, my name is {}!
 You can find the list of available commands with /help.
 ==========================
 -> [Lynda's Repo](https://waa.ai/Lynda)
--> Report me @ [Lynda Eagle Support](https://t.me/LyndaEagleSupport) if I go offline
+-> Report [Lynda Support](https://t.me/LyndaEagleSupport) if I go offline
 ==========================
 `Maintained by` @YorktownEagleUnion
 
@@ -44,7 +44,6 @@ Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot
  - /settings:
    - in PM: will send you your settings for all supported modules.
    - in a group: will redirect you to pm, with all that chat's settings.
-
 
 {}
 And the following:
