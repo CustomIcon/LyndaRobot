@@ -148,7 +148,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                 [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdates")]])
             update.effective_message.reply_photo(LYNDA_IMG,
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
-                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons))
+                parse_mode=ParseMode.MARKDOWN, reply_markup=buttons)
     else:
         update.effective_message.reply_text("Yo, whadup?")
 
