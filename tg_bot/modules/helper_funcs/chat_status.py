@@ -2,8 +2,6 @@ from functools import wraps
 
 from telegram import Bot, Chat, ChatMember, Update, ParseMode
 
-from tg_bot.modules.connection import connected
-
 from tg_bot import dispatcher, DEL_CMDS, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
 
 
@@ -301,5 +299,4 @@ def connection_status(func):
 
 # Workaround for circular import with connection.py
 from tg_bot.modules import connection
-
 connected = connection.connected
