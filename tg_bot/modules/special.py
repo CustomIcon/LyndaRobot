@@ -64,7 +64,6 @@ def snipe(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-@user_admin
 def birthday(bot: Bot, update: Update, args: List[str]):
     if args:
         username = str(",".join(args))
