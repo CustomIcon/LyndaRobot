@@ -18,8 +18,14 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot with a lot of Special Features.
+// I am an Anime themed group management bot with a lot of Special Features.
 You can find the list of available commands with /help.
+==========================
+-> [Lynda's Repo](https://waa.ai/Lynda)
+-> Report me @ [Lynda Eagle Support](https://t.me/LyndaEagleSupport) if I go offline
+==========================
+`Maintained by` @YorktownEagleUnion
+
 """
 
 HELP_STRINGS = """
@@ -44,7 +50,7 @@ Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/6d2d1cb47e4855f55ebd8.jpg"
+LYNDA_IMG = "https://telegra.ph/file/3a15e78428cb7bea43eec.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Lynda is hosted on one of Digital Ocean Servers. \
