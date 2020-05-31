@@ -141,11 +141,11 @@ def start(bot: Bot, update: Update, args: List[str]):
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
+            keyboard = [[InlineKeyboardButton(text="❓ Help", callback_data="help_back"), InlineKeyboardButton(text="ADD ME TO YOUR GROUP",url="t.me/{}?startgroup=true".format(bot.username))]]
             first_name = update.effective_user.first_name
             update.effective_message.reply_photo(LYNDA_IMG,
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
-                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="ADD ME TO YOUR GROUP",
-                                                                       url="t.me/{}?startgroup=true".format(bot.username))]]))
+                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(keyboard))
     else:
         update.effective_message.reply_text("Yo, whadup?")
 
