@@ -18,8 +18,14 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot with a lot of Special Features.
+// I am an Anime themed group management bot with a lot of Special Features.
 You can find the list of available commands with /help.
+==========================
+-> [Lynda's Repo](https://waa.ai/Lynda)
+-> Report [Lynda Support](https://t.me/LyndaEagleSupport) if I go offline
+==========================
+`Maintained by` @YorktownEagleUnion
+
 """
 
 HELP_STRINGS = """
@@ -39,12 +45,11 @@ Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot
    - in PM: will send you your settings for all supported modules.
    - in a group: will redirect you to pm, with all that chat's settings.
 
-
 {}
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/6d2d1cb47e4855f55ebd8.jpg"
+LYNDA_IMG = "https://telegra.ph/file/35005c01182645232f2d3.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Lynda is hosted on one of Digital Ocean Servers. \
@@ -137,10 +142,13 @@ def start(bot: Bot, update: Update, args: List[str]):
 
         else:
             first_name = update.effective_user.first_name
+            buttons = InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
+                [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
+                [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdates")]])
             update.effective_message.reply_photo(LYNDA_IMG,
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
-                parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="ADD ME TO YOUR GROUP",
-                                                                       url="t.me/{}?startgroup=true".format(bot.username))]]))
+                parse_mode=ParseMode.MARKDOWN, reply_markup=buttons)
     else:
         update.effective_message.reply_text("Yo, whadup?")
 
