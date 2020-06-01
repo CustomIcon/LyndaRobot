@@ -27,11 +27,11 @@ Hey there! My name is *{}*.
 
 Have a look at the following for an idea of some of \
 the things I can help you with.
- text += "Join [Anie Support Group](https://t.me/anieSupport) ( @AnieSupport ) if you need any support or help\n\n\
-Follow [Anie](https://t.me/anienews) ( @anieSupport ) if you want to keep up with the news, updates and bot downtime!\n\n\
-Made with love by @bossown\n\nWant to add me to your group? [Click here!](t.me/aniebot?startgroup=true)"
+ text += "Join @SabrinaRobot_Chat if you need any support or help\n\n\
+Follow if you want to keep up with the news, updates and bot downtime!\n\n\
+Made with love by @Unknown_Hacker_X\n\nWant to add me to your group?"
 
-    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/anieSupport")]]
+    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/SabrinaRobot_Chat")]]
     keyboard += [[InlineKeyboardButton(text="🛠 Control panel", callback_data="cntrl_panel_M")]]
     keyboard += [[InlineKeyboardButton(text="🇺🇸 Language", callback_data="set_lang_"), 
         InlineKeyboardButton(text="❔ Help", callback_data="help_back")]]
@@ -57,7 +57,7 @@ And the following:
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Anie is hosted on one of Digital Ocean Servers. \
 You can donate to the original writer of the Base code, Denzid
-There are two ways of supporting him; [Contact](t.me/denzid), or [Pay](https://www.instamojo.com/@educatorfoundation/)."""
+There are two ways of supporting him; [Contact](t.me/Unknown_Hacker_X), or [Pay](https://www.instamojo.com/@educatorfoundation/)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -149,7 +149,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
                 parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     else:
-        update.effective_message.reply_text("Yo, whadup?")
+        update.effective_message.reply_text("When I Stopped?")
 
 
 # for test purposes
