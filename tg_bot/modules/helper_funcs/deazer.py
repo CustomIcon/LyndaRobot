@@ -1,8 +1,8 @@
-
-def proper_trackdl(link, qual, msg, client, dir_, u):
+from telegram import Bot, Update
+def proper_trackdl(bot: Bot, update: Update, link, qual, msg, dir_):
     if 'spotify' in link:
-        await msg.reply_text("Trying to download song via Spotify Link 🥴")
-        track = client.download_trackspo(
+        msg.reply_text("Trying to download song via Spotify Link 🥴")
+        track = bot.download_trackspo(
             link,
             output=dir_,
             quality=qual,
@@ -10,14 +10,14 @@ def proper_trackdl(link, qual, msg, client, dir_, u):
             recursive_download=True,
             not_interface=True
         )
-        await msg.reply_text("Now Uploading 📤")
-        await u.send_audio(
+        msg.reply_text("Now Uploading 📤")
+        msg.send_audio(
             chat_id=msg.chat.id,
             audio=track
         )
     elif 'deezer' in link:
-        await msg.reply_text("Trying to download song via Deezer Link 🥴")
-        track = client.download_trackdee(
+        msg.reply_text("Trying to download song via Deezer Link 🥴")
+        track = bot.download_trackdee(
             link,
             output=dir_,
             quality=qual,
@@ -25,19 +25,19 @@ def proper_trackdl(link, qual, msg, client, dir_, u):
             recursive_download=True,
             not_interface=True
         )
-        await msg.reply_text("Now Uploading 📤")
-        await u.send_audio(
+        msg.reply_text("Now Uploading 📤")
+        msg.send_audio(
             chat_id=msg.chat.id,
             audio=track
         )
 
 
-def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
+def batch_dl(bot: Bot, update: Update, link, qual, msg, dir_, u, allow_zip):
     if 'spotify' in link:
         if 'album/' in link:
-            await msg.reply_text("Trying to download album 🤧")
+            msg.reply_text("Trying to download album 🤧")
             if allow_zip:
-                _, zip_ = client.download_albumspo(
+                _, zip_ = bot.download_albumspo(
                     link,
                     output=dir_,
                     quality=qual,
@@ -46,13 +46,13 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=True
                 )
-                await msg.reply_text("Sending as Zip File 🗜")
-                await u.send_document(
+                msg.reply_text("Sending as Zip File 🗜")
+                msg.send_document(
                     chat_id=msg.chat.id,
                     document=zip_
                 )
             else:
-                album_list = client.download_albumspo(
+                album_list = bot.download_albumspo(
                     link,
                     output=dir_,
                     quality=qual,
@@ -60,16 +60,16 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     recursive_download=True,
                     not_interface=True,
                     zips=False)
-                await msg.reply_text("Uploading Tracks 📤")
+                msg.reply_text("Uploading Tracks 📤")
                 for tracks in album_list:
-                    await u.send_audio(
+                    msg.send_audio(
                         chat_id=msg.chat.id,
                         audio=tracks
                     )
         if 'playlist/' in link:
-            await msg.reply_text("Trying to download Playlist 🎶")
+            msg.reply_text("Trying to download Playlist 🎶")
             if allow_zip:
-                _, zip_ = client.download_playlistspo(
+                _, zip_ = bot.download_playlistspo(
                     link,
                     output=dir_,
                     quality=qual,
@@ -78,13 +78,13 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=True
                 )
-                await msg.reply_text("Sending as Zip 🗜")
-                await u.send_document(
+                msg.reply_text("Sending as Zip 🗜")
+                msg.send_document(
                     chat_id=msg.chat.id,
                     document=zip_
                 )
             else:
-                album_list = client.download_playlistspo(
+                album_list = bot.download_playlistspo(
                     link,
                     output=dir_,
                     quality=qual,
@@ -93,18 +93,18 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=False
                 )
-                await msg.reply_text("Uploading Tracks 📤")
+                msg.reply_text("Uploading Tracks 📤")
                 for tracks in album_list:
-                    await u.send_audio(
+                    msg.send_audio(
                         chat_id=msg.chat.id,
                         audio=tracks
                     )
 
     if 'deezer' in link:
         if 'album/' in link:
-            await msg.reply_text("Trying to download album 🤧")
+            msg.reply_text("Trying to download album 🤧")
             if allow_zip:
-                _, zip_ = client.download_albumdee(
+                _, zip_ = bot.download_albumdee(
                     link,
                     output=dir_,
                     quality=qual,
@@ -113,13 +113,13 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=True
                 )
-                await msg.reply_text("Uploading as Zip File 🗜")
-                await u.send_document(
+                msg.reply_text("Uploading as Zip File 🗜")
+                msg.send_document(
                     chat_id=msg.chat.id,
                     document=zip_
                 )
             else:
-                album_list = client.download_albumdee(
+                album_list = bot.download_albumdee(
                     link,
                     output=dir_,
                     quality=qual,
@@ -128,16 +128,16 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=False
                 )
-                await msg.reply_text("Uploading Tracks 📤")
+                msg.reply_text("Uploading Tracks 📤")
                 for tracks in album_list:
-                    await u.send_audio(
+                    msg.send_audio(
                         chat_id=msg.chat.id,
                         audio=tracks
                     )
         elif 'playlist/' in link:
-            await msg.reply_text("Trying to download Playlist 🎶")
+            msg.reply_text("Trying to download Playlist 🎶")
             if allow_zip:
-                _, zip_ = client.download_playlistdee(
+                _, zip_ = bot.download_playlistdee(
                     link,
                     output=dir_,
                     quality=qual,
@@ -146,13 +146,13 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=True
                 )
-                await msg.reply_text("Sending as Zip File 🗜")
-                await u.send_document(
+                msg.reply_text("Sending as Zip File 🗜")
+                msg.send_document(
                     chat_id=msg.chat.id,
                     document=zip_
                 )
             else:
-                album_list = client.download_playlistdee(
+                album_list = bot.download_playlistdee(
                     link,
                     output=dir_,
                     quality=qual,
@@ -161,9 +161,9 @@ def batch_dl(link, qual, msg, client, dir_, u, allow_zip):
                     not_interface=True,
                     zips=False
                 )
-                await msg.reply_text("Uploading Tracks 📤")
+                msg.reply_text("Uploading Tracks 📤")
                 for tracks in album_list:
-                    await u.send_audio(
+                    bot.send_audio(
                         chat_id=msg.chat.id,
                         audio=tracks
                     )
