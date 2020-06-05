@@ -33,7 +33,7 @@ Hey there! My name is *{}*.
 I'm a part of Eagle Union.
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [Aman_Ahmed](https://t.me/Aman_Ahmed)
+I'm managed by [Ankith_m](https://t.me/Ankith_m)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
@@ -143,7 +143,7 @@ def start(bot: Bot, update: Update, args: List[str]):
         else:
             first_name = update.effective_user.first_name
             buttons = InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="👥 Add Dia to your group", url="https://t.me/LyndaRobot?startgroup=new")],
+                [[InlineKeyboardButton(text="👥 Add Dia to your group", url="https://t.me/diatgbot?startgroup=new")],
                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/super_botz_support"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/gobalban_logs")],
                 [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/super_botz")]])
             update.effective_message.reply_photo(LYNDA_IMG,
