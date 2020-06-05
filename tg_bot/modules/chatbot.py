@@ -11,6 +11,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from tg_bot import dispatcher, AI_API_KEY, OWNER_ID
 import tg_bot.modules.sql.chatbot_sql as sql
 from tg_bot.modules.helper_funcs.filters import CustomFilters
+from tg_bot.modules.helper_funcs.chat_status import user_admin
 
 
 CoffeeHouseAPI = API(AI_API_KEY)
@@ -18,6 +19,7 @@ api_client = LydiaAI(CoffeeHouseAPI)
 
 
 @run_async
+@user_admin
 def add_chat(bot: Bot, update: Update):
     global api_client
     chat_id = update.effective_chat.id
@@ -34,6 +36,7 @@ def add_chat(bot: Bot, update: Update):
         
         
 @run_async
+@user_admin
 def remove_chat(bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
@@ -99,8 +102,8 @@ Commands: These only work for Kigyō Staff users.
  - /rmchat  : Disables Chatbot mode in the chat.
 """
                   
-ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
-REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
                                   & ~Filters.regex(r"^s\/")), chatbot)
 # Filters for ignoring #note messages, !commands and sed.
