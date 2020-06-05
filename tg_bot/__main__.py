@@ -21,8 +21,8 @@ Hi {}, my name is {}!
 // I am an Anime themed group management bot with a lot of Special Features.
 You can find the list of available commands with /help.
 ==========================
--> [Dia's Repo](https://heroku.com/deploy?template=https://github.com/Ankith09/LyndaRobot)
--> Report [Lynda Support](https://t.me/super_botz_support) if I go offline
+-> [Dia's Repo](https://waa.ai/Lynda)
+-> Report [Dia Support](https://t.me/super_botz_support) if I go offline
 ==========================
 `Maintained by` @super_botz
 
