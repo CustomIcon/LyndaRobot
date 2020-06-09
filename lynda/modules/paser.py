@@ -4,9 +4,9 @@ from telegram import Update, Bot, ParseMode
 from time import sleep
 from telegram.ext import run_async
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin
+from lynda import dispatcher
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin
 
 
 @run_async

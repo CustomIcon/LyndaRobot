@@ -8,21 +8,21 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html, mention_markdown
-from tg_bot.modules.helper_funcs.string_handling import extract_time
+from lynda.modules.helper_funcs.string_handling import extract_time
 
-import tg_bot.modules.sql.blsticker_sql as sql
-from tg_bot import dispatcher, SUDO_USERS, LOGGER, OWNER_ID
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import can_delete, is_user_admin, user_not_admin, user_admin, \
+import lynda.modules.sql.blsticker_sql as sql
+from lynda import dispatcher, SUDO_USERS, LOGGER, OWNER_ID
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import can_delete, is_user_admin, user_not_admin, user_admin, \
 		bot_can_delete, is_bot_admin
-from tg_bot.modules.helper_funcs.filters import CustomFilters
-from tg_bot.modules.helper_funcs.misc import split_message
-from tg_bot.modules.warns import warn
-from tg_bot.modules.log_channel import loggable
-from tg_bot.modules.sql import users_sql
-from tg_bot.modules.connection import connected
+from lynda.modules.helper_funcs.filters import CustomFilters
+from lynda.modules.helper_funcs.misc import split_message
+from lynda.modules.warns import warn
+from lynda.modules.log_channel import loggable
+from lynda.modules.sql import users_sql
+from lynda.modules.connection import connected
 
-from tg_bot.modules.helper_funcs.alternate import send_message
+from lynda.modules.helper_funcs.alternate import send_message
 
 
 @run_async

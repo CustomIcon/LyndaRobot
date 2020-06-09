@@ -6,10 +6,10 @@ from telegram.error import BadRequest
 from telegram.ext import MessageHandler, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, WHITELIST_USERS, SARDEGNA_USERS
-from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict, connection_status
-from tg_bot.modules.log_channel import loggable
-from tg_bot.modules.sql import antiflood_sql as sql
+from lynda import dispatcher, WHITELIST_USERS, SARDEGNA_USERS
+from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict, connection_status
+from lynda.modules.log_channel import loggable
+from lynda.modules.sql import antiflood_sql as sql
 
 FLOOD_GROUP = 3
 

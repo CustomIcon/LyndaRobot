@@ -81,7 +81,7 @@ if ENV:
     ARL_TOKEN = os.environ.get('ARL_TOKEN' , None)
 
 else:
-    from tg_bot.config import Development as Config
+    from lynda.config import Development as Config
     TOKEN = Config.API_KEY
 
     try:
@@ -155,7 +155,7 @@ SARDEGNA_USERS = list(SARDEGNA_USERS)
 SPAMMERS = list(SPAMMERS)
 
 # Load at end to ensure all prev variables have been set
-from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler
+from lynda.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler
 
 # make sure the regex handler can take extra kwargs
 tg.RegexHandler = CustomRegexHandler

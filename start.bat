@@ -4,9 +4,9 @@ rem This next line removes any fban csv files if they exist in root when bot res
 del *.csv
 py -3.7 --version
 IF "%ERRORLEVEL%" == "0" (
-    py -3.7 -m tg_bot
+    py -3.7 -m lynda
 ) ELSE (
-    py -m tg_bot
+    py -m lynda
 )
 
 pause

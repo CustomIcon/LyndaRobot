@@ -6,13 +6,13 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, SARDEGNA_USERS
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_ban_protected, can_restrict,
+from lynda import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, SARDEGNA_USERS
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_ban_protected, can_restrict,
                                                      is_user_admin, is_user_in_chat, connection_status)
-from tg_bot.modules.helper_funcs.extraction import extract_user_and_text
-from tg_bot.modules.helper_funcs.string_handling import extract_time
-from tg_bot.modules.log_channel import loggable, gloggable
+from lynda.modules.helper_funcs.extraction import extract_user_and_text
+from lynda.modules.helper_funcs.string_handling import extract_time
+from lynda.modules.log_channel import loggable, gloggable
 
 
 @run_async
