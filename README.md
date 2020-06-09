@@ -10,9 +10,9 @@ A modular telegram Python bot running on python3 with an sqlalchemy database.
 
 Originally a [Kigyō](https://t.me/kigyorobot) fork - Lynda has evolved further and was built to be more useful for Anime Chats. 
 
-Can be found on telegram as [Lynda // Cyborg](https://t.me/LyndaRobot).
+Can be found on telegram as [Dia // Cyborg](https://t.me/diatgbot).
 
-The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEagleUnion), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [super_botz_support](https://t.me/super_botz_support), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
  
 
@@ -24,7 +24,7 @@ The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEa
   
  
  
- Note: [Eagle Union](https://t.me/YorktownEagleUnion) aims to handle support for [Lynda // Cyborg](https://t.me/LyndaRobot) and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
+ Note: [Super_botz](https://t.me/super_botz) aims to handle support for [Dia // Cyborg](https://t.me/diatgbot) and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
   
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
