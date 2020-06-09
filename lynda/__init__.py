@@ -147,7 +147,7 @@ DEV_USERS.add(OWNER_ID)
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
-SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS) + '895373440'
+SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
 SUPPORT_USERS = list(SUPPORT_USERS)
