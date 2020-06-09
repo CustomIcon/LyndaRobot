@@ -23,11 +23,13 @@ jikanpy
 speedtest-cli
 coffeehouse
 typing
+deezloader
 gtts
 PTable
 wikipedia
 pyowm
 animu-cf
 uptime
+psutil
 py-cpuinfo
 nekos.py
