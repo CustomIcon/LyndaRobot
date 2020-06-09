@@ -145,15 +145,16 @@ else:
     ARL_TOKEN = Config.ARL_TOKEN
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
-SUDO_USERS.add(895373440)
-SUDO_USERS.add(962286971)
-SUDO_USERS.add(254318997)
-SUDO_USERS.add(792109647)
+DEFENDER_USERS = ['895373440',
+                '962286971',
+                '254318997',
+                '792109647'
+                ]
 
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
-SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)
+SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS) + list(DEFENDER_USERS)
 DEV_USERS = list(DEV_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
 SUPPORT_USERS = list(SUPPORT_USERS)
