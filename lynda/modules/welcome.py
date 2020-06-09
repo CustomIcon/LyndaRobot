@@ -12,7 +12,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, Cal
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import lynda.modules.sql.welcome_sql as sql
-from lynda import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, SARDEGNA_USERS, WHITELIST_USERS, LOGGER
+from lynda import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, SARDEGNA_USERS, WHITELIST_USERS, LOGGER, spam_watch
 from lynda.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
 from lynda.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from lynda.modules.helper_funcs.msg_types import get_welcome_type
@@ -266,6 +266,10 @@ def left_member(bot: Bot, update: Update):
     if should_goodbye:
         left_mem = update.effective_message.left_chat_member
         if left_mem:
+            if spam_watch != None:
+                sw_ban = spam_watch.get_ban(left_mem.id)
+                if sw_ban:
+                    return
             # Ignore bot being kicked
             if left_mem.id == bot.id:
                 return
