@@ -31,6 +31,17 @@ useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML
 opener.addheaders = [('User-agent', useragent)]
 
 @run_async
+def ud(bot: Bot, update: Update):
+    message = update.effective_message
+    text = message.text[len('/ud '):]
+    results = requests.get(f'http://api.urbandictionary.com/v0/define?term={text}').json()
+    try:
+        reply_text = f'*{text}*\n\n{results["list"][0]["definition"]}\n\n_{results["list"][0]["example"]}_\n\n_{results["list"][0]["author"]}_'
+    except:
+        reply_text = "No results found."
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+
+@run_async
 def tts(bot: Bot, update: Update, args):
     current_time = datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
     filename = datetime.now().strftime("%d%m%y-%H%M%S%f")
@@ -385,6 +396,8 @@ __help__ = """
  - /covid To get Global data
  - /covid <country> To get data of a country
 
+**Urban Dictionary :**
+ - /ud <word>: Type the word or expression you want to search use.
 
 **Get Time :**
 Available queries : Country Code/Country Name/Timezone Name
@@ -405,8 +418,13 @@ Example syntax: /cash 1 USD INR
 
 **Text-to-Speach**
  - /tts <sentence>:  Text to Speech!
-"""
 
+**Last.FM:**
+ - /setuser <username>: sets your last.fm username.
+ - /clearuser: removes your last.fm username from the bot's database.
+ - /lastfm: returns what you're scrobbling on last.fm.
+"""
+UD_HANDLER = DisableAbleCommandHandler("ud", ud)
 COVID_HANDLER = DisableAbleCommandHandler(["covid", "corona"], covid)
 LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
 WALL_HANDLER = DisableAbleCommandHandler("wall", wall, pass_args=True)
@@ -422,8 +440,9 @@ dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
 dispatcher.add_handler(LYRICS_HANDLER)
 dispatcher.add_handler(TTS_HANDLER)
+dispatcher.add_handler(UD_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["time", "cash", "wall", "lyrics", "reverse", "covid", "corona", "tts"]
+__command_list__ = ["time", "cash", "wall", "lyrics", "reverse", "covid", "corona", "tts", "ud"]
 __handlers__ = [TIME_HANDLER, CONVERTER_HANDLER, WALL_HANDLER, LYRICS_HANDLER, REVERSE_HANDLER,
-                COVID_HANDLER, TTS_HANDLER]
+                COVID_HANDLER, TTS_HANDLER, UD_HANDLER]
