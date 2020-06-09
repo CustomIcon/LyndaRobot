@@ -2,24 +2,53 @@ import datetime
 from typing import List
 from random import randint
 from tswift import Song
+from gtts import gTTS
 import os
 import re
+import html
+import json
 import urllib
 from urllib.request import urlopen
+from datetime import datetime
+import time
+import urllib.request
 from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 import requests
-from typing import List
-from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError
-from telegram.ext import  CommandHandler, run_async
+from typing import Optional, List
+from telegram.utils.helpers import escape_markdown, mention_html
+from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction, Message, Chat, MessageEntity
+from telegram.ext import  CommandHandler, run_async, Filters
 from lynda import dispatcher, TIME_API_KEY, CASH_API_KEY, WALL_API
 from lynda.modules.disable import DisableAbleCommandHandler
 from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin
+from lynda.__main__ import STATS
+from lynda.modules.helper_funcs.extraction import extract_user
 
 opener = urllib.request.build_opener()
 useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.38 Safari/537.36'
 #useragent = 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'
 opener.addheaders = [('User-agent', useragent)]
+
+@run_async
+def tts(bot: Bot, update: Update, args):
+    current_time = datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
+    filename = datetime.now().strftime("%d%m%y-%H%M%S%f")
+    reply = " ".join(args)
+    update.message.chat.send_action(ChatAction.RECORD_AUDIO)
+    lang="ml"
+    tts = gTTS(reply, lang)
+    tts.save("k.mp3")
+    with open("k.mp3", "rb") as f:
+        linelist = list(f)
+        linecount = len(linelist)
+    if linecount == 1:
+        update.message.chat.send_action(ChatAction.RECORD_AUDIO)
+        lang = "en"
+        tts = gTTS(reply, lang)
+        tts.save("k.mp3")
+    with open("k.mp3", "rb") as speech:
+        update.message.reply_voice(speech, quote=False)
 
 @run_async
 def reverse(bot: Bot, update: Update, args: List[str]):
@@ -338,7 +367,25 @@ def wall(bot: Bot, update: Update, args):
                 filename='wallpaper', caption=caption, reply_to_message_id=msg_id,
                 timeout=60)
 
+@run_async
+def covid(bot: Bot, update: Update):
+    message = update.effective_message
+    text = message.text.split(' ', 1)
+    if len(text) == 1:
+        r = requests.get(f"https://corona.lmao.ninja/v2/all").json()
+        reply_text = f"**Global Totals** 🦠\nCases: {r['cases']:,}\nCases Today: {r['todayCases']:,}\nDeaths: {r['deaths']:,}\nDeaths Today: {r['todayDeaths']:,}\nRecovered: {r['recovered']:,}\nActive: {r['active']:,}\nCritical: {r['critical']:,}\nCases/Mil: {r['casesPerOneMillion']}\nDeaths/Mil: {r['deathsPerOneMillion']}"
+    else:
+        variabla = text[1]
+        r = requests.get(f"https://corona.lmao.ninja/v2/countries/{variabla}").json()
+        reply_text = f"**Cases for {r['country']} 🦠**\nCases: {r['cases']:,}\nCases Today: {r['todayCases']:,}\nDeaths: {r['deaths']:,}\nDeaths Today: {r['todayDeaths']:,}\nRecovered: {r['recovered']:,}\nActive: {r['active']:,}\nCritical: {r['critical']:,}\nCases/Mil: {r['casesPerOneMillion']}\nDeaths/Mil: {r['deathsPerOneMillion']}"
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+
 __help__ = """
+**Covid - 19:
+ - /covid To get Global data
+ - /covid <country> To get data of a country
+
+
 **Get Time :**
 Available queries : Country Code/Country Name/Timezone Name
  - /time <query> : Gives information about a timezone.
@@ -348,27 +395,35 @@ Example syntax: /cash 1 USD INR
  - /cash : currency converter
 
 **Wallpapers: **
- - /wall <query>: get a a wallpaper from wall.alphacoders.com
+ - /wall <query>: get a wallpaper from wall.alphacoders.com
 
 **Lyrics: **
  - /lyrics <artist> <song>: returns the lyrics of that song.
 
 **Google Reverse Search: **
  - /reverse: Does a reverse image search of the media which it was replied to.
+
+**Text-to-Speach**
+ - /tts <sentence>:  Text to Speech!
 """
 
+COVID_HANDLER = DisableAbleCommandHandler(["covid", "corona"], covid)
 LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
 WALL_HANDLER = DisableAbleCommandHandler("wall", wall, pass_args=True)
 CONVERTER_HANDLER = CommandHandler('cash', convert)
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
 REVERSE_HANDLER = DisableAbleCommandHandler("reverse", reverse, pass_args=True, admin_ok=True)
+TTS_HANDLER = DisableAbleCommandHandler('tts', tts, pass_args=True)
 
+dispatcher.add_handler(COVID_HANDLER)
 dispatcher.add_handler(REVERSE_HANDLER)
 dispatcher.add_handler(WALL_HANDLER)
 dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
 dispatcher.add_handler(LYRICS_HANDLER)
+dispatcher.add_handler(TTS_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["time", "cash", "wall", "lyrics", "reverse"]
-__handlers__ = [TIME_HANDLER, CONVERTER_HANDLER, WALL_HANDLER, LYRICS_HANDLER, REVERSE_HANDLER]
+__command_list__ = ["time", "cash", "wall", "lyrics", "reverse", "covid", "corona", "tts"]
+__handlers__ = [TIME_HANDLER, CONVERTER_HANDLER, WALL_HANDLER, LYRICS_HANDLER, REVERSE_HANDLER,
+                COVID_HANDLER, TTS_HANDLER]
