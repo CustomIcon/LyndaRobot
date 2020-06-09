@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from tg_bot import DB_URI
+from lynda import DB_URI
 
 
 def start() -> scoped_session:

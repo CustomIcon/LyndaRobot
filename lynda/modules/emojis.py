@@ -15,8 +15,8 @@ import nltk # shitty lib, but it does work
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from lynda import dispatcher
+from lynda.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 
 # D A N K modules by @deletescape vvv
 

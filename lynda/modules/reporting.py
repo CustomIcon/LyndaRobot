@@ -8,10 +8,10 @@ from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 
-from tg_bot.modules.helper_funcs.chat_status import user_not_admin, user_admin
-from tg_bot.modules.log_channel import loggable
-from tg_bot.modules.sql import reporting_sql as sql
-from tg_bot import dispatcher, LOGGER, SUDO_USERS, SARDEGNA_USERS
+from lynda.modules.helper_funcs.chat_status import user_not_admin, user_admin
+from lynda.modules.log_channel import loggable
+from lynda.modules.sql import reporting_sql as sql
+from lynda import dispatcher, LOGGER, SUDO_USERS, SARDEGNA_USERS
 
 REPORT_GROUP = 5
 REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS

@@ -20,8 +20,8 @@ from contextlib import redirect_stdout
 from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async
 
-from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.helper_funcs.chat_status import dev_plus
+from lynda import dispatcher, LOGGER
+from lynda.modules.helper_funcs.chat_status import dev_plus
 
 namespaces = {}
 
@@ -76,7 +76,7 @@ def do(func, bot, update):
     env = namespace_of(update.message.chat_id, update, bot)
 
     os.chdir(os.getcwd())
-    with open(os.path.join(os.getcwd(), 'tg_bot/modules/helper_funcs/temp.txt'), 'w') as temp:
+    with open(os.path.join(os.getcwd(), 'lynda/modules/helper_funcs/temp.txt'), 'w') as temp:
         temp.write(body)
 
     stdout = io.StringIO()

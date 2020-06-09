@@ -7,12 +7,12 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, LOGGER, SARDEGNA_USERS
-from tg_bot.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_admin, can_restrict,
+from lynda import dispatcher, LOGGER, SARDEGNA_USERS
+from lynda.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_admin, can_restrict,
                                                      connection_status)
-from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
-from tg_bot.modules.helper_funcs.string_handling import extract_time
-from tg_bot.modules.log_channel import loggable
+from lynda.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from lynda.modules.helper_funcs.string_handling import extract_time
+from lynda.modules.log_channel import loggable
 
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:

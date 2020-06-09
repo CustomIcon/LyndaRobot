@@ -2,7 +2,7 @@ from functools import wraps
 
 from telegram import Bot, Chat, ChatMember, Update, ParseMode
 
-from tg_bot import dispatcher, DEL_CMDS, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
+from lynda import dispatcher, DEL_CMDS, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
 
 
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
@@ -298,5 +298,5 @@ def connection_status(func):
 
 
 # Workaround for circular import with connection.py
-from tg_bot.modules import connection
+from lynda.modules import connection
 connected = connection.connected

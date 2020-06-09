@@ -2,9 +2,9 @@ import speedtest
 from telegram import Update, Bot, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import run_async, CallbackQueryHandler
 
-from tg_bot import dispatcher, DEV_USERS
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import dev_plus
+from lynda import dispatcher, DEV_USERS
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import dev_plus
 
 def convert(speed):
     return round(int(speed)/1048576, 2)

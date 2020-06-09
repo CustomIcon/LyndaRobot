@@ -5,10 +5,10 @@ import requests
 from telegram import Bot, Update, Message, Chat, ParseMode
 from telegram.ext import run_async, CommandHandler
 
-from tg_bot import dispatcher, LASTFM_API_KEY
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from lynda import dispatcher, LASTFM_API_KEY
+from lynda.modules.disable import DisableAbleCommandHandler
 
-import tg_bot.modules.sql.last_fm_sql as sql
+import lynda.modules.sql.last_fm_sql as sql
 
 
 @run_async

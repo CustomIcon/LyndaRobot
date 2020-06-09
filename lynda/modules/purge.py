@@ -6,10 +6,10 @@ from telegram.error import BadRequest
 from telegram.ext import Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import user_admin, can_delete
-from tg_bot.modules.log_channel import loggable
+from lynda import dispatcher, LOGGER
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import user_admin, can_delete
+from lynda.modules.log_channel import loggable
 
 
 @run_async

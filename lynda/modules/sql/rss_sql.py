@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, UnicodeText, Integer
 
-from tg_bot.modules.sql import BASE, SESSION
+from lynda.modules.sql import BASE, SESSION
 
 
 class RSS(BASE):

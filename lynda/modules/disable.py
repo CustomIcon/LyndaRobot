@@ -6,9 +6,9 @@ from telegram import Bot, Update, ParseMode
 from telegram.ext import CommandHandler, RegexHandler, MessageHandler
 from telegram.utils.helpers import escape_markdown
 
-from tg_bot import dispatcher
-from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS, CustomCommandHandler
-from tg_bot.modules.helper_funcs.misc import is_module_loaded
+from lynda import dispatcher
+from lynda.modules.helper_funcs.handlers import CMD_STARTERS, CustomCommandHandler
+from lynda.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
@@ -17,8 +17,8 @@ if is_module_loaded(FILENAME):
 
     from telegram.ext.dispatcher import run_async
 
-    from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
-    from tg_bot.modules.sql import disable_sql as sql
+    from lynda.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
+    from lynda.modules.sql import disable_sql as sql
 
     DISABLE_CMDS = []
     DISABLE_OTHER = []
@@ -118,7 +118,7 @@ if is_module_loaded(FILENAME):
     def disable_module(bot: Bot, update: Update, args: List[str]):
         chat = update.effective_chat
         if len(args) >= 1:
-            disable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
+            disable_module = "lynda.modules." + args[0].rsplit(".", 1)[0]
 
             try:
                 module = importlib.import_module(disable_module)
@@ -187,7 +187,7 @@ if is_module_loaded(FILENAME):
         chat = update.effective_chat
 
         if len(args) >= 1:
-            enable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
+            enable_module = "lynda.modules." + args[0].rsplit(".", 1)[0]
 
             try:
                 module = importlib.import_module(enable_module)

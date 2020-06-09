@@ -8,12 +8,12 @@ from telegram import Bot, Update, ParseMode, TelegramError
 from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
-from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
-from tg_bot.modules.helper_funcs.extraction import extract_user
-from tg_bot.modules.log_channel import gloggable
+from lynda import dispatcher, WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
+from lynda.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
+from lynda.modules.helper_funcs.extraction import extract_user
+from lynda.modules.log_channel import gloggable
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), 'tg_bot/elevated_users.json')
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(), 'lynda/elevated_users.json')
 
 
 def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
@@ -28,7 +28,7 @@ def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
     return reply
 
 #I added extra new lines 
-Nations = """ Kigyō has bot access levels we call as *"Nation Levels"*
+Nations = """ Lynda has bot access levels we call as *"Nation Levels"* just like Kigyo
 \n*Eagle Union* - Devs who can access the bots server and can execute, edit, modify bot code. Can also manage other Nations
 \n*God* - Only one exists, bot owner. 
 Owner has complete bot access, including bot adminship in chats Kigyō is at.

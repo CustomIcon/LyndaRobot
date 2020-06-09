@@ -6,10 +6,10 @@ from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboar
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
-import tg_bot.modules.sql.connection_sql as sql
-from tg_bot import dispatcher, SUDO_USERS, DEV_USERS, spamfilters
-from tg_bot.modules.helper_funcs import chat_status
-from tg_bot.modules.helper_funcs.alternate import send_message
+import lynda.modules.sql.connection_sql as sql
+from lynda import dispatcher, SUDO_USERS, DEV_USERS, spamfilters
+from lynda.modules.helper_funcs import chat_status
+from lynda.modules.helper_funcs.alternate import send_message
 
 user_admin = chat_status.user_admin
 

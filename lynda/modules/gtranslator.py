@@ -3,8 +3,8 @@ from googletrans import Translator, LANGUAGES
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from lynda import dispatcher
+from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async

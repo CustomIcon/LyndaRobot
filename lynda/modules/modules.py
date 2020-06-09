@@ -3,10 +3,10 @@ import importlib
 from telegram import Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async
 
-from tg_bot import dispatcher
-from tg_bot.__main__ import (IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS,
+from lynda import dispatcher
+from lynda.__main__ import (IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS,
                              USER_SETTINGS)
-from tg_bot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
+from lynda.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 
 @run_async
@@ -17,7 +17,7 @@ def load(bot: Bot, update: Update):
     load_messasge = message.reply_text(f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
 
     try:
-        imported_module = importlib.import_module("tg_bot.modules." + text)
+        imported_module = importlib.import_module("lynda.modules." + text)
     except:
         load_messasge.edit_text("Does that module even exist?")
         return
@@ -79,7 +79,7 @@ def unload(bot: Bot, update: Update):
     unload_messasge = message.reply_text(f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML)
 
     try:
-        imported_module = importlib.import_module("tg_bot.modules." + text)
+        imported_module = importlib.import_module("lynda.modules." + text)
     except:
         unload_messasge.edit_text("Does that module even exist?")
         return
@@ -143,7 +143,7 @@ def listmodules(bot: Bot, update: Update):
     for helpable_module in HELPABLE:
         helpable_module_info = IMPORTED[helpable_module]
         file_info = IMPORTED[helpable_module_info.__mod_name__.lower()]
-        file_name = file_info.__name__.rsplit("tg_bot.modules.", 1)[1]
+        file_name = file_info.__name__.rsplit("lynda.modules.", 1)[1]
         mod_name = file_info.__mod_name__
         module_list.append(f'- <code>{mod_name} ({file_name})</code>\n')
     module_list = "Following modules are loaded : \n\n" + ''.join(module_list)

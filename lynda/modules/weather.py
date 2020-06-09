@@ -3,8 +3,8 @@ from pyowm import timeutils, exceptions
 from telegram import Message, Chat, Update, Bot
 from telegram.ext import run_async
 
-from tg_bot import dispatcher, updater, API_WEATHER, BAN_STICKER
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from lynda import dispatcher, updater, API_WEATHER, BAN_STICKER
+from lynda.modules.disable import DisableAbleCommandHandler
 
 @run_async
 def weather(bot, update, args):

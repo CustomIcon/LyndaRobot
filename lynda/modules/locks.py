@@ -8,13 +8,13 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-import tg_bot.modules.sql.locks_sql as sql
-from tg_bot import dispatcher, SUDO_USERS, DEV_USERS, LOGGER
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import (can_delete, is_user_admin, user_not_admin, user_admin,
+import lynda.modules.sql.locks_sql as sql
+from lynda import dispatcher, SUDO_USERS, DEV_USERS, LOGGER
+from lynda.modules.disable import DisableAbleCommandHandler
+from lynda.modules.helper_funcs.chat_status import (can_delete, is_user_admin, user_not_admin, user_admin,
                                                      bot_can_delete, is_bot_admin, connection_status)
-from tg_bot.modules.helper_funcs.filters import CustomFilters
-from tg_bot.modules.log_channel import loggable
+from lynda.modules.helper_funcs.filters import CustomFilters
+from lynda.modules.log_channel import loggable
 
 LOCK_TYPES = {
     'sticker': Filters.sticker,

@@ -4,7 +4,7 @@ from typing import Union
 
 from sqlalchemy import Column, String, Boolean, UnicodeText, Integer
 
-from tg_bot.modules.sql import SESSION, BASE
+from lynda.modules.sql import SESSION, BASE
 
 
 class ChatAccessConnectionSettings(BASE):

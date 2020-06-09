@@ -2,8 +2,8 @@ import threading
 
 from sqlalchemy import Column, Integer, UnicodeText, String, ForeignKey, UniqueConstraint, func
 
-from tg_bot import dispatcher
-from tg_bot.modules.sql import BASE, SESSION
+from lynda import dispatcher
+from lynda.modules.sql import BASE, SESSION
 
 
 class Users(BASE):

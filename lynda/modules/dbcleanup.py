@@ -4,10 +4,10 @@ from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
-import tg_bot.modules.sql.global_bans_sql as gban_sql
-import tg_bot.modules.sql.users_sql as user_sql
-from tg_bot import dispatcher, OWNER_ID, DEV_USERS
-from tg_bot.modules.helper_funcs.chat_status import dev_plus
+import lynda.modules.sql.global_bans_sql as gban_sql
+import lynda.modules.sql.users_sql as user_sql
+from lynda import dispatcher, OWNER_ID, DEV_USERS
+from lynda.modules.helper_funcs.chat_status import dev_plus
 
 
 def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):

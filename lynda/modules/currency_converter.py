@@ -2,7 +2,7 @@ import requests
 from telegram import Bot, Update
 from telegram.ext import CommandHandler, run_async
 
-from tg_bot import dispatcher, CASH_API_KEY
+from lynda import dispatcher, CASH_API_KEY
 
 
 @run_async

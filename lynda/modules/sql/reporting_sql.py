@@ -3,7 +3,7 @@ from typing import Union
 
 from sqlalchemy import Column, Integer, String, Boolean
 
-from tg_bot.modules.sql import SESSION, BASE
+from lynda.modules.sql import SESSION, BASE
 
 
 class ReportingUserSettings(BASE):

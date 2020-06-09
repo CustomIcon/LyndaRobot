@@ -4,7 +4,7 @@ from math import ceil
 from telegram import MAX_MESSAGE_LENGTH, InlineKeyboardButton, Bot, ParseMode, Update
 from telegram.error import TelegramError
 
-from tg_bot import NO_LOAD
+from lynda import NO_LOAD
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):

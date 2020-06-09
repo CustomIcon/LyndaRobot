@@ -7,9 +7,9 @@
 # from telegram import ParseMode
 # from telegram.ext import CommandHandler, run_async
 
-# from tg_bot import dispatcher, updater
-# from tg_bot.modules.disable import DisableAbleCommandHandler
-# from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin, sudo_plus
+# from lynda import dispatcher, updater
+# from lynda.modules.disable import DisableAbleCommandHandler
+# from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin, sudo_plus
 
 # @run_async
 # def neko(bot: Bot, update: Update):

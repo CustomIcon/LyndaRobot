@@ -10,10 +10,10 @@ from uptime import uptime
 from telegram import ChatAction
 from telegram import Message, Update, Bot, User
 from telegram.ext import run_async
-from tg_bot.modules.helper_funcs.chat_status import dev_plus
+from lynda.modules.helper_funcs.chat_status import dev_plus
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from lynda import dispatcher
+from lynda.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 
 def seconds_to_str(seconds):
     days, remainder = divmod(seconds, 86400)

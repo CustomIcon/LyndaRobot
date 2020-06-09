@@ -3,7 +3,7 @@ import threading
 
 from sqlalchemy import Column, String, Boolean
 
-from tg_bot.modules.sql import SESSION, BASE
+from lynda.modules.sql import SESSION, BASE
 
 
 class Permissions(BASE):

@@ -2,8 +2,8 @@ from typing import List
 import requests
 from telegram import Message, Update, Bot, MessageEntity
 from telegram.ext import CommandHandler, run_async
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from lynda import dispatcher
+from lynda.modules.disable import DisableAbleCommandHandler
 import pynewtonmath as newton
 import math
 
