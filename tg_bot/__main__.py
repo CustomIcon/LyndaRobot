@@ -33,7 +33,7 @@ Hey there! My name is *{}*.
 I'm a part of Eagle Union.
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [Aman_Ahmed](https://t.me/Aman_Ahmed)
+I'm managed by [Poki](https://t.me/pokurt)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
