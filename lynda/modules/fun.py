@@ -38,9 +38,8 @@ WIDE_MAP[0x20] = 0x3000
 def owo(bot: Bot, update: Update):
     message = update.effective_message
     if not message.reply_to_message:
-        message.reply_text("I need a message to meme.")
+        message.reply_text("I need a message to meme. OwO")
     else:
-        faces = ['(・`ω´・)',';;w;;','owo','UwU','>w<','^w^','\(^o\) (/o^)/','( ^ _ ^)∠☆','(ô_ô)','~:o',';____;', '(*^*)', '(>_', '(♥_♥)', '*(^O^)*', '((+_+))']
         reply_text = re.sub(r'[rl]', "w", message.reply_to_message.text)
         reply_text = re.sub(r'[ｒｌ]', "ｗ", message.reply_to_message.text)
         reply_text = re.sub(r'[RL]', 'W', reply_text)
@@ -49,11 +48,11 @@ def owo(bot: Bot, update: Update):
         reply_text = re.sub(r'ｎ([ａｅｉｏｕ])', r'ｎｙ\1', reply_text)
         reply_text = re.sub(r'N([aeiouAEIOU])', r'Ny\1', reply_text)
         reply_text = re.sub(r'Ｎ([ａｅｉｏｕＡＥＩＯＵ])', r'Ｎｙ\1', reply_text)
-        reply_text = re.sub(r'\!+', ' ' + random.choice(faces), reply_text)
-        reply_text = re.sub(r'！+', ' ' + random.choice(faces), reply_text)
+        reply_text = re.sub(r'\!+', ' ' + random.choice(fun_strings.FACES), reply_text)
+        reply_text = re.sub(r'！+', ' ' + random.choice(fun_strings.FACES), reply_text)
         reply_text = reply_text.replace("ove", "uv")
         reply_text = reply_text.replace("ｏｖｅ", "ｕｖ")
-        reply_text += ' ' + random.choice(faces)
+        reply_text += ' ' + random.choice(fun_strings.FACES)
         message.reply_to_message.reply_text(reply_text)
 
 
