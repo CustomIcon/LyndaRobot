@@ -10,7 +10,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 import lynda.modules.sql.global_bans_sql as sql
-from lynda import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, SARDEGNA_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS
+from lynda import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, SARDEGNA_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS, spam_watch
 from lynda.modules.helper_funcs.chat_status import user_admin, is_user_admin, support_plus
 from lynda.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from lynda.modules.helper_funcs.misc import send_to_list
@@ -322,13 +322,27 @@ def gbanlist(bot: Bot, update: Update):
 
 
 def check_and_ban(update, user_id, should_message=True):
-    
+    chat = update.effective_chat
+    message = update.effective_message
+    try:
+        if spam_watch != None:
+            spam_watch_ban = spam_watch.get_ban(user_id)
+            if spam_watch_ban:
+                chat.kick_member(user_id)
+                if should_message:
+                    message.reply_markdown("**This user is detected as spam bot by SpamWatch and have been removed!**\n\nPlease visit @SpamWatchSupport to appeal!")
+                    return
+                else:
+                    return
+    except Exception:
+        pass
+
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text("Alert: This user is globally banned.\n"
                                                 "*bans them from here*.\n"
-                                                "Chat with my Master: @Aman_Ahmed")
+                                                "Appeal chat: @YorktownEagleUnion")
 
 
 @run_async
