@@ -27,16 +27,7 @@ Hey there! My name is *{}*.
 
 Have a look at the following for an idea of some of \
 the things I can help you with.
- text += "Join @SabrinaRobot_Chat if you need any support or help\n\n\
-Follow if you want to keep up with the news, updates and bot downtime!\n\n\
-Made with love by @Unknown_Hacker_X\n\nWant to add me to your group?"
-
-    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/SabrinaRobot_Chat")]]
-    keyboard += [[InlineKeyboardButton(text="🛠 Control panel", callback_data="cntrl_panel_M")]]
-    keyboard += [[InlineKeyboardButton(text="🇺🇸 Language", callback_data="set_lang_"), 
-        InlineKeyboardButton(text="❔ Help", callback_data="help_back")]]
-
-    update.effective_message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.MARKDOWN)
+ text += " help\n\n\
 
 
 
@@ -44,7 +35,7 @@ Made with love by @Unknown_Hacker_X\n\nWant to add me to your group?"
  - /start: start the bot
  - /help: PM's you this message.
  - /help <module name>: PM's you info about that module.
- - /donate: information about how to donate!
+
  - /settings:
    - in PM: will send you your settings for all supported modules.
    - in a group: will redirect you to pm, with all that chat's settings.
@@ -54,10 +45,7 @@ Made with love by @Unknown_Hacker_X\n\nWant to add me to your group?"
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Anie is hosted on one of Digital Ocean Servers. \
-You can donate to the original writer of the Base code, Denzid
-There are two ways of supporting him; [Contact](t.me/Unknown_Hacker_X), or [Pay](https://www.instamojo.com/@educatorfoundation/)."""
+
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -375,13 +363,6 @@ def donate(bot: Bot, update: Update):
     user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
 
-    if chat.type == "private":
-        update.effective_message.reply_text(DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
-
-        if OWNER_ID != 254318997 and DONATION_LINK:
-            update.effective_message.reply_text("You can also donate to the person currently running me "
-                                                "[here]({})".format(DONATION_LINK),
-                                                parse_mode=ParseMode.MARKDOWN)
 
     else:
         try:
