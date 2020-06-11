@@ -21,10 +21,10 @@ Hi {}, my name is {}!
 // I am an Anime themed group management bot with a lot of Special Features.
 You can find the list of available commands with /help.
 ==========================
--> [Dia's Repo](https://github.com/Ankith09/LyndaRobot)
--> Report [Dia Support](https://t.me/super_botz_support) if I go offline
+-> [Dia's Repo](https://github.com/SHER321/LyndaRobot)
+-> Report [Dia Support](https://t.me/ALL_MOVIES_LIABRARY) if I go offline
 ==========================
-`Maintained by` @super_botz
+`Maintained by` @ALL_MOVIES_LIABRARY
 
 """
 
@@ -33,7 +33,7 @@ Hey there! My name is *{}*.
 I'm a part of Eagle Union.
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [Ankith_m](https://t.me/Ankith_m)
+I'm managed by [N I K H I L](https://t.me/NGYNY)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
@@ -144,8 +144,8 @@ def start(bot: Bot, update: Update, args: List[str]):
             first_name = update.effective_user.first_name
             buttons = InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="👥 Add Dia to your group", url="https://t.me/diatgbot?startgroup=new")],
-                [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/super_botz_support"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/gobalban_logs")],
-                [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/super_botz")]])
+                [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/MOVIERG_NY"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/gobalban_logs")],
+                [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/ALL_MOVIES_LIABRARY")]])
             update.effective_message.reply_photo(LYNDA_IMG,
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), OWNER_ID),
                 parse_mode=ParseMode.MARKDOWN, reply_markup=buttons)
