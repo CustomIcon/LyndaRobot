@@ -18,7 +18,7 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an AV themed group management bot.
+I am K!NG themed group management bot.
 You can find the list of available commands with /help.
 """
 
@@ -27,12 +27,12 @@ Hey there! My name is *{}*.
 
 Have a look at the following for an idea of some of \
 the things I can help you with.
- text += "Join @SabrinaRobot_Chat if you need any support or help\n\n\
+ text += "Join @ALL_MOVIES_LIABRARY if you need any support or help\n\n\
 Follow if you want to keep up with the news, updates and bot downtime!\n\n\
-Made with love by @Unknown_Hacker_X\n\nWant to add me to your group?"
+Made with love by @NGYNY to add me to your group?"
 
-    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/SabrinaRobot_Chat")]]
-    keyboard += [[InlineKeyboardButton(text="🛠 Control panel", callback_data="cntrl_panel_M")]]
+    keyboard = [[InlineKeyboardButton(text="📢 Support Group", url="https://t.me/MOVIERG_NY")]]
+    keyboard += [[InlineKeyboardButton(text="📢 Support Channel", url="https://t.me/ALL_MOVIES_LIABRARY)]]
     keyboard += [[InlineKeyboardButton(text="🇺🇸 Language", callback_data="set_lang_"), 
         InlineKeyboardButton(text="❔ Help", callback_data="help_back")]]
 
@@ -57,7 +57,7 @@ And the following:
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Anie is hosted on one of Digital Ocean Servers. \
 You can donate to the original writer of the Base code, Denzid
-There are two ways of supporting him; [Contact](t.me/Unknown_Hacker_X), or [Pay](https://www.instamojo.com/@educatorfoundation/)."""
+There are two ways of supporting him; [Contact](t.me/NGYNY), or [Channel](https://t.me/ALL_MOVIES_LIABRARY)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -378,7 +378,7 @@ def donate(bot: Bot, update: Update):
     if chat.type == "private":
         update.effective_message.reply_text(DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
+        if OWNER_ID != 1171354752 and DONATION_LINK:
             update.effective_message.reply_text("You can also donate to the person currently running me "
                                                 "[here]({})".format(DONATION_LINK),
                                                 parse_mode=ParseMode.MARKDOWN)
