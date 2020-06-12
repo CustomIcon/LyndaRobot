@@ -1,9 +1,3 @@
-# Taken from @ HarukaNetwork/HarukaAya
-# Copyright (C) 2017-2019 Paul Larsen
-# Copyright (C) 2019-2020 Akito Mizukito (Haruka Network Development)
-# Give a Star to the source and Follow: https://gitlab.com/HarukaNetwork/OSS/HarukaAya
-
-
 from typing import List, Dict
 
 from math import ceil
