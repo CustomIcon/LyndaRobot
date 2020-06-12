@@ -18,6 +18,9 @@ from lynda.modules.helper_funcs.msg_types import get_note_type
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 
+def replace_text(text):
+        return text.replace("\"", "").replace("\\r", "").replace(r"\_", "_").replace("\n", "")
+
 ENUM_FUNC_MAP = {
     sql.Types.TEXT.value: dispatcher.bot.send_message,
     sql.Types.BUTTON_TEXT.value: dispatcher.bot.send_message,
@@ -85,7 +88,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
                                      parse_mode=parseMode, disable_web_page_preview=True,
                                      reply_markup=keyboard)
                 else:
-                    ENUM_FUNC_MAP[note.msgtype](chat_id, note.file, caption=text, reply_to_message_id=reply_id,
+                    ENUM_FUNC_MAP[note.msgtype](chat_id, note.file, caption=replace_text(text), reply_to_message_id=reply_id,
                                                 parse_mode=parseMode, disable_web_page_preview=True,
                                                 reply_markup=keyboard)
 
