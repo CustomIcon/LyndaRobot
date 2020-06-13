@@ -52,7 +52,7 @@ def list_handlers(bot: Bot, update: Update):
         else:
             filter_list += entry
 
-    if not filter_list == BASIC_FILTER_STRING:
+    if filter_list != BASIC_FILTER_STRING:
         filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
         update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
 
