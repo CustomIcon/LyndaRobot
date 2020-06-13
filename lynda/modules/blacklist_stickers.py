@@ -23,7 +23,6 @@ from lynda.modules.helper_funcs.alternate import send_message
 
 @run_async
 def blackliststicker(bot: Bot, update: Update, args: List[str]):
-	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -83,7 +82,7 @@ def add_blackliststicker(bot: Bot, update: Update):
 		added = 0
 		for trigger in to_blacklist:
 			try:
-				get = bot.getStickerSet(trigger)
+				bot.getStickerSet(trigger)
 				sql.add_to_stickers(chat_id, trigger.lower())
 				added += 1
 			except BadRequest:
@@ -185,7 +184,6 @@ def unblackliststicker(bot: Bot, update: Update):
 def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 
 	conn = connected(bot, update, chat, user.id, need_admin=True)

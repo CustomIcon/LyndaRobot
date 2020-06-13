@@ -137,7 +137,7 @@ def report(bot: Bot, update: Update) -> str:
 
                 except Unauthorized:
                     pass
-                except BadRequest as excp:  # TODO: cleanup exceptions
+                except BadRequest:  # TODO: cleanup exceptions
                     LOGGER.exception("Exception while reporting user")
 
         message.reply_to_message.reply_text("{} reported the message to the admins.".
@@ -169,11 +169,10 @@ def __user_settings__(bot, update, user):
 
     
 def control_panel_user(bot, update):
-    user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat
     query = update.callback_query
     enable = re.match(r"panel_reporting_U_enable", query.data)
-    disable = re.match(r"panel_reporting_U_disable", query.data)
+    re.match(r"panel_reporting_U_disable", query.data)
 
     query.message.delete()
 

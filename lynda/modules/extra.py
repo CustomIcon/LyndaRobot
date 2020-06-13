@@ -70,8 +70,8 @@ def ud(bot: Bot, update: Update):
 
 @run_async
 def tts(bot: Bot, update: Update, args):
-    current_time = datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
-    filename = datetime.now().strftime("%d%m%y-%H%M%S%f")
+    datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
+    datetime.now().strftime("%d%m%y-%H%M%S%f")
     reply = " ".join(args)
     update.message.chat.send_action(ChatAction.RECORD_AUDIO)
     lang="ml"
