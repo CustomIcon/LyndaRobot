@@ -158,7 +158,7 @@ def __chat_settings__(bot, update, chat, chatP, user):
 
 
 def __user_settings__(bot, update, user):
-    if sql.user_should_report(user.id) == True:
+    if sql.user_should_report(user.id) is True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[InlineKeyboardButton(text="Disable reporting", callback_data="panel_reporting_U_disable")]]
     else:
