@@ -1,4 +1,3 @@
-import urllib.request
 from typing import Optional, List
 from telegram import Update, Bot
 from lynda import dispatcher
