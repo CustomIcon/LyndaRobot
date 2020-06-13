@@ -1,5 +1,4 @@
 import datetime
-from typing import List
 from random import randint
 from tswift import Song
 from gtts import gTTS
