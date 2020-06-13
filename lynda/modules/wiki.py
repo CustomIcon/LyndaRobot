@@ -1,17 +1,6 @@
-from telegram import ChatAction
-import html
 import urllib.request
-import re
-import json
 from typing import Optional, List
-import time
-import urllib
-from urllib.request import urlopen, urlretrieve
-from urllib.parse import quote_plus, urlencode
-import requests
-from telegram import Message, Chat, Update, Bot, MessageEntity
-from telegram import ParseMode
-from telegram.ext import CommandHandler, run_async, Filters
+from telegram import Update, Bot
 from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 import wikipedia

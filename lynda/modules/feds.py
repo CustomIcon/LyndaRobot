@@ -1,32 +1,23 @@
-import html
 from io import BytesIO
 from typing import Optional, List
-import random
 import uuid
 import re
 import json
 import time
 import csv
 import os
-from time import sleep
-
-from future.utils import string_types
 from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram import ParseMode, Update, Bot, Chat, User, MessageEntity, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import run_async, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
+from telegram.ext import run_async, CommandHandler, CallbackQueryHandler
+from telegram.utils.helpers import mention_html, mention_markdown
 
 from lynda import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, WHITELIST_USERS, GBAN_LOGS, LOGGER, spamfilters
-from lynda.modules.helper_funcs.handlers import CMD_STARTERS
-from lynda.modules.helper_funcs.misc import is_module_loaded, send_to_list
 from lynda.modules.helper_funcs.chat_status import is_user_admin
 from lynda.modules.helper_funcs.extraction import extract_user, extract_unt_fedban, extract_user_fban
 from lynda.modules.helper_funcs.string_handling import markdown_parser
 from lynda.modules.disable import DisableAbleCommandHandler
 
 import lynda.modules.sql.feds_sql as sql
-
-from lynda.modules.connection import connected
 from lynda.modules.helper_funcs.alternate import send_message
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too
 # Federation by MrYacha 2018-2019

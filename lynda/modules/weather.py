@@ -1,9 +1,7 @@
 import pyowm
-from pyowm import timeutils, exceptions
-from telegram import Message, Chat, Update, Bot
 from telegram.ext import run_async
 
-from lynda import dispatcher, updater, API_WEATHER, BAN_STICKER
+from lynda import dispatcher, API_WEATHER, BAN_STICKER
 from lynda.modules.disable import DisableAbleCommandHandler
 
 @run_async

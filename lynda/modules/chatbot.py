@@ -5,12 +5,11 @@ from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 
-from telegram import Message, Chat, User, Update, Bot
+from telegram import Update, Bot
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 
 from lynda import dispatcher, AI_API_KEY, OWNER_ID
 import lynda.modules.sql.chatbot_sql as sql
-from lynda.modules.helper_funcs.filters import CustomFilters
 from lynda.modules.helper_funcs.chat_status import user_admin
 
 

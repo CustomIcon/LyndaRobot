@@ -7,11 +7,9 @@ from typing import List
 import requests, re, string, asyncio, io
 from PIL import Image
 from io import BytesIO
-import base64
 from zalgo_text import zalgo
 import os
 from pathlib import Path
-import glob
 import nekos
 
 from telegram import Bot, Update, ParseMode, Message
@@ -29,7 +27,7 @@ nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
 from lynda import dispatcher
-from lynda.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
+from lynda.modules.disable import DisableAbleCommandHandler
 
 WIDE_MAP = dict((i, i + 0xFEE0) for i in range(0x21, 0x7F))
 WIDE_MAP[0x20] = 0x3000

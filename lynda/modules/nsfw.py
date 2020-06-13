@@ -3,13 +3,11 @@ import nekos
 from PIL import Image
 import os
 
-from telegram import Message, Chat, Update, Bot, MessageEntity
-from telegram import ParseMode
-from telegram.ext import CommandHandler, run_async
+from telegram import Update, Bot
+from telegram.ext import run_async
 
-from lynda import dispatcher, updater
+from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
-from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin, sudo_plus
 
 @run_async
 def neko(bot: Bot, update: Update):

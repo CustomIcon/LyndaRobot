@@ -5,25 +5,17 @@ from tswift import Song
 from gtts import gTTS
 import os
 import re
-import html
-import json
 import urllib
-from urllib.request import urlopen
 from datetime import datetime
-import time
 import urllib.request
 from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 import requests
 from typing import Optional, List
-from telegram.utils.helpers import escape_markdown, mention_html
-from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction, Message, Chat, MessageEntity
-from telegram.ext import  CommandHandler, run_async, Filters
+from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction
+from telegram.ext import  CommandHandler, run_async
 from lynda import dispatcher, TIME_API_KEY, CASH_API_KEY, WALL_API
 from lynda.modules.disable import DisableAbleCommandHandler
-from lynda.modules.helper_funcs.chat_status import is_user_admin, user_admin
-from lynda.__main__ import STATS
-from lynda.modules.helper_funcs.extraction import extract_user
 
 opener = urllib.request.build_opener()
 useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.38 Safari/537.36'
