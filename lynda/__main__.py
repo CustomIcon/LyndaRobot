@@ -105,6 +105,7 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
+    """Send Help String in PM"""
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(chat_id=chat_id,
@@ -115,6 +116,7 @@ def send_help(chat_id, text, keyboard=None):
 
 @run_async
 def test(bot: Bot, update: Update):
+    """test"""
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
     message = update.effective_message
@@ -123,6 +125,7 @@ def test(bot: Bot, update: Update):
 
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
+    """Triggers start command in pm and in groupchats"""
     message = update.effective_message
     if update.effective_chat.type == "private":
         if len(args) >= 1:
@@ -157,6 +160,7 @@ def start(bot: Bot, update: Update, args: List[str]):
 
 # for test purposes
 def error_callback(bot, update, error):
+    """Callback error Handler"""
     try:
         raise error
     except Unauthorized:
@@ -186,6 +190,7 @@ def error_callback(bot, update, error):
 
 @run_async
 def help_button(bot: Bot, update: Update):
+    """Inlinebutton for Help Module"""
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
@@ -236,6 +241,7 @@ def help_button(bot: Bot, update: Update):
 
 @run_async
 def get_help(bot: Bot, update: Update):
+    """Sends Help String"""
     message = update.effective_message
     chat = update.effective_chat  # type: Optional[Chat]
     args = message.text.split(None, 1)
@@ -261,6 +267,7 @@ def get_help(bot: Bot, update: Update):
 
 
 def send_settings(chat_id, user_id, user=False):
+    """Sends Settings String"""
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join(
@@ -288,6 +295,7 @@ def send_settings(chat_id, user_id, user=False):
 
 @run_async
 def settings_button(bot: Bot, update: Update):
+    """Button for settings"""
     query = update.callback_query
     user = update.effective_user
     mod_match = re.match(r"stngs_module\((.+?),(.+?)\)", query.data)
@@ -353,6 +361,7 @@ def settings_button(bot: Bot, update: Update):
 
 @run_async
 def get_settings(bot: Bot, update: Update):
+    """Getting Settings String"""
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
@@ -376,6 +385,7 @@ def get_settings(bot: Bot, update: Update):
 
 @run_async
 def donate(bot: Bot, update: Update):
+    """Donation String"""
     message = update.effective_message
     user = message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
@@ -401,6 +411,7 @@ def donate(bot: Bot, update: Update):
 
 
 def migrate_chats(_bot: Bot, update: Update):
+    """Chat Migration"""
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
         old_chat = update.effective_chat.id
@@ -420,6 +431,7 @@ def migrate_chats(_bot: Bot, update: Update):
 
 
 def main():
+    """Initial Startup results"""
     CommandHandler("test", test)
     start_handler = CommandHandler("start", start, pass_args=True)
 
