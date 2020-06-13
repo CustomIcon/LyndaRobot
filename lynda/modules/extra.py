@@ -31,6 +31,41 @@ useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML
 opener.addheaders = [('User-agent', useragent)]
 
 @run_async
+def app(bot: Bot, update: Update):
+    message = update.effective_message
+    try:
+        progress_message = update.effective_message.reply_text("Searching.... ")
+        app_name = message.text[len('/app '):]
+        remove_space = app_name.split(' ')
+        final_name = '+'.join(remove_space)
+        page = requests.get(f"https://play.google.com/store/search?q={final_name}&c=apps")
+        soup = BeautifulSoup(page.content, 'lxml', from_encoding='utf-8')
+        results = soup.findAll("div", "ZmHEEd")
+        app_name = results[0].findNext('div', 'Vpfmgd').findNext('div', 'WsMG1c nnK0zc').text
+        app_dev = results[0].findNext('div', 'Vpfmgd').findNext('div', 'KoLSrc').text
+        app_dev_link = "https://play.google.com" + results[0].findNext(
+            'div', 'Vpfmgd').findNext('a', 'mnKHRc')['href']
+        app_rating = results[0].findNext('div', 'Vpfmgd').findNext(
+            'div', 'pf5lIe').find('div')['aria-label']
+        app_link = "https://play.google.com" + results[0].findNext(
+            'div', 'Vpfmgd').findNext('div', 'vU6FJ p63iDd').a['href']
+        app_icon = results[0].findNext('div', 'Vpfmgd').findNext('div', 'uzcko').img['data-src']
+        app_details = "<a href='" + app_icon + "'>📲&#8203;</a>"
+        app_details += " <b>" + app_name + "</b>"
+        app_details += "\n\n<code>Developer :</code> <a href='" + app_dev_link + "'>"
+        app_details += app_dev + "</a>"
+        app_details += "\n<code>Rating :</code> " + app_rating.replace(
+            "Rated ", "⭐️ ").replace(" out of ", "/").replace(
+                " stars", "", 1).replace(" stars", "⭐️").replace("five", "5")
+        app_details += "\n<code>Features :</code> <a href='" + app_link + "'>View in Play Store</a>"
+        message.reply_text(app_details, disable_web_page_preview=False, parse_mode='html')
+    except IndexError:
+        message.reply_text("No result found in search. Please enter **Valid app name**")
+    except Exception as err:
+        message.reply_text(err)
+    progress_message.delete()
+
+@run_async
 def ud(bot: Bot, update: Update):
     message = update.effective_message
     text = message.text[len('/ud '):]
@@ -419,11 +454,15 @@ Example syntax: /cash 1 USD INR
 **Text-to-Speach**
  - /tts <sentence>:  Text to Speech!
 
-**Last.FM:**
+**Last FM:**
  - /setuser <username>: sets your last.fm username.
  - /clearuser: removes your last.fm username from the bot's database.
  - /lastfm: returns what you're scrobbling on last.fm.
+
+**Playstore:**
+ - /app <app name>: finds an app in playstore for you
 """
+APP_HANDLER = DisableAbleCommandHandler("app", app)
 UD_HANDLER = DisableAbleCommandHandler("ud", ud)
 COVID_HANDLER = DisableAbleCommandHandler(["covid", "corona"], covid)
 LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
@@ -433,6 +472,7 @@ TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
 REVERSE_HANDLER = DisableAbleCommandHandler("reverse", reverse, pass_args=True, admin_ok=True)
 TTS_HANDLER = DisableAbleCommandHandler('tts', tts, pass_args=True)
 
+dispatcher.add_handler(APP_HANDLER)
 dispatcher.add_handler(COVID_HANDLER)
 dispatcher.add_handler(REVERSE_HANDLER)
 dispatcher.add_handler(WALL_HANDLER)
@@ -443,6 +483,6 @@ dispatcher.add_handler(TTS_HANDLER)
 dispatcher.add_handler(UD_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["time", "cash", "wall", "lyrics", "reverse", "covid", "corona", "tts", "ud"]
+__command_list__ = ["time", "cash", "wall", "lyrics", "reverse", "covid", "corona", "tts", "ud", "app"]
 __handlers__ = [TIME_HANDLER, CONVERTER_HANDLER, WALL_HANDLER, LYRICS_HANDLER, REVERSE_HANDLER,
-                COVID_HANDLER, TTS_HANDLER, UD_HANDLER]
+                COVID_HANDLER, TTS_HANDLER, UD_HANDLER, APP_HANDLER]
