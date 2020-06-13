@@ -146,7 +146,6 @@ def fed_chat(bot: Bot, update: Update, args: List[str]):
 		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
-	user = update.effective_user  # type: Optional[User]
 	fed_id = sql.get_fed_id(chat.id)
 
 	user_id = update.effective_message.from_user.id
@@ -473,7 +472,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	user_id, reason = extract_unt_fedban(message, args)
 
-	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
+	fban, _, _ = sql.get_fban_user(fed_id, user_id)
 
 	if not user_id:
 		message.reply_text("You don't seem to be referring to a user")
@@ -782,8 +781,6 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 		isvalid = True
 		fban_user_id = user_chat.id
 		fban_user_name = user_chat.first_name
-		fban_user_lname = user_chat.last_name
-		fban_user_uname = user_chat.username
 	except BadRequest as excp:
 		if not str(user_id).isdigit():
 			send_message(update.effective_message, excp.message)
@@ -806,12 +803,10 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 	else:
 		user_target = fban_user_name
 
-	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, fban_user_id)
+	fban, _, _ = sql.get_fban_user(fed_id, fban_user_id)
 	if fban is False:
 		message.reply_text("This user is not fbanned!")
 		return
-
-	banner = update.effective_user  # type: Optional[User]
 
 	message.reply_text("I'll give {} another chance in this federation".format(user_chat.first_name))
 
@@ -1251,7 +1246,7 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 		return
 
 	fed_id = sql.get_fed_id(chat.id)
-	info = sql.get_fed_info(fed_id)
+	sql.get_fed_info(fed_id)
 	getfed = sql.get_fed_info(fed_id)
 
 	if not fed_id:
@@ -1305,7 +1300,7 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 						continue
 					try:
 						data = json.loads(x)
-					except json.decoder.JSONDecodeError as err:
+					except json.decoder.JSONDecodeError:
 						failed += 1
 						continue
 					try:
@@ -1423,7 +1418,6 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 @run_async
 def del_fed_button(bot, update):
 	query = update.callback_query
-	userid = query.message.chat.id
 	fed_id = query.data.split("_")[1]
 
 	if fed_id == 'cancel':
@@ -1441,9 +1435,6 @@ def fed_stat_user(bot, update, args):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam is True:
 		return
-
-	chat = update.effective_chat  # type: Optional[Chat]
-	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
 
 	if args:
@@ -1532,7 +1523,6 @@ def set_fed_log(bot, update, args):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
@@ -1561,7 +1551,6 @@ def unset_fed_log(bot, update, args):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
@@ -1591,7 +1580,6 @@ def subs_feds(bot, update, args):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
@@ -1633,7 +1621,6 @@ def unsubs_feds(bot, update, args):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
@@ -1675,7 +1662,6 @@ def get_myfedsubs(bot, update, args):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
@@ -1709,10 +1695,7 @@ def get_myfeds_list(bot, update):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam is True:
 		return
-
-	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	msg = update.effective_message  # type: Optional[Message]
 
 	fedowner = sql.get_user_owner_fed_full(user.id)
 	if fedowner:
@@ -1754,7 +1737,7 @@ def welcome_fed(bot, update):
 	user = update.effective_user  # type: Optional[User]
 
 	fed_id = sql.get_fed_id(chat.id)
-	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user.id)
+	fban, _, _ = sql.get_fban_user(fed_id, user.id)
 	if fban:
 		update.effective_message.reply_text("This user is banned in current federation! I will remove him.")
 		bot.kick_chat_member(chat.id, user.id)
@@ -1772,7 +1755,7 @@ def __stats__():
 def __user_info__(user_id, chat_id):
 	fed_id = sql.get_fed_id(chat_id)
 	if fed_id:
-		fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
+		fban, fbanreason, _ = sql.get_fban_user(fed_id, user_id)
 		info = sql.get_fed_info(fed_id)
 		infoname = info['fname']
 

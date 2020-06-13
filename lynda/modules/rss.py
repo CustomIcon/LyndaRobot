@@ -74,7 +74,6 @@ def list_urls(bot, update):
 @user_admin
 def add_url(bot, update, args):
     if len(args) >= 1:
-        chat = update.effective_chat
 
         tg_chat_id = str(update.effective_chat.id)
 

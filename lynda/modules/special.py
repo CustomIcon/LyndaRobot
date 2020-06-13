@@ -47,7 +47,7 @@ def snipe(bot: Bot, update: Update, args: List[str]):
     try:
         chat_id = str(args[0])
         del args[0]
-    except TypeError as excp:
+    except TypeError:
         update.effective_message.reply_text("Please give me a chat to echo to!")
     to_send = " ".join(args)
     if len(to_send) >= 2:
@@ -63,7 +63,7 @@ def birthday(bot: Bot, update: Update, args: List[str]):
     if args:
         username = str(",".join(args))
     bot.sendChatAction(update.effective_chat.id, "typing") # Bot typing before send messages
-    for i in range(5):
+    for _ in range(5):
         bdaymessage = random.choice(MESSAGES)
         update.effective_message.reply_text(bdaymessage + username)
 
