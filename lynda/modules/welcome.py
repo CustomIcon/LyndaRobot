@@ -266,7 +266,7 @@ def left_member(bot: Bot, update: Update):
     if should_goodbye:
         left_mem = update.effective_message.left_chat_member
         if left_mem:
-            if spam_watch != None:
+            if spam_watch is None:
                 sw_ban = spam_watch.get_ban(left_mem.id)
                 if sw_ban:
                     return

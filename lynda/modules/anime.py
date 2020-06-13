@@ -285,7 +285,7 @@ def character(bot: Bot, update: Update):
     about_string = ' '.join(about)
 
     for entity in character:
-        if character[entity] == None:
+        if character[entity] is None:
             character[entity] = "Unknown"
 
     caption += f"\n*About*: {about_string}..."
@@ -340,7 +340,7 @@ def user(bot: Bot, update: Update):
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
     for entity in user:
-        if user[entity] == None:
+        if user[entity] is None:
             user[entity] = "Unknown"
 
     about = user['about'].split(" ", 60)
