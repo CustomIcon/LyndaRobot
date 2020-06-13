@@ -168,7 +168,7 @@ def __user_settings__(_bot, _update, user):
     return text, keyboard
 
     
-def control_panel_user(bot, update):
+def control_panel_user(_bot, update):
     chat = update.effective_chat
     query = update.callback_query
     enable = re.match(r"panel_reporting_U_enable", query.data)
