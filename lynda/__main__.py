@@ -21,19 +21,19 @@ Hi {}, my name is {}!
 // I am an Anime themed group management bot with a lot of Special Features.
 You can find the list of available commands with /help.
 ==========================
--> [Lynda's Repo](https://waa.ai/Lynda)
--> Report [Lynda Support](https://t.me/LyndaEagleSupport) if I go offline
+-> [Lana's Repo](https://github.com/coldsentri/LyndaRobot)
+-> Report [Lana Support](https://t.me/OCDHOSPITAL) if I go offline
 ==========================
-`Maintained by` @YorktownEagleUnion
+`Maintained by` @GeekyRash
 
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a part of Eagle Union.
+I'm a part of OCD HOSPITAL.
 Have a look at the following for an idea of some of \
 the things I can help you with.
-I'm managed by [Poki](https://t.me/pokurt)
+I'm managed by [Rashad](https://t.me/GeekyRash)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
