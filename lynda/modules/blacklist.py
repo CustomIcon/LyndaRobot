@@ -63,7 +63,7 @@ def add_blacklist(bot: Bot, update: Update):
 
     if len(words) > 1:
         text = words[1]
-        to_blacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+        to_blacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
 
         for trigger in to_blacklist:
             sql.add_to_blacklist(chat.id, trigger.lower())
@@ -90,7 +90,7 @@ def unblacklist(bot: Bot, update: Update):
 
     if len(words) > 1:
         text = words[1]
-        to_unblacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+        to_unblacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
         successful = 0
 
         for trigger in to_unblacklist:

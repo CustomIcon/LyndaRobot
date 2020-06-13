@@ -79,7 +79,7 @@ def add_blackliststicker(bot: Bot, update: Update):
 
 	if len(words) > 1:
 		text = words[1].replace('https://t.me/addstickers/', '')
-		to_blacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+		to_blacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
 		added = 0
 		for trigger in to_blacklist:
 			try:
@@ -139,7 +139,7 @@ def unblackliststicker(bot: Bot, update: Update):
 
 	if len(words) > 1:
 		text = words[1].replace('https://t.me/addstickers/', '')
-		to_unblacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+		to_unblacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
 		successful = 0
 		for trigger in to_unblacklist:
 			success = sql.rm_from_stickers(chat_id, trigger.lower())
