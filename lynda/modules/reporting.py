@@ -152,12 +152,12 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(bot, update, chat, chatP, user):
+def __chat_settings__(_bot, _update, chat, _chatP, _user):
     return "This chat is setup to send user reports to admins, via /report and @admin: `{}`".format(
         sql.chat_should_report(chat.id))
 
 
-def __user_settings__(bot, update, user):
+def __user_settings__(_bot, _update, user):
     if sql.user_should_report(user.id) is True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[InlineKeyboardButton(text="Disable reporting", callback_data="panel_reporting_U_disable")]]
@@ -168,7 +168,7 @@ def __user_settings__(bot, update, user):
     return text, keyboard
 
     
-def control_panel_user(bot, update):
+def control_panel_user(_bot, update):
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat
     query = update.callback_query
