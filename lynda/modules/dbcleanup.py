@@ -94,7 +94,7 @@ def dbcleanup(bot: Bot, update: Update):
     reply += f"Total invalid gbanned users - {invalid_gban_count}"
 
     buttons = [
-        [InlineKeyboardButton("Cleanup DB", callback_data=f"db_cleanup")]
+        [InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")]
     ]
 
     update.effective_message.reply_text(reply, reply_markup=InlineKeyboardMarkup(buttons))
@@ -157,7 +157,7 @@ def leave_muted_chats(bot: Bot, update: Update):
     muted_chats = get_muted_chats(bot, update)
 
     buttons = [
-        [InlineKeyboardButton("Leave chats", callback_data=f"db_leave_chat")]
+        [InlineKeyboardButton("Leave chats", callback_data="db_leave_chat")]
     ]
 
     update.effective_message.reply_text(f"I am muted in {muted_chats} chats.",

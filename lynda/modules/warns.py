@@ -121,7 +121,7 @@ def button(bot: Bot, update: Update) -> str:
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                     f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
         else:
-            update.effective_message.edit_text(f"User already has no warns.", parse_mode=ParseMode.HTML)
+            update.effective_message.edit_text("User already has no warns.", parse_mode=ParseMode.HTML)
 
     return ""
 
