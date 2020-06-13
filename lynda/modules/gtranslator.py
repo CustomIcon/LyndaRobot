@@ -89,7 +89,6 @@ def totranslate(bot: Bot, update: Update):
                 for lang in problem_lang_code:
                     if lang in temp_source_lang:
                         dest_lang = None
-                        break
                     else:
                         dest_lang = temp_source_lang.split("-")[1]
                         source_lang = temp_source_lang.split("-")[0]
