@@ -47,10 +47,10 @@ class CustomCommandHandler(CommandHandler):
 
 
 class CustomRegexHandler(RegexHandler):
-    def __init__(self, pattern, callback, friendly="", **kwargs):
+    def __init__(self, pattern, callback, _friendly="", **kwargs):
         super().__init__(pattern, callback, **kwargs)
 
 
 class CustomMessageHandler(MessageHandler):
-    def __init__(self, filters, callback, friendly="", **kwargs):
+    def __init__(self, filters, callback, _friendly="", **kwargs):
         super().__init__(filters, callback, **kwargs)

@@ -148,7 +148,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user_id):
+def __chat_settings__(chat_id, _user_id):
     blacklisted = sql.num_blacklist_chat_filters(chat_id)
     return "There are {} blacklisted words.".format(blacklisted)
 

@@ -54,7 +54,7 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
         return kicked_chats
 
 
-def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
+def get_invalid_gban(bot: Bot, _update: Update, remove: bool = False):
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
     ungban_list = []

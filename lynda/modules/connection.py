@@ -180,7 +180,7 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
             send_message(msg, "Connection to this chat is not allowed!")
 
 
-def disconnect_chat(bot: Bot, update: Update):
+def disconnect_chat(_bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     spam = spamfilters(msg.text, msg.from_user.id, chat.id)

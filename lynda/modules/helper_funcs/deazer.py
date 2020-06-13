@@ -1,5 +1,5 @@
 from telegram import Bot, Update
-def proper_trackdl(bot: Bot, update: Update, link, qual, msg, dir_):
+def proper_trackdl(bot: Bot, _update: Update, link, qual, msg, dir_):
     if 'spotify' in link:
         msg.reply_text("Trying to download song via Spotify Link 🥴")
         track = bot.download_trackspo(
@@ -32,7 +32,7 @@ def proper_trackdl(bot: Bot, update: Update, link, qual, msg, dir_):
         )
 
 
-def batch_dl(bot: Bot, update: Update, link, qual, msg, dir_, u, allow_zip):
+def batch_dl(bot: Bot, _update: Update, link, qual, msg, dir_, _u, allow_zip):
     if 'spotify' in link:
         if 'album/' in link:
             msg.reply_text("Trying to download album 🤧")
