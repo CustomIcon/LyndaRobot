@@ -407,7 +407,7 @@ def button(bot, update):
             message.delete()
         else:
             query.answer("You are not allowed to use this.")
-    elif query_type == "anime_anime" or query_type == "anime_manga":
+    elif query_type in ('anime_anime', 'anime_manga'):
         mal_id = data[2]
         if query.from_user.id == original_user_id:
             message.delete()

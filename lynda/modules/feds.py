@@ -1454,7 +1454,7 @@ def fed_stat_user(bot, update, args):
 			if user_name is False:
 				send_message(update.effective_message, "Fed {} not found!".format(fed_id), parse_mode="markdown")
 				return
-			if user_name == "" or user_name == None:
+			if user_name in ('', None):
 				user_name = "He/she"
 			if not reason:
 				send_message(update.effective_message, "{} is not banned in this federation!".format(user_name))
@@ -1468,7 +1468,7 @@ def fed_stat_user(bot, update, args):
 				user_name = bot.get_chat(user_id).first_name
 			except BadRequest:
 				user_name = "He/she"
-			if user_name == "" or user_name == None:
+			if user_name in ('', None):
 				user_name = "He/she"
 		if len(fbanlist) == 0:
 			send_message(update.effective_message, "{} is not banned in any federation!".format(user_name))
@@ -1720,7 +1720,7 @@ def is_user_fed_owner(fed_id, user_id):
 	if getsql is False:
 		return False
 	getfedowner = eval(getsql['fusers'])
-	if getfedowner == None or getfedowner == False:
+	if getfedowner in (None, False):
 		return False
 	getfedowner = getfedowner['owner']
 	if str(user_id) == getfedowner or int(user_id) == OWNER_ID:
