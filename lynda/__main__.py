@@ -49,7 +49,7 @@ Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/35005c01182645232f2d3.jpg"
+LYNDA_IMG = "https://telegra.ph/file/12c1fb676372107206d17.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Lynda is hosted on one of Digital Ocean Servers. \
