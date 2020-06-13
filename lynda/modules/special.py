@@ -1,20 +1,15 @@
-from io import BytesIO
 from time import sleep
 from typing import Optional, List
-from telegram import TelegramError, Chat, Message
-from telegram import Update, Bot, User
-from telegram import ParseMode
+from telegram import TelegramError
+from telegram import Update, Bot
 from telegram.error import BadRequest
-from telegram.ext import MessageHandler, Filters, CommandHandler
+from telegram.ext import Filters, CommandHandler
 from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import escape_markdown
-from lynda.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
 
 import random
-import telegram
 import lynda.modules.sql.users_sql as sql
 from lynda.modules.helper_funcs.filters import CustomFilters
-from lynda import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, LOGGER
+from lynda import dispatcher, OWNER_ID, LOGGER
 from lynda.modules.disable import DisableAbleCommandHandler
 USERS_GROUP = 4
 

@@ -3,7 +3,6 @@ import math
 import os
 import urllib.request as urllib
 from typing import List
-import requests
 
 from PIL import Image
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
