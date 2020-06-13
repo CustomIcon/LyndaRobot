@@ -517,8 +517,8 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 		isvalid = False
 		fban_user_id = int(user_id)
 		fban_user_name = "user({})".format(user_id)
-		fban_user_lname = None
-		fban_user_uname = None
+		# fban_user_lname = None
+		# fban_user_uname = None
 
 
 	if isvalid and user_chat.type != 'private':
