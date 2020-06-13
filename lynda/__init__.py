@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import telegram.ext as tg
+import spamwatch
 
 StartTime = time.time()
 
@@ -79,6 +80,7 @@ if ENV:
     DEEPFRY_TOKEN = os.environ.get('DEEPFRY_TOKEN', None)
     API_WEATHER = os.environ.get('API_WEATHER', None)
     ARL_TOKEN = os.environ.get('ARL_TOKEN' , None)
+    SW_API = os.environ.get('SW_API' , None)
 
 else:
     from lynda.config import Development as Config
@@ -143,20 +145,32 @@ else:
     ARL_TOKEN = Config.ARL_TOKEN
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
-SUDO_USERS.add(895373440)
-SUDO_USERS.add(962286971)
-SUDO_USERS.add(254318997)
-SUDO_USERS.add(792109647)
+DEFENDER_USERS = ['895373440',
+                '962286971',
+                '254318997',
+                '792109647'
+                ]
 
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
-SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)
-DEV_USERS = list(DEV_USERS)
-WHITELIST_USERS = list(WHITELIST_USERS)
-SUPPORT_USERS = list(SUPPORT_USERS)
-SARDEGNA_USERS = list(SARDEGNA_USERS)
+SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS) + list(DEFENDER_USERS)
+DEV_USERS = list(DEV_USERS) + list(DEFENDER_USERS)
+WHITELIST_USERS = list(WHITELIST_USERS) + list(DEFENDER_USERS)
+SUPPORT_USERS = list(SUPPORT_USERS) + list(DEFENDER_USERS)
+SARDEGNA_USERS = list(SARDEGNA_USERS) + list(DEFENDER_USERS)
 SPAMMERS = list(SPAMMERS)
+
+# SpamWatch
+if SW_API == "None":
+    spam_watch = None
+    LOGGER.warning("SpamWatch API key is missing! Check your config var")
+else:
+    try:
+        spam_watch = spamwatch.Client(SW_API)
+    except Exception:
+        spam_watch = None
+
 
 # Load at end to ensure all prev variables have been set
 from lynda.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler

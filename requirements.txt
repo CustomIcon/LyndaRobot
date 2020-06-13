@@ -33,3 +33,4 @@ uptime
 psutil
 py-cpuinfo
 nekos.py
+spamwatch

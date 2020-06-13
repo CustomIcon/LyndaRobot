@@ -93,7 +93,7 @@ def chatbot(bot: Bot, update: Update):
 __mod_name__ = "Chatbot"
 
 __help__ = """
-[BETA] Chatbot utilizes the CoffeeHouse API and allows Lynda to talk back making your chat more interactive.
+Chatbot utilizes the CoffeeHouse API and allows Lynda to talk back making your chat more interactive.
 This is an ongoing upgrade and is only available in your chats if you reach out to @YorktownEagleUnion and ask for it. 
 In future we might make it open for any chat and controllable by group admins.
 Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid

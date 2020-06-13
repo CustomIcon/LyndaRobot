@@ -1,9 +1,9 @@
 ![Lynda](https://img4.goodfon.com/original/2120x1348/3/58/ayanami-azur-lane-art-anime-devushka-strela.jpg)
 # LyndaRobot
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/pokurt/LyndaRobot/graphs/contributors/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Join Support!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/LyndaEagleSupport) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/pokurt/LyndaRobot/graphs/contributors/)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LydiaRobot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LyndaRobot)
 
 
 A modular telegram Python bot running on python3 with an sqlalchemy database.
@@ -36,7 +36,7 @@ This is because markdown parsing is done by iterating through a dict, which are 
 For starters click on this button
 
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LydiaRobot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LyndaRobot)
 
 Fill in all the details , Deploy.
 Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )

@@ -55,10 +55,10 @@ def sysinfo(bot: Bot, update: Update):
     server_status = "```\n{}\n{}\n{}\n{}\n```".format(sys_info, up, cpu_info, ram_info)
     update.message.reply_text(server_status, parse_mode="Markdown")
 
-__help__ = """
- **Dev Only!**
- - /sysinfo - Gives information about bot hosted server.
-"""
+# __help__ = """
+#  **Dev Only!**
+#  - /sysinfo - Gives information about bot hosted server.
+# """
 __mod_name__ = "System Info"
 SYSINFO_HANDLER = DisableAbleCommandHandler("sysinfo", sysinfo)
 dispatcher.add_handler(SYSINFO_HANDLER)
