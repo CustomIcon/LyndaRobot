@@ -26,7 +26,7 @@ def check_flood(bot: Bot, update: Update) -> str:
         return log_message
 
     # ignore admins and whitelists
-    if (is_user_admin(chat, user.id) 
+    if (is_user_admin(chat, user.id)
             or user.id in WHITELIST_USERS
             or user.id in SARDEGNA_USERS):
         sql.update_flood(chat.id, None)
@@ -38,20 +38,26 @@ def check_flood(bot: Bot, update: Update) -> str:
 
     try:
         bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        bot.send_message(chat.id,f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!", parse_mode=ParseMode.HTML)
-        log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                       f"#MUTED\n"
-                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"Flooded the group.\nMuted until an admin unmutes")
+        bot.send_message(
+            chat.id,
+            f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!",
+            parse_mode=ParseMode.HTML)
+        log_message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#MUTED\n"
+            f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+            f"Flooded the group.\nMuted until an admin unmutes")
 
         return log_message
 
     except BadRequest:
-        msg.reply_text("I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
+        msg.reply_text(
+            "I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
         sql.set_flood(chat.id, 0)
-        log_message = ("<b>{chat.title}:</b>\n"
-                       "#INFO\n"
-                       "Don't have kick permissions, so automatically disabled antiflood.")
+        log_message = (
+            "<b>{chat.title}:</b>\n"
+            "#INFO\n"
+            "Don't have kick permissions, so automatically disabled antiflood.")
 
         return log_message
 
@@ -81,35 +87,44 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
         if val in ('off', 'no', '0'):
             sql.set_flood(chat.id, 0)
-            message.reply_text("Antiflood has been disabled{}.".format(chat_name), parse_mode=ParseMode.HTML)
+            message.reply_text(
+                "Antiflood has been disabled{}.".format(chat_name),
+                parse_mode=ParseMode.HTML)
 
         elif val.isdigit():
             amount = int(val)
             if amount <= 0:
                 sql.set_flood(chat.id, 0)
-                message.reply_text("Antiflood has been disabled{}.".format(chat_name), parse_mode=ParseMode.HTML)
-                log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                               f"#SETFLOOD\n"
-                               f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                               f"Disabled antiflood.")
+                message.reply_text(
+                    "Antiflood has been disabled{}.".format(chat_name),
+                    parse_mode=ParseMode.HTML)
+                log_message = (
+                    f"<b>{html.escape(chat.title)}:</b>\n"
+                    f"#SETFLOOD\n"
+                    f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
+                    f"Disabled antiflood.")
 
                 return log_message
             elif amount < 3:
-                message.reply_text("Antiflood has to be either 0 (disabled), or a number bigger than 3!")
+                message.reply_text(
+                    "Antiflood has to be either 0 (disabled), or a number bigger than 3!")
                 return log_message
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Antiflood has been updated and set to {}{}".format(amount, chat_name),
-                                   parse_mode=ParseMode.HTML)
-                log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                               f"#SETFLOOD\n"
-                               f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                               f"Set antiflood to <code>{amount}</code>.")
+                message.reply_text(
+                    "Antiflood has been updated and set to {}{}".format(
+                        amount, chat_name), parse_mode=ParseMode.HTML)
+                log_message = (
+                    f"<b>{html.escape(chat.title)}:</b>\n"
+                    f"#SETFLOOD\n"
+                    f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
+                    f"Set antiflood to <code>{amount}</code>.")
 
                 return log_message
         else:
-            message.reply_text("Unrecognised argument - please use a number, 'off', or 'no'.")
+            message.reply_text(
+                "Unrecognised argument - please use a number, 'off', or 'no'.")
 
     return log_message
 
@@ -129,12 +144,14 @@ def flood(bot: Bot, update: Update):
     limit = sql.get_flood_limit(chat.id)
 
     if limit == 0:
-        update.effective_message.reply_text(f"I'm not currently enforcing flood control{chat_name}!",
-                                            parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(
+            f"I'm not currently enforcing flood control{chat_name}!",
+            parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text(f"I'm currently punching users if they send "
-                                            f"more than {limit} consecutive messages{chat_name}.",
-                                            parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(
+            f"I'm currently punching users if they send "
+            f"more than {limit} consecutive messages{chat_name}.",
+            parse_mode=ParseMode.HTML)
 
 
 def __migrate__(old_chat_id, new_chat_id):
@@ -156,7 +173,9 @@ __help__ = """
  - /setflood <int/'no'/'off'>: enables or disables flood control
 """
 
-FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
+FLOOD_BAN_HANDLER = MessageHandler(
+    Filters.all & ~Filters.status_update & Filters.group,
+    check_flood)
 SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True)
 FLOOD_HANDLER = CommandHandler("flood", flood)
 
@@ -165,4 +184,5 @@ dispatcher.add_handler(SET_FLOOD_HANDLER)
 dispatcher.add_handler(FLOOD_HANDLER)
 
 __mod_name__ = "AntiFlood"
-__handlers__ = [(FLOOD_BAN_HANDLER, FLOOD_GROUP), SET_FLOOD_HANDLER, FLOOD_HANDLER]
+__handlers__ = [(FLOOD_BAN_HANDLER, FLOOD_GROUP),
+                SET_FLOOD_HANDLER, FLOOD_HANDLER]
