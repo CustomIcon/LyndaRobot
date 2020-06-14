@@ -1,8 +1,7 @@
 # Taken from @ HarukaNetwork/HarukaAya
 # Copyright (C) 2017-2019 Paul Larsen
 # Copyright (C) 2019-2020 Akito Mizukito (Haruka Network Development)
-# Give a Star to the source and Follow:
-# https://gitlab.com/HarukaNetwork/OSS/HarukaAya
+# Give a Star to the source and Follow: https://gitlab.com/HarukaNetwork/OSS/HarukaAya
 
 
 from typing import List, Dict
@@ -37,18 +36,13 @@ def split_message(msg: str) -> List[str]:
             else:
                 result.append(small_msg)
                 small_msg = line
-            # Else statement at the end of the for loop, so append the leftover
-            # string.
+            # Else statement at the end of the for loop, so append the leftover string.
             result.append(small_msg)
 
         return result
 
 
-def paginate_modules(
-        _page_n: int,
-        module_dict: Dict,
-        prefix,
-        chat=None) -> List:
+def paginate_modules(_page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
         modules = sorted(
             [EqInlineKeyboardButton(x.__mod_name__,
@@ -60,7 +54,7 @@ def paginate_modules(
                                     callback_data="{}_module({},{})".format(prefix, chat, x.__mod_name__.lower())) for x
              in module_dict.values()])
     pairs = [
-        modules[i * 3:(i + 1) * 3] for i in range((len(modules) + 3 - 1) // 3)
+    modules[i * 3:(i + 1) * 3] for i in range((len(modules) + 3 - 1) // 3)
     ]
     round_num = len(modules) / 3
     calc = len(modules) - round(round_num)
@@ -72,19 +66,13 @@ def paginate_modules(
     return pairs
 
 
-def send_to_list(
-        bot: Bot,
-        send_to: list,
-        message: str,
-        markdown=False,
-        html=False) -> None:
+def send_to_list(bot: Bot, send_to: list, message: str, markdown=False, html=False) -> None:
     if html and markdown:
         raise Exception("Can only send with either markdown or HTML!")
     for user_id in set(send_to):
         try:
             if markdown:
-                bot.send_message(
-                    user_id, message, parse_mode=ParseMode.MARKDOWN)
+                bot.send_message(user_id, message, parse_mode=ParseMode.MARKDOWN)
             elif html:
                 bot.send_message(user_id, message, parse_mode=ParseMode.HTML)
             else:
@@ -118,8 +106,7 @@ def revert_buttons(buttons):
 def is_module_loaded(name):
     return name not in NO_LOAD
 
-
 def sendMessage(text: str, bot: Bot, update: Update):
     return bot.send_message(update.message.chat_id,
-                            reply_to_message_id=update.message.message_id,
-                            text=text, parse_mode=ParseMode.HTML)
+                                    reply_to_message_id=update.message.message_id,
+                                    text=text, parse_mode=ParseMode.HTML)
