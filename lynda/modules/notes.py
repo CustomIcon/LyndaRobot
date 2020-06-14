@@ -18,6 +18,9 @@ from lynda.modules.helper_funcs.msg_types import get_note_type
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 
+def replace_text(text):
+        return text.replace("\"", "").replace("\\r", "").replace(r"\_", "_").replace("\n", "")
+
 ENUM_FUNC_MAP = {
     sql.Types.TEXT.value: dispatcher.bot.send_message,
     sql.Types.BUTTON_TEXT.value: dispatcher.bot.send_message,
@@ -69,7 +72,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
         else:
             text = note.value
             keyb = []
-            parseMode = ParseMode.MARKDOWN
+            parseMode = None
             buttons = sql.get_buttons(chat_id, notename)
             if no_format:
                 parseMode = None
@@ -85,7 +88,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
                                      parse_mode=parseMode, disable_web_page_preview=True,
                                      reply_markup=keyboard)
                 else:
-                    ENUM_FUNC_MAP[note.msgtype](chat_id, note.file, caption=text, reply_to_message_id=reply_id,
+                    ENUM_FUNC_MAP[note.msgtype](chat_id, note.file, caption=replace_text(text), reply_to_message_id=reply_id,
                                                 parse_mode=parseMode, disable_web_page_preview=True,
                                                 reply_markup=keyboard)
 
@@ -101,7 +104,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
                     sql.rm_note(chat_id, notename)
                 else:
                     message.reply_text("This note could not be sent, as it is incorrectly formatted. Ask in "
-                                       "@LyndaEagleSupport if you can't figure out why!")
+                                       "@Aman_Ahmed if you can't figure out why!")
                     LOGGER.exception("Could not parse message #%s in chat %s", notename, str(chat_id))
                     LOGGER.warning("Message was: %s", str(note.value))
         return
@@ -220,7 +223,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user_id):
+def __chat_settings__(chat_id, _user_id):
     notes = sql.get_all_chat_notes(chat_id)
     return f"There are `{len(notes)}` notes in this chat."
 
@@ -229,8 +232,10 @@ __help__ = """
  - /get <notename>: get the note with this notename
  - #<notename>: same as /get
  - /notes or /saved: list all saved notes in this chat
+
 If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note.
+
 *Admin only:*
  - /save <notename> <notedata>: saves notedata as a note with name notename
 A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
