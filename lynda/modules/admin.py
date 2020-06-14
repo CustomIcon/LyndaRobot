@@ -34,7 +34,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         user_member = chat.get_member(user_id)
-    except:
+    except Exception:
         return log_message
 
     if user_member.status == 'administrator' or user_member.status == 'creator':
@@ -96,7 +96,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         user_member = chat.get_member(user_id)
-    except:
+    except Exception:
         return log_message
 
     if user_member.status == 'creator':
@@ -150,7 +150,7 @@ def set_title(bot: Bot, update: Update, args: List[str]):
     user_id, title = extract_user_and_text(message, args)
     try:
         user_member = chat.get_member(user_id)
-    except:
+    except Exception:
         return
 
     if not user_id:

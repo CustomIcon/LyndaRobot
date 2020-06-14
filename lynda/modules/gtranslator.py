@@ -24,7 +24,7 @@ def totranslate(bot: Bot, update: Update):
 
             try:
                 source_lang = args[1].split(None, 1)[0]
-            except:
+            except Exception:
                 source_lang = "en"
 
             if source_lang.count('-') == 2:

@@ -122,13 +122,13 @@ if is_module_loaded(FILENAME):
 
             try:
                 module = importlib.import_module(disable_module)
-            except:
+            except Exception:
                 update.effective_message.reply_text("Does that module even exist?")
                 return
 
             try:
                 command_list = module.__command_list__
-            except:
+            except Exception:
                 update.effective_message.reply_text("Module does not contain command list!")
                 return
 
@@ -191,13 +191,13 @@ if is_module_loaded(FILENAME):
 
             try:
                 module = importlib.import_module(enable_module)
-            except:
+            except Exception:
                 update.effective_message.reply_text("Does that module even exist?")
                 return
 
             try:
                 command_list = module.__command_list__
-            except:
+            except Exception:
                 update.effective_message.reply_text("Module does not contain command list!")
                 return
 

@@ -63,7 +63,7 @@ def ud(bot: Bot, update: Update):
     results = requests.get(f'http://api.urbandictionary.com/v0/define?term={text}').json()
     try:
         reply_text = f'*{text}*\n\n{results["list"][0]["definition"]}\n\n_{results["list"][0]["example"]}_\n\n_{results["list"][0]["author"]}_'
-    except:
+    except Exception:
         reply_text = "No results found."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
@@ -114,7 +114,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             txt = args[0]
             try:
                 lim = int(txt)
-            except:
+            except Exception:
                 lim = 2
         else:
             lim = 2
@@ -124,7 +124,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             img_link = splatargs[1]
             try:
                 lim = int(splatargs[2])
-            except:
+            except Exception:
                 lim = 2
         elif len(splatargs) == 2:
             img_link = splatargs[1]
@@ -212,7 +212,7 @@ def ParseSauce(googleurl):
          for bess in soup.findAll('a', {'class': 'PBorbe'}):
             url = 'https://www.google.com' + bess.get('href')
             results['override'] = url
-    except:
+    except Exception:
         pass
 
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
@@ -283,7 +283,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                   f"<b>Day :</b> <code>{current_day}</code>\n"
                   f"<b>Current Time :</b> <code>{current_time}</code>\n"
                   f"<b>Current Date :</b> <code>{current_date}</code>")
-    except:
+    except Exception:
         result = None
 
     return result
@@ -295,7 +295,7 @@ def gettime(bot: Bot, update: Update):
 
     try:
         query = message.text.strip().split(" ", 1)[1]
-    except:
+    except Exception:
         message.reply_text("Provide a country name/abbreviation/timezone to find.")
         return
     send_message = message.reply_text(f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML)

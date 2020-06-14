@@ -184,7 +184,7 @@ def anime(bot: Bot, update: Update):
 
     try:
         search_query = args[1]
-    except:
+    except Exception:
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -201,7 +201,7 @@ def anime(bot: Bot, update: Update):
     try:
         update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML,
                                              reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
-    except:
+    except Exception:
         image = getBannerLink(first_mal_id, False)
         update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML,
                                              reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -215,7 +215,7 @@ def manga(bot: Bot, update: Update):
 
     try:
         search_query = args[1]
-    except:
+    except Exception:
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -243,7 +243,7 @@ def character(bot: Bot, update: Update):
 
     try:
         search_query = args[1]
-    except:
+    except Exception:
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -307,7 +307,7 @@ def user(bot: Bot, update: Update):
 
     try:
         search_query = args[1]
-    except:
+    except Exception:
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -333,7 +333,7 @@ def user(bot: Bot, update: Update):
     try:
         user_birthday = datetime.datetime.fromisoformat(user['birthday'])
         user_birthday_formatted = user_birthday.strftime(date_format)
-    except:
+    except Exception:
         user_birthday_formatted = "Unknown"
 
     user_joined_date = datetime.datetime.fromisoformat(user['joined'])

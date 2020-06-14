@@ -99,7 +99,7 @@ def new_fed(bot: Bot, update: Update):
 		try:
 			bot.send_message(GBAN_LOGS,
 				"Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(fed_name, fed_id), parse_mode=ParseMode.HTML)
-		except:
+		except Exception:
 			LOGGER.warning("Cannot send a message to GBAN_LOGS")
 	else:
 		update.effective_message.reply_text("Please write down the name of the federation")
@@ -370,7 +370,7 @@ def fed_info(bot: Bot, update: Update, args: List[str]):
 	owner = bot.get_chat(info['owner'])
 	try:
 		owner_name = owner.first_name + " " + owner.last_name
-	except:
+	except Exception:
 		owner_name = owner.first_name
 	FEDADMIN = sql.all_fed_users(fed_id)
 	FEDADMIN.append(int(owner.id))
@@ -424,7 +424,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 	owner = bot.get_chat(info['owner'])
 	try:
 		owner_name = owner.first_name + " " + owner.last_name
-	except:
+	except Exception:
 		owner_name = owner.first_name
 	text += " • {}\n".format(mention_html(owner.id, owner_name))
 
@@ -861,7 +861,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 		if not x:
 			send_message(update.effective_message, "Un-fban failed, this user may already be un-fedbanned!")
 			return
-	except:
+	except Exception:
 		pass
 
 	# UnFban for fed subscriber
@@ -1008,7 +1008,7 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 		text = text_parser
 		try:
 			broadcaster = user.first_name
-		except:
+		except Exception:
 			broadcaster = user.first_name + " " + user.last_name
 		text += "\n\n- {}".format(mention_markdown(user.id, broadcaster))
 		chat_list = sql.all_fed_chats(fed_id)
@@ -1130,7 +1130,7 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
 
 	try:
 		update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
-	except:
+	except Exception:
 		jam = time.time()
 		new_jam = jam + 1800
 		cek = get_chat(chat.id, chat_data)
@@ -1221,7 +1221,7 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 
 	try:
 		update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
-	except:
+	except Exception:
 		cleanr = re.compile('<.*?>')
 		cleantext = re.sub(cleanr, '', text)
 		with BytesIO(str.encode(cleantext)) as output:

@@ -294,7 +294,7 @@ def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         chat_id = int(args[0])
-    except:
+    except Exception:
         message.reply_text("Give a valid chat ID.")
         return
 
