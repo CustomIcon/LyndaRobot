@@ -420,7 +420,7 @@ def button(bot, update):
             query.answer("You are not allowed to use this.")
 
 
-def site_search(_bot: Bot, update: Update, site: str):
+def site_search(bot: Bot, update: Update, site: str):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
     more_results = True

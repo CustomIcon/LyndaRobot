@@ -410,7 +410,7 @@ def donate(bot: Bot, update: Update):
             message.reply_text("Contact me in PM first to get donation information.")
 
 
-def migrate_chats(_bot: Bot, update: Update):
+def migrate_chats(bot: Bot, update: Update):
     """Chat Migration"""
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:

@@ -178,7 +178,7 @@ tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
 
-def spamfilters(_text, user_id, _chat_id):
+def spamfilters(text, user_id, chat_id):
     #print("{} | {} | {}".format(text, user_id, chat_id))
     if int(user_id) in SPAMMERS:
         print("This user is a spammer!")

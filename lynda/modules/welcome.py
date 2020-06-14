@@ -238,7 +238,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
     return ""
 
 
-def check_not_bot(member, chat_id, message_id, bot, _job):
+def check_not_bot(member, chat_id, message_id, bot, job):
 
     member_dict = VERIFIED_USER_WAITLIST.pop(member.id)
     member_status = member_dict.get("status")
@@ -658,7 +658,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, _user_id):
+def __chat_settings__(chat_id, user_id):
     welcome_pref, _, _ = sql.get_welc_pref(chat_id)
     goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
     return "This chat has it's welcome preference set to `{}`.\n" \

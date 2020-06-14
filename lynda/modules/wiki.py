@@ -4,7 +4,7 @@ from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 import wikipedia
 
-def wiki(_bot: Bot, update: Update, args):
+def wiki(bot: Bot, update: Update, args):
     reply = " ".join(args)
     summary = '{} {}'
     update.message.reply_text(summary.format(wikipedia.summary(reply, sentences=3), wikipedia.page(reply).url))

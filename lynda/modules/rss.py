@@ -128,7 +128,7 @@ def remove_url(bot, update, args):
         update.effective_message.reply_text("URL missing")
 
 
-def rss_update(bot, _job):
+def rss_update(bot, job):
     user_data = sql.get_all()
 
     # this loop checks for every row in the DB
@@ -184,7 +184,7 @@ def rss_update(bot, _job):
                              .format(len(new_entry_links) - 5))
 
 
-def rss_set(_bot, _job):
+def rss_set(bot, job):
     user_data = sql.get_all()
 
     # this loop checks for every row in the DB
