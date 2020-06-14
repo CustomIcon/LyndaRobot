@@ -4,18 +4,15 @@ from telegram.ext import run_async
 from lynda import dispatcher, API_WEATHER, BAN_STICKER
 from lynda.modules.disable import DisableAbleCommandHandler
 
-
 @run_async
 def weather(bot, update, args):
     if len(args) == 0:
-        update.effective_message.reply_text(
-            "Write a location to check the weather.")
+        update.effective_message.reply_text("Write a location to check the weather.")
         return
 
     location = " ".join(args)
     if location.lower() == bot.first_name.lower():
-        update.effective_message.reply_text(
-            "I will keep an eye on both happy and sad times!")
+        update.effective_message.reply_text("I will keep an eye on both happy and sad times!")
         bot.send_sticker(update.effective_chat.id, BAN_STICKER)
         return
 
@@ -34,31 +31,30 @@ def weather(bot, update, args):
         # Weather symbols
         status = ""
         status_now = theweather.get_weather_code()
-        if status_now < 232:  # Rain storm
+        if status_now < 232: # Rain storm
             status += "⛈️ "
-        elif status_now < 321:  # Drizzle
+        elif status_now < 321: # Drizzle
             status += "🌧️ "
-        elif status_now < 504:  # Light rain
+        elif status_now < 504: # Light rain
             status += "🌦️ "
-        elif status_now < 531:  # Cloudy rain
-            status += "⛈️ "
-        elif status_now < 622:  # Snow
+        elif status_now < 531: # Cloudy rain
+             status += "⛈️ "
+        elif status_now < 622: # Snow
             status += "🌨️ "
-        elif status_now < 781:  # Atmosphere
+        elif status_now < 781: # Atmosphere
             status += "🌪️ "
-        elif status_now < 800:  # Bright
+        elif status_now < 800: # Bright
             status += "🌤️ "
-        elif status_now < 801:  # A little cloudy
-            status += "⛅️ "
-        elif status_now < 804:  # Cloudy
-            status += "☁️ "
+        elif status_now < 801: # A little cloudy
+             status += "⛅️ "
+        elif status_now < 804: # Cloudy
+             status += "☁️ "
         status += theweather._detailed_status
 
-        update.message.reply_text(
-            "Today in {} is being {}, around {}°C.\n".format(
-                thelocation, status, temperature))
+        update.message.reply_text("Today in {} is being {}, around {}°C.\n".format(thelocation,
+                status, temperature))
 
-    except pyowm.exceptions.api_response_error:
+    except pyowm.exceptions.api_response_error :
         update.effective_message.reply_text("Sorry, location not found.")
 
 

@@ -21,9 +21,8 @@ def import_data(bot: Bot, update: Update):
         try:
             file_info = bot.get_file(msg.reply_to_message.document.file_id)
         except BadRequest:
-            msg.reply_text(
-                "Try downloading and reuploading the file as yourself before importing - this one seems "
-                "to be iffy!")
+            msg.reply_text("Try downloading and reuploading the file as yourself before importing - this one seems "
+                           "to be iffy!")
             return
 
         with BytesIO() as file:
@@ -33,9 +32,8 @@ def import_data(bot: Bot, update: Update):
 
         # only import one group
         if len(data) > 1 and str(chat.id) not in data:
-            msg.reply_text(
-                "Theres more than one group here in this file, and none have the same chat id as this group "
-                "- how do I choose what to import?")
+            msg.reply_text("Theres more than one group here in this file, and none have the same chat id as this group "
+                           "- how do I choose what to import?")
             return
 
         # Select data source
@@ -48,15 +46,11 @@ def import_data(bot: Bot, update: Update):
             for mod in DATA_IMPORT:
                 mod.__import_data__(str(chat.id), data)
         except Exception:
-            msg.reply_text(
-                "An exception occured while restoring your data. The process may not be complete. If "
-                "you're having issues with this, message @Aman_Ahmed with your backup file so the "
-                "issue can be debugged. My owners would be happy to help, and every bug "
-                "reported makes me better! Thanks! :)")
-            LOGGER.exception(
-                "Import for chatid %s with name %s failed.", str(
-                    chat.id), str(
-                    chat.title))
+            msg.reply_text("An exception occured while restoring your data. The process may not be complete. If "
+                           "you're having issues with this, message @Aman_Ahmed with your backup file so the "
+                           "issue can be debugged. My owners would be happy to help, and every bug "
+                           "reported makes me better! Thanks! :)")
+            LOGGER.exception("Import for chatid %s with name %s failed.", str(chat.id), str(chat.title))
             return
 
         # TODO: some of that link logic

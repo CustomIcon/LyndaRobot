@@ -20,9 +20,7 @@ def afk(bot: Bot, update: Update):
         reason = args[1]
 
     sql.set_afk(update.effective_user.id, reason)
-    update.effective_message.reply_text(
-        "{} is away from keyboard !".format(
-            update.effective_user.first_name))
+    update.effective_message.reply_text("{} is away from keyboard !".format(update.effective_user.first_name))
 
 
 @run_async
@@ -45,16 +43,13 @@ def no_longer_afk(bot: Bot, update: Update):
             'Where is {}?\nIn the chat!'
         ]
         chosen_option = random.choice(options)
-        update.effective_message.reply_text(
-            chosen_option.format(
-                update.effective_user.first_name))
+        update.effective_message.reply_text(chosen_option.format(update.effective_user.first_name))
 
 
 @run_async
 def reply_afk(bot: Bot, update: Update):
     message = update.effective_message
-    entities = message.parse_entities(
-        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
+    entities = message.parse_entities([MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
 
     if message.entities and entities:
         for ent in entities:
@@ -63,8 +58,7 @@ def reply_afk(bot: Bot, update: Update):
                 fst_name = ent.user.first_name
 
             elif ent.type == MessageEntity.MENTION:
-                user_id = get_user_id(
-                    message.text[ent.offset:ent.offset + ent.length])
+                user_id = get_user_id(message.text[ent.offset:ent.offset + ent.length])
                 if not user_id:
                     return
                 chat = bot.get_chat(user_id)
@@ -79,8 +73,7 @@ def reply_afk(bot: Bot, update: Update):
                     if not reason:
                         res = "{} is AFK!".format(fst_name)
                     else:
-                        res = "{} is AFK!\nReason:\n{}".format(
-                            fst_name, reason)
+                        res = "{} is AFK!\nReason:\n{}".format(fst_name, reason)
                     message.reply_text(res)
 
 
@@ -96,14 +89,8 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = DisableAbleRegexHandler(r"(?i)brb", afk, friendly="afk")
-NO_AFK_HANDLER = DisableAbleMessageHandler(
-    Filters.all & Filters.group, no_longer_afk, friendly="afk")
-AFK_REPLY_HANDLER = DisableAbleMessageHandler(
-    (Filters.entity(
-        MessageEntity.MENTION) | Filters.entity(
-            MessageEntity.TEXT_MENTION)) & Filters.group,
-    reply_afk,
-    friendly="afk")
+NO_AFK_HANDLER = DisableAbleMessageHandler(Filters.all & Filters.group, no_longer_afk, friendly="afk")
+AFK_REPLY_HANDLER = DisableAbleMessageHandler((Filters.entity(MessageEntity.MENTION) | Filters.entity(MessageEntity.TEXT_MENTION)) & Filters.group, reply_afk, friendly="afk")
 
 dispatcher.add_handler(AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
@@ -112,5 +99,5 @@ dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
 __mod_name__ = "AFK"
 __command_list__ = ["afk"]
-__handlers__ = [(AFK_HANDLER, AFK_GROUP), (AFK_REGEX_HANDLER, AFK_GROUP),
-                (NO_AFK_HANDLER, AFK_GROUP), (AFK_REPLY_HANDLER, AFK_REPLY_GROUP)]
+__handlers__ = [(AFK_HANDLER, AFK_GROUP), (AFK_REGEX_HANDLER, AFK_GROUP), (NO_AFK_HANDLER, AFK_GROUP),
+                (AFK_REPLY_HANDLER, AFK_REPLY_GROUP)]

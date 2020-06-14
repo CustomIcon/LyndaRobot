@@ -19,15 +19,11 @@ from lynda.modules.disable import DisableAbleCommandHandler
 def stickerid(bot: Bot, update: Update):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
-        update.effective_message.reply_text(
-            "Sticker ID:\n```" +
-            escape_markdown(
-                msg.reply_to_message.sticker.file_id) +
-            "```",
-            parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text("Sticker ID:\n```" +
+                                            escape_markdown(msg.reply_to_message.sticker.file_id) + "```",
+                                            parse_mode=ParseMode.MARKDOWN)
     else:
-        update.effective_message.reply_text(
-            "Please reply to a sticker to get its ID.")
+        update.effective_message.reply_text("Please reply to a sticker to get its ID.")
 
 
 @run_async
@@ -41,8 +37,7 @@ def getsticker(bot: Bot, update: Update):
         bot.send_document(chat_id, document=open('sticker.png', 'rb'))
         os.remove("sticker.png")
     else:
-        update.effective_message.reply_text(
-            "Please reply to a sticker for me to upload its PNG.")
+        update.effective_message.reply_text("Please reply to a sticker for me to upload its PNG.")
 
 
 @run_async
@@ -90,15 +85,11 @@ def kang(bot: Bot, update: Update, args: List[str]):
             if not msg.reply_to_message.sticker:
                 im.save(kangsticker, "PNG")
             with open('kangsticker.png', 'rb') as sticker:
-                bot.add_sticker_to_set(
-                    user_id=user.id,
-                    name=packname,
-                    png_sticker=sticker,
-                    emojis=sticker_emoji)
-            msg.reply_text(
-                f"Sticker successfully added to [pack](t.me/addstickers/{packname})\n"
-                f"Emoji is:" + " " + sticker_emoji,
-                parse_mode=ParseMode.MARKDOWN)
+                bot.add_sticker_to_set(user_id=user.id, name=packname,
+                                       png_sticker=sticker, emojis=sticker_emoji)
+            msg.reply_text(f"Sticker successfully added to [pack](t.me/addstickers/{packname})\n"
+                           f"Emoji is:" + " " + sticker_emoji,
+                           parse_mode=ParseMode.MARKDOWN)
         except OSError as e:
             msg.reply_text("I can only kang images m8.")
             print(e)
@@ -110,15 +101,11 @@ def kang(bot: Bot, update: Update, args: List[str]):
             elif e.message == "Sticker_png_dimensions":
                 im.save(kangsticker, "PNG")
                 with open('kangsticker.png', 'rb') as sticker:
-                    bot.add_sticker_to_set(
-                        user_id=user.id,
-                        name=packname,
-                        png_sticker=sticker,
-                        emojis=sticker_emoji)
-                msg.reply_text(
-                    f"Sticker successfully added to [pack](t.me/addstickers/{packname})\n"
-                    f"Emoji is: {sticker_emoji}",
-                    parse_mode=ParseMode.MARKDOWN)
+                    bot.add_sticker_to_set(user_id=user.id, name=packname,
+                                           png_sticker=sticker, emojis=sticker_emoji)
+                msg.reply_text(f"Sticker successfully added to [pack](t.me/addstickers/{packname})\n"
+                               f"Emoji is: {sticker_emoji}",
+                               parse_mode=ParseMode.MARKDOWN)
             elif e.message == "Invalid sticker emojis":
                 msg.reply_text("Invalid emoji(s).")
             elif e.message == "Stickers_too_much":
@@ -156,11 +143,8 @@ def kang(bot: Bot, update: Update, args: List[str]):
             with open('kangsticker.png', 'rb') as sticker:
                 msg.reply_photo(photo=sticker)
             with open('kangsticker.png', 'rb') as sticker:
-                bot.add_sticker_to_set(
-                    user_id=user.id,
-                    name=packname,
-                    png_sticker=sticker,
-                    emojis=sticker_emoji)
+                bot.add_sticker_to_set(user_id=user.id, name=packname,
+                                       png_sticker=sticker, emojis=sticker_emoji)
             msg.reply_text(
                 f"Sticker successfully added to [pack](t.me/addstickers/{packname})\n"
                 f"Emoji is: {sticker_emoji}",
@@ -174,8 +158,7 @@ def kang(bot: Bot, update: Update, args: List[str]):
                 with open('kangsticker.png', 'rb') as sticker:
                     makepack_internal(msg, user, sticker, sticker_emoji, bot)
             elif e.message == "Sticker_png_dimensions":
-                msg.reply_text(
-                    "Could not resize image to the correct dimensions.")
+                msg.reply_text("Could not resize image to the correct dimensions.")
             elif e.message == "Invalid sticker emojis":
                 msg.reply_text("Invalid emoji(s).")
             print(e)
@@ -195,30 +178,24 @@ def makepack_internal(msg, user, png_sticker, emoji, bot):
     hash = hashlib.sha1(bytearray(user.id)).hexdigest()
     packname = f"a{hash[:20]}_by_{bot.username}"
     try:
-        success = bot.create_new_sticker_set(
-            user.id,
-            packname,
-            name + "'s kang pack",
-            png_sticker=png_sticker,
-            emojis=emoji)
+        success = bot.create_new_sticker_set(user.id, packname, name + "'s kang pack",
+                                             png_sticker=png_sticker,
+                                             emojis=emoji)
     except TelegramError as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
-            msg.reply_text(
-                f"Your pack can be found [here](t.me/addstickers/{packname})",
-                parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text(f"Your pack can be found [here](t.me/addstickers/{packname})",
+                           parse_mode=ParseMode.MARKDOWN)
         elif e.message == "Peer_id_invalid":
-            msg.reply_text("Contact me in PM first.", reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Start", url=f"t.me/{bot.username}")]]))
+            msg.reply_text("Contact me in PM first.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(
+                text="Start", url=f"t.me/{bot.username}")]]))
         return
 
     if success:
-        msg.reply_text(
-            f"Sticker pack successfully created. Get it [here](t.me/addstickers/{packname})",
-            parse_mode=ParseMode.MARKDOWN)
+        msg.reply_text(f"Sticker pack successfully created. Get it [here](t.me/addstickers/{packname})",
+                       parse_mode=ParseMode.MARKDOWN)
     else:
-        msg.reply_text(
-            "Failed to create sticker pack. Possibly due to blek mejik.")
+        msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
 
 __help__ = """
@@ -230,8 +207,7 @@ __help__ = """
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
-KANG_HANDLER = DisableAbleCommandHandler(
-    "kang", kang, pass_args=True, admin_ok=True)
+KANG_HANDLER = DisableAbleCommandHandler("kang", kang, pass_args=True, admin_ok=True)
 
 
 dispatcher.add_handler(STICKERID_HANDLER)

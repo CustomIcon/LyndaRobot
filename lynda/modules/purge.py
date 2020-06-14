@@ -45,16 +45,14 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
             delete_to = msg.message_id - 1
             start_message_id = delete_to - messages_to_delete
 
-        for m_id in range(delete_to, start_message_id, -
-                          1):  # Reverse iteration over message ids
+        for m_id in range(delete_to, start_message_id, -1):  # Reverse iteration over message ids
 
             try:
                 bot.deleteMessage(chat.id, m_id)
             except BadRequest as err:
                 if err.message == "Message can't be deleted":
-                    bot.send_message(
-                        chat.id, "Cannot delete all messages. The messages may be too old, I might "
-                        "not have delete rights, or this might not be a supergroup.")
+                    bot.send_message(chat.id, "Cannot delete all messages. The messages may be too old, I might "
+                                              "not have delete rights, or this might not be a supergroup.")
 
                 elif err.message != "Message to delete not found":
                     LOGGER.exception("Error while purging chat messages.")
@@ -63,22 +61,18 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
             msg.delete()
         except BadRequest as err:
             if err.message == "Message can't be deleted":
-                bot.send_message(
-                    chat.id, "Cannot delete all messages. The messages may be too old, I might "
-                    "not have delete rights, or this might not be a supergroup.")
+                bot.send_message(chat.id, "Cannot delete all messages. The messages may be too old, I might "
+                                          "not have delete rights, or this might not be a supergroup.")
 
             elif err.message != "Message to delete not found":
                 LOGGER.exception("Error while purging chat messages.")
 
-        bot.send_message(
-            chat.id,
-            f"Purge <code>{delete_to - start_message_id}</code> messages.",
-            parse_mode=ParseMode.HTML)
-        return (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#PURGE\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Purged <code>{delete_to - start_message_id}</code> messages.")
+        bot.send_message(chat.id, f"Purge <code>{delete_to - start_message_id}</code> messages.",
+                         parse_mode=ParseMode.HTML)
+        return (f"<b>{html.escape(chat.title)}:</b>\n"
+                f"#PURGE\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Purged <code>{delete_to - start_message_id}</code> messages.")
 
     return ""
 
@@ -111,10 +105,8 @@ __help__ = """
  - /purge <integer X>: deletes the number of messages starting from bottom. (Counts manaully deleted messages too)
 """
 
-DELETE_HANDLER = DisableAbleCommandHandler(
-    "del", del_message, filters=Filters.group)
-PURGE_HANDLER = DisableAbleCommandHandler(
-    "purge", purge, filters=Filters.group, pass_args=True)
+DELETE_HANDLER = DisableAbleCommandHandler("del", del_message, filters=Filters.group)
+PURGE_HANDLER = DisableAbleCommandHandler("purge", purge, filters=Filters.group, pass_args=True)
 
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(PURGE_HANDLER)

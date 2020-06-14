@@ -63,9 +63,8 @@ def totranslate(bot: Bot, update: Update):
                     parse_mode=ParseMode.MARKDOWN)
             else:
                 tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
-                message.reply_text(
-                    f"Translated from `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
-                    parse_mode=ParseMode.MARKDOWN)
+                message.reply_text(f"Translated from `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
+                                   parse_mode=ParseMode.MARKDOWN)
         else:
             args = update.effective_message.text.split(None, 2)
             message = update.effective_message
@@ -97,16 +96,13 @@ def totranslate(bot: Bot, update: Update):
             if dest_lang is None:
                 detection = trl.detect(text)
                 tekstr = trl.translate(text, dest=source_lang)
-                return message.reply_text("Translated from `{}` to `{}`:\n`{}`".format(
-                    detection.lang, source_lang, tekstr.text), parse_mode=ParseMode.MARKDOWN)
+                return message.reply_text(
+                    "Translated from `{}` to `{}`:\n`{}`".format(detection.lang, source_lang, tekstr.text),
+                    parse_mode=ParseMode.MARKDOWN)
             else:
                 tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
-                message.reply_text(
-                    "Translated from `{}` to `{}`:\n`{}`".format(
-                        source_lang,
-                        dest_lang,
-                        tekstr.text),
-                    parse_mode=ParseMode.MARKDOWN)
+                message.reply_text("Translated from `{}` to `{}`:\n`{}`".format(source_lang, dest_lang, tekstr.text),
+                                   parse_mode=ParseMode.MARKDOWN)
 
     except IndexError:
         update.effective_message.reply_text(
@@ -116,8 +112,7 @@ def totranslate(bot: Bot, update: Update):
             "See [List of Language Codes](t.me/OnePunchSupport/12823) for a list of language codes.",
             parse_mode="markdown", disable_web_page_preview=True)
     except ValueError:
-        update.effective_message.reply_text(
-            "The intended language is not found!")
+        update.effective_message.reply_text("The intended language is not found!")
     else:
         return
 
