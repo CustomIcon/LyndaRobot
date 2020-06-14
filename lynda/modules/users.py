@@ -61,7 +61,10 @@ def broadcast(bot: Bot, update: Update):
                 sleep(0.1)
             except TelegramError:
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
+                LOGGER.warning(
+                    "Couldn't send broadcast to %s, group name %s", str(
+                        chat.chat_id), str(
+                        chat.chat_name))
 
         update.effective_message.reply_text(
             f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked.")
@@ -99,8 +102,10 @@ def chats(bot: Bot, update: Update):
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
-        update.effective_message.reply_document(document=output, filename="chatlist.txt",
-                                                caption="Here is the list of chats in my Hit List.")
+        update.effective_message.reply_document(
+            document=output,
+            filename="chatlist.txt",
+            caption="Here is the list of chats in my Hit List.")
 
 
 def __stats__():
@@ -122,4 +127,8 @@ dispatcher.add_handler(BROADCAST_HANDLER)
 dispatcher.add_handler(CHATLIST_HANDLER)
 
 __mod_name__ = "Users"
-__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]
+__handlers__ = [
+    (USER_HANDLER,
+     USERS_GROUP),
+    BROADCAST_HANDLER,
+    CHATLIST_HANDLER]

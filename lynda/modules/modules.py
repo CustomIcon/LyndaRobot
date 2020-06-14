@@ -4,8 +4,16 @@ from telegram import Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async
 
 from lynda import dispatcher
-from lynda.__main__ import (IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS,
-                             USER_SETTINGS)
+from lynda.__main__ import (
+    IMPORTED,
+    HELPABLE,
+    MIGRATEABLE,
+    STATS,
+    USER_INFO,
+    DATA_IMPORT,
+    DATA_EXPORT,
+    CHAT_SETTINGS,
+    USER_SETTINGS)
 from lynda.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 
@@ -14,7 +22,9 @@ from lynda.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 def load(bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
-    load_messasge = message.reply_text(f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    load_messasge = message.reply_text(
+        f"Attempting to load module : <b>{text}</b>",
+        parse_mode=ParseMode.HTML)
 
     try:
         imported_module = importlib.import_module("lynda.modules." + text)
@@ -33,7 +43,7 @@ def load(bot: Bot, update: Update):
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
         for handler in handlers:
-            if type(handler) != tuple:
+            if not isinstance(handler, tuple):
                 dispatcher.add_handler(handler)
             else:
                 handler_name, priority = handler
@@ -68,7 +78,9 @@ def load(bot: Bot, update: Update):
     if hasattr(imported_module, "__user_settings__"):
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
 
-    load_messasge.edit_text("Successfully loaded module : <b>{}</b>".format(text), parse_mode=ParseMode.HTML)
+    load_messasge.edit_text(
+        "Successfully loaded module : <b>{}</b>".format(text),
+        parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -76,7 +88,9 @@ def load(bot: Bot, update: Update):
 def unload(bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
-    unload_messasge = message.reply_text(f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    unload_messasge = message.reply_text(
+        f"Attempting to unload module : <b>{text}</b>",
+        parse_mode=ParseMode.HTML)
 
     try:
         imported_module = importlib.import_module("lynda.modules." + text)
@@ -94,10 +108,10 @@ def unload(bot: Bot, update: Update):
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
         for handler in handlers:
-            if type(handler) == bool:
+            if isinstance(handler, bool):
                 unload_messasge.edit_text("This module can't be unloaded!")
                 return
-            elif type(handler) != tuple:
+            elif not isinstance(handler, tuple):
                 dispatcher.remove_handler(handler)
             else:
                 handler_name, priority = handler
@@ -131,7 +145,9 @@ def unload(bot: Bot, update: Update):
     if hasattr(imported_module, "__user_settings__"):
         USER_SETTINGS.pop(imported_module.__mod_name__.lower())
 
-    unload_messasge.edit_text(f"Successfully unloaded module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    unload_messasge.edit_text(
+        f"Successfully unloaded module : <b>{text}</b>",
+        parse_mode=ParseMode.HTML)
 
 
 @run_async
