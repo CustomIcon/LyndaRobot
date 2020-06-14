@@ -8,18 +8,17 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 
-from lynda.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from lynda import dispatcher, LOGGER
 from lynda.modules.disable import DisableAbleCommandHandler
 from lynda.modules.helper_funcs.chat_status import user_admin, connection_status
 from lynda.modules.helper_funcs.extraction import extract_text
 from lynda.modules.helper_funcs.filters import CustomFilters
-from lynda.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from lynda.modules.helper_funcs.misc import build_keyboard
 from lynda.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
 from lynda.modules.sql import cust_filters_sql as sql
 
 HANDLER_GROUP = 10
+
 
 @run_async
 @connection_status
@@ -45,7 +44,7 @@ def list_handlers(bot: Bot, update: Update):
 
     filter_list = ""
     for keyword in all_handlers:
-        entry = f" - <code>{html.escape(keyword)}</code>\n"
+        entry = f" - {escape_markdown(keyword)}\n"
         if len(entry) + len(filter_list) + len(BASIC_FILTER_STRING) > telegram.MAX_MESSAGE_LENGTH:
             filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
             update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
@@ -54,7 +53,7 @@ def list_handlers(bot: Bot, update: Update):
             filter_list += entry
 
     if not filter_list == BASIC_FILTER_STRING:
-        filter_list = BASIC_FILTER_STRING + filter_list
+        filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
         update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
 
 
@@ -73,7 +72,8 @@ def filters(bot: Bot, update: Update):
     if len(extracted) < 1:
         return
     # set trigger -> lower, so as to avoid adding duplicate filters with different cases
-    keyword = extracted[0]
+    keyword = extracted[0].lower()
+
     is_sticker = False
     is_document = False
     is_image = False
@@ -118,9 +118,7 @@ def filters(bot: Bot, update: Update):
     else:
         msg.reply_text("You didn't specify what to reply with!")
         return
-    if infinite_loop_check(keyword):
-        msg.reply_text("I'm afraid I can't add that regex")
-        return
+
     # Add the filter
     # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
     for handler in dispatcher.handlers.get(HANDLER_GROUP, []):
@@ -171,12 +169,8 @@ def reply_filter(bot: Bot, update: Update):
 
     chat_filters = sql.get_chat_triggers(chat.id)
     for keyword in chat_filters:
-        pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
-        match = regex_searcher(pattern, to_match)
-        if not match:
-            #Skip to next item
-            continue
-        if match:
+        pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
+        if re.search(pattern, to_match, flags=re.IGNORECASE):
             filt = sql.get_filter(chat.id, keyword)
             if filt.is_sticker:
                 message.reply_sticker(filt.reply)
@@ -203,14 +197,14 @@ def reply_filter(bot: Bot, update: Update):
                     if excp.message == "Unsupported url protocol":
                         message.reply_text("You seem to be trying to use an unsupported url protocol. Telegram "
                                            "doesn't support buttons for some protocols, such as tg://. Please try "
-                                           f"again, or ask in @lyndaEagleSupport for help.")
+                                           "again, or ask in @LyndaEagleSupport for help.")
                     elif excp.message == "Reply message not found":
                         bot.send_message(chat.id, filt.reply, parse_mode=ParseMode.MARKDOWN,
                                          disable_web_page_preview=True,
                                          reply_markup=keyboard)
                     else:
                         message.reply_text("This note could not be sent, as it is incorrectly formatted. Ask in "
-                                           f"@lyndaEagleSupport if you can't figure out why!")
+                                           "@LyndaEagleSupport if you can't figure out why!")
                         LOGGER.warning("Message %s could not be parsed", str(filt.reply))
                         LOGGER.exception("Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id))
 
@@ -234,17 +228,13 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- • `/filters`*:* list all active filters in this chat.
-*Admins only:*
- • `/filter <keyword> <reply message>`*:* adds a filter to this chat. The bot will now reply that message whenever 'keyword'\
-is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. \
-If you want your keyword to be a sentence, use quotes. 
-*Example:* `/filter "hey there" How you doin?`
- • `/stop <filter keyword>`*:* stop that filter.
-Note: Filters now have regex so any existing filters you have are case insensitive by default.\
-To save case insensitive regex use\
-`/filter "(?i) my trigger word" my reply that ignores case`\
-In case you require more advanced regex help, please reach out to us at @LyndaEagleSupport. 
+ - /filters: list all active filters in this chat.
+*Admin only:*
+ - /filter <keyword> <reply message>: add a filter to this chat. The bot will now reply that message whenever 'keyword'\
+is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
+keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
+doin?
+ - /stop <filter keyword>: stop that filter.
 """
 
 FILTER_HANDLER = CommandHandler("filter", filters)
