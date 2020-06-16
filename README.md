@@ -3,9 +3,6 @@
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/pokurt/LyndaRobot/?ref=repository-badge)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Join Support!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/LyndaEagleSupport) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/pokurt/LyndaRobot/graphs/contributors/)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LyndaRobot)
-
-
 A modular telegram Python bot running on python3 with an sqlalchemy database.
 
 Originally a [Kigyō](https://t.me/kigyorobot) fork - Lynda has evolved further and was built to be more useful for Anime Chats. 
@@ -13,8 +10,6 @@ Originally a [Kigyō](https://t.me/kigyorobot) fork - Lynda has evolved further 
 Can be found on telegram as [Lynda // Cyborg](https://t.me/LyndaRobot).
 
 The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEagleUnion), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
-
- 
 
 ## Setting up the bot (Read this before trying to use!):
 
@@ -29,14 +24,6 @@ The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEa
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
 This is because markdown parsing is done by iterating through a dict, which are ordered by default in 3.6.
-
-
-
-## How to setup on Heroku 
-For starters click on this button
-
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/pokurt/LyndaRobot)
 
 Fill in all the details , Deploy.
 Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
