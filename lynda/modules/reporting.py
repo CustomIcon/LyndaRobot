@@ -14,7 +14,7 @@ from lynda.modules.sql import reporting_sql as sql
 from lynda import dispatcher, LOGGER, SUDO_USERS, SARDEGNA_USERS
 
 REPORT_GROUP = 5
-REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
+REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS + user_admin
 
 
 @run_async
