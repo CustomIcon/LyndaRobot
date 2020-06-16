@@ -1252,10 +1252,10 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
                 backups += json.dumps(json_parser)
                 backups += "\n"
             with BytesIO(str.encode(backups)) as output:
-                output.name = "saitama_fbanned_users.json"
+                output.name = "lynda_fbanned_users.json"
                 update.effective_message.reply_document(
                     document=output,
-                    filename="saitama_fbanned_users.json",
+                    filename="lynda_fbanned_users.json",
                     caption="Total {} User are blocked by the Federation {}.".format(
                         len(getfban),
                         info['fname']))
@@ -1291,10 +1291,10 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
                     reason=getuserinfo['reason'])
                 backups += "\n"
             with BytesIO(str.encode(backups)) as output:
-                output.name = "saitama_fbanned_users.csv"
+                output.name = "lynda_fbanned_users.csv"
                 update.effective_message.reply_document(
                     document=output,
-                    filename="saitama_fbanned_users.csv",
+                    filename="lynda_fbanned_users.csv",
                     caption="Total {} User are blocked by Federation {}.".format(
                         len(getfban),
                         info['fname']))
