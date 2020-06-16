@@ -50,14 +50,10 @@ RUN apt update && apt upgrade -y && \
     libyaml-dev \
     sqlite3 \
     libsqlite3-dev \
-    sudo \
     zlib1g \
-    ffmpeg \
     libssl-dev \
-    g++ \
     libopus0 \
     libopus-dev \
-    pkg-config \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
 
 # Pypi package Repo upgrade
@@ -66,10 +62,6 @@ RUN pip3 install --upgrade pip setuptools
 # Copy Python Requirements to /root/LyndaRobot
 RUN git clone https://github.com/pokurt/LyndaRobot.git /root/LyndaRobot
 WORKDIR /root/LyndaRobot
-
-#Copy config file to /root/LyndaRobot/Lynda
-COPY ./LyndaRobot/sample_config.py ./LyndaRobot/config.py* /root/LyndaRobot/lynda/
-COPY ./LyndaRobot/elevated_users.json.sample ./LyndaRobot/elevated_users.json* /root/LyndaRobot/lynda/
 
 ENV PATH="/home/lynda/bin:$PATH"
 
