@@ -501,7 +501,7 @@ def sudolist(bot: Bot, update: Update):
 @whitelist_plus
 def devlist(bot: Bot, update: Update):
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
-    reply = "<b>Hero Union Members ⚡️:</b>\n"
+    reply = "<b>Eagle Union Members ⚡️:</b>\n"
     for each_user in true_dev:
         user_id = int(each_user)
         try:
@@ -513,13 +513,13 @@ def devlist(bot: Bot, update: Update):
 
 
 __help__ = """
- - /Eagle - Lists all Hero Union members.
+ - /Eagle - Lists all Eagle Union members.
  - /Royals - Lists all Royal Nations.
  - /Sakuras - Lists all Sakura Nations.
  - /Sardegnas - Lists all Sardegnas Nations.
  - /Neptunians - Lists all Neptunia Nations.
  Note: These commands list users with special bot priveleges and can only be used by them.
- You can visit @YorktownEagleUnion to query more about these.
+ You can visit @YorktownEagleUnion or @LyndaEagleSupport to query more about these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "addRoyal"), addsudo, pass_args=True)
