@@ -138,7 +138,7 @@ def del_fed(bot: Bot, update: Update, args: List[str]):
         message.reply_text("What should I delete?")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         message.reply_text(
             "Only federation owners can do this!")
         return
@@ -354,7 +354,7 @@ def user_demote_fed(bot: Bot, update: Update, args: List[str]):
                 "The thing you are trying to demote me from will fail to work without me! Just saying.")
             return
 
-        if sql.search_user_in_fed(fed_id, user_id) == False:
+        if sql.search_user_in_fed(fed_id, user_id) is False:
             message.reply_text(
                 "I cannot demote people who are not federation admins!")
             return
@@ -387,7 +387,7 @@ def fed_info(bot: Bot, update: Update, args: List[str]):
             return
         info = sql.get_fed_info(fed_id)
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text(
             "Only a federation admin can do this!")
         return
@@ -436,7 +436,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
             "This group is not in any federation!")
         return
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text(
             "Only federation admins can do this!")
         return
@@ -486,7 +486,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
     info = sql.get_fed_info(fed_id)
     getfednotif = sql.user_feds_report(info['owner'])
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text(
             "Only federation admins can do this!")
         return
@@ -860,7 +860,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
     info = sql.get_fed_info(fed_id)
     getfednotif = sql.user_feds_report(info['owner'])
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text(
             "Only federation admins can do this!")
         return
@@ -1057,7 +1057,7 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
             "This group is not in any federation!")
         return
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text("Only fed admins can do this!")
         return
 
@@ -1130,7 +1130,7 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
         chat = update.effective_chat
         fed_id = sql.get_fed_id(chat.id)
         fedinfo = sql.get_fed_info(fed_id)
-        if is_user_fed_owner(fed_id, user.id) == False:
+        if is_user_fed_owner(fed_id, user.id) is False:
             message.reply_text(
                 "Only federation owners can do this!")
             return
@@ -1195,7 +1195,7 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
             "This group is not a part of any federation!")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         message.reply_text(
             "Only Federation owners can do this!")
         return
@@ -1386,7 +1386,7 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
             "This group is not a part of any federation!")
         return
 
-    if is_user_fed_admin(fed_id, user.id) == False:
+    if is_user_fed_admin(fed_id, user.id) is False:
         message.reply_text(
             "Only federation admins can do this!")
         return
@@ -1442,7 +1442,7 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
             "This group is not a part of any federation!")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         message.reply_text(
             "Only Federation owners can do this!")
         return
@@ -1851,7 +1851,7 @@ def subs_feds(bot, update, args):
         send_message(message, "This group is not in any federation!")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         send_message(message, "Only fed owner can do this!")
         return
 
@@ -1903,7 +1903,7 @@ def unsubs_feds(bot, update, args):
         send_message(message, "This group is not in any federation!")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         send_message(message, "Only fed owner can do this!")
         return
 
@@ -1958,7 +1958,7 @@ def get_myfedsubs(bot, update, args):
         send_message(message, "This group is not in any federation!")
         return
 
-    if is_user_fed_owner(fed_id, user.id) == False:
+    if is_user_fed_owner(fed_id, user.id) is False:
         send_message(message, "Only fed owner can do this!")
         return
 
@@ -2012,7 +2012,7 @@ def is_user_fed_owner(fed_id, user_id):
     if not getsql:
         return False
     getfedowner = eval(getsql['fusers'])
-    if getfedowner is None or getfedowner == False:
+    if getfedowner is None or getfedowner is False:
         return False
     getfedowner = getfedowner['owner']
     if str(user_id) == getfedowner or int(user_id) == OWNER_ID:
