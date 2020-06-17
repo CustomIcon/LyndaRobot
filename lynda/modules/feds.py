@@ -2090,7 +2090,7 @@ def get_chat(chat_id, chat_data):
 @run_async
 def fed_owner_help(bot: Bot, update: Update):
     message = update.effective_message
-    message.reply_text("""**Fed Owner Only:**
+    message.reply_text("""Fed Owner Only:
  - /newfed <fed_name> : Creates a Federation, One allowed per user. Can also be used to rename the Fed. (max. 64 chars)
  - /delfed <fed_id> : Delete a Federation, and any information related to it. Will not cancel blocked users.
  - /fpromote <user> : Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
@@ -2108,7 +2108,7 @@ def fed_owner_help(bot: Bot, update: Update):
 @run_async
 def fed_admin_help(bot: Bot, update: Update):
     message = update.effective_message
-    message.reply_text("""**Fed Admins:**
+    message.reply_text("""Fed Admins:
  - /fban <user> <reason> : Fed bans a user.
  - /unfban <user> <reason> : Removes a user from a fed ban.
  - /fedinfo <fed_id> : Information about the specified Federation.
@@ -2127,7 +2127,7 @@ def fed_admin_help(bot: Bot, update: Update):
 @run_async
 def fed_user_help(bot: Bot, update: Update):
     message = update.effective_message
-    message.reply_text("""**Any user:**
+    message.reply_text("""Any user:
  - /fbanstat : Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
  - /chatfed : See the Federation in the current chat.
     """, 
