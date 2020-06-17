@@ -2100,7 +2100,10 @@ def fed_owner_help(bot: Bot, update: Update):
  - /setfedlog <fed_id> : Sets the group as a fed log report base for the federation.
  - /unsetfedlog <fed_id> : Removed the group as a fed log report base for the federation.
  - /fbroadcast <message> : Broadcasts a messages to all groups that have joined your fed.
- - /fedsubs : Shows the feds your group is subscribed to. `(broken rn)`""", parse_mode=ParseMode.MARKDOWN)
+ - /fedsubs : Shows the feds your group is subscribed to. `(broken rn)`
+    """,
+                        parse_mode=ParseMode.MARKDOWN
+                    )
 
 
 @run_async
@@ -2117,7 +2120,10 @@ def fed_admin_help(bot: Bot, update: Update):
  - /frules : See Federation regulations.
  - /fedadmins : Show Federation admin.
  - /fbanlist : Displays all users who are victimized at the Federation at this time.
- - /fedchats : Get all the chats that are connected in the Federation.\n""", parse_mode=ParseMode.MARKDOWN)
+ - /fedchats : Get all the chats that are connected in the Federation.
+    """,
+                        parse_mode=ParseMode.MARKDOWN
+                    )
 
 
 @run_async
@@ -2125,7 +2131,10 @@ def fed_user_help(bot: Bot, update: Update):
     message = update.effective_message
     message.reply_text("""*Any user:*
  - /fbanstat : Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
- - /chatfed : See the Federation in the current chat.\n""", parse_mode=ParseMode.MARKDOWN)
+ - /chatfed : See the Federation in the current chat.
+    """, 
+                        parse_mode=ParseMode.MARKDOWN
+                    )
 
 
 __mod_name__ = "Federations"
