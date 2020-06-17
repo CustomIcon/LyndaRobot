@@ -2109,7 +2109,7 @@ def fed_owner_help(bot: Bot, update: Update):
 @run_async
 def fed_admin_help(bot: Bot, update: Update):
     message = update.effective_message
-    message.reply_text("""*Fed Admins:*
+    message.reply_text("""<b>Fed Admins:</b>
  - /fban <user> <reason> : Fed bans a user.
  - /unfban <user> <reason> : Removes a user from a fed ban.
  - /fedinfo <fed_id> : Information about the specified Federation.
@@ -2122,7 +2122,7 @@ def fed_admin_help(bot: Bot, update: Update):
  - /fbanlist : Displays all users who are victimized at the Federation at this time.
  - /fedchats : Get all the chats that are connected in the Federation.
     """,
-                        parse_mode=ParseMode.MARKDOWN
+                        parse_mode=ParseMode.HTML
                     )
 
 
