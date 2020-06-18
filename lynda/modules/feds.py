@@ -538,7 +538,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
         if not str(user_id).isdigit():
             send_message(message, excp.message)
             return
-        elif not len(str(user_id)) == 9:
+        elif len(str(user_id)) != 9:
             send_message(message, "That's so not a user!")
             return
         isvalid = False
@@ -881,7 +881,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
         if not str(user_id).isdigit():
             send_message(message, excp.message)
             return
-        elif not len(str(user_id)) == 9:
+        elif len(str(user_id)) != 9:
             send_message(message, "That's so not a user!")
             return
         isvalid = False
