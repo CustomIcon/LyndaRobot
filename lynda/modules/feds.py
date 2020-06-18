@@ -79,15 +79,10 @@ def new_fed(bot: Bot, update: Update):
         fed_id = str(uuid.uuid4())
         fed_name = fednam
         LOGGER.info(fed_id)
-
-        # Currently only for creator
-        # if fednam == 'Team Nusantara Disciplinary Circle':
-        #fed_id = "TeamNusantaraDevs"
-
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             message.reply_text(
-                "Can't federate! Please contact @OnePunchSupport if the problem persist.")
+                "Can't federate! Please contact @LyndaEagleSupport if the problem persist.")
             return
 
         message.reply_text(
@@ -216,7 +211,7 @@ def join_fed(bot: Bot, update: Update, args: List[str]):
         x = sql.chat_join_fed(args[0], chat.title, chat.id)
         if not x:
             message.reply_text(
-                "Failed to join federation! Please contact @OnePunchSupport should this problem persist!")
+                "Failed to join federation! Please contact @LyndaEagleSupport should this problem persist!")
             return
 
         get_fedlog = sql.get_fed_log(args[0])
@@ -578,7 +573,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
                           int(time.time()))
         if not x:
             message.reply_text(
-                "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport.")
+                "Failed to ban from the federation! If this problem continues, contact @LyndaEagleSupport.")
             return
 
         fed_chats = sql.all_fed_chats(fed_id)
@@ -718,7 +713,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
                       int(time.time()))
     if not x:
         message.reply_text(
-            "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport.")
+            "Failed to ban from the federation! If this problem continues, contact @LyndaEagleSupport.")
         return
 
     fed_chats = sql.all_fed_chats(fed_id)
@@ -1074,7 +1069,7 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
         x = sql.set_frules(fed_id, markdown_rules)
         if not x:
             message.reply_text(
-                "Whoa! There was an error while setting federation rules! If you wondered why please ask it in @OnePunchSupport !")
+                "Whoa! There was an error while setting federation rules! If you wondered why please ask it in @LyndaEagleSupport !")
             return
 
         rules = sql.get_fed_info(fed_id)['frules']
