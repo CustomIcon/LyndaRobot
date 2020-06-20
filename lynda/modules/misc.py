@@ -39,7 +39,6 @@ This will create two buttons on a single line, instead of one button per line.
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
 """
 
-
 @run_async
 def get_id(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
@@ -48,7 +47,6 @@ def get_id(bot: Bot, update: Update, args: List[str]):
     user_id = extract_user(msg, args)
 
     if user_id:
-
         if msg.reply_to_message and msg.reply_to_message.forward_from:
 
             user1 = message.reply_to_message.from_user
@@ -221,6 +219,7 @@ __help__ = """
  - /gifid: reply to a gif to me to tell you its file ID.
  - /info: get information about a user.
  - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
+ - /karma - Coming soon
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
@@ -248,4 +247,5 @@ __handlers__ = [
     INFO_HANDLER,
     ECHO_HANDLER,
     MD_HELP_HANDLER,
-    STATS_HANDLER]
+    STATS_HANDLER
+]
