@@ -38,7 +38,10 @@ This will create two buttons on a single line, instead of one button per line.
 
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
 """
-
+@run_async
+def karma(bot: Bot, update: Update):
+    message = update.effective_message
+    message.reply_text("Coming Soon!")
 
 @run_async
 def get_id(bot: Bot, update: Update, args: List[str]):
@@ -221,11 +224,13 @@ __help__ = """
  - /gifid: reply to a gif to me to tell you its file ID.
  - /info: get information about a user.
  - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
+ - /karma - Coming soon
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
+KARMA_HANDLER = DisableAbleCommandHandler("karma", karma)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler(
     "markdownhelp",
@@ -239,13 +244,16 @@ dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
+dispatcher.add_handler(KARMA_HANDLER)
 
 __mod_name__ = "Misc"
-__command_list__ = ["id", "info", "echo"]
+__command_list__ = ["id", "info", "echo", "karma"]
 __handlers__ = [
     ID_HANDLER,
     GIFID_HANDLER,
     INFO_HANDLER,
     ECHO_HANDLER,
     MD_HELP_HANDLER,
-    STATS_HANDLER]
+    STATS_HANDLER,
+    KARMA_HANDLER
+]
