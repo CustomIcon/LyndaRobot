@@ -487,7 +487,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
         return
     user_id, reason = extract_unt_fedban(message, args)
 
-    fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
+    fban, _, _ = sql.get_fban_user(fed_id, user_id)
 
     if not user_id:
         message.reply_text("You don't seem to be referring to a user")
@@ -870,8 +870,6 @@ def unfban(bot: Bot, update: Update, args: List[str]):
         isvalid = True
         fban_user_id = user_chat.id
         fban_user_name = user_chat.first_name
-        fban_user_lname = user_chat.last_name
-        fban_user_uname = user_chat.username
     except BadRequest as excp:
         if not str(user_id).isdigit():
             send_message(message, excp.message)
@@ -894,7 +892,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
     else:
         user_target = fban_user_name
 
-    fban, fbanreason, fbantime = sql.get_fban_user(fed_id, fban_user_id)
+    fban, _, _ = sql.get_fban_user(fed_id, fban_user_id)
     if not fban:
         message.reply_text("This user is not fbanned!")
         return
@@ -2022,7 +2020,7 @@ def welcome_fed(bot, update):
     user = update.effective_user
     message = update.effective_message
     fed_id = sql.get_fed_id(chat.id)
-    fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user.id)
+    fban, _, _ = sql.get_fban_user(fed_id, user.id)
     if fban:
         message.reply_text(
             "This user is banned in current federation! I will remove him.")
@@ -2042,7 +2040,7 @@ def __stats__():
 def __user_info__(user_id, chat_id):
     fed_id = sql.get_fed_id(chat_id)
     if fed_id:
-        fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
+        fban, fbanreason, _ = sql.get_fban_user(fed_id, user_id)
         info = sql.get_fed_info(fed_id)
         infoname = info['fname']
 
