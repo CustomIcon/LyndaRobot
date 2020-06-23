@@ -4,6 +4,7 @@ import sys
 import time
 import telegram.ext as tg
 import spamwatch
+from telethon import TelegramClient
 
 StartTime = time.time()
 
@@ -59,6 +60,8 @@ if ENV:
         raise Exception("Your Sardegna users list does not contain valid integers.")
 
     GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
+    API_ID = os.environ.get('API_ID', None)
+    API_HASH = os.environ.get('API_HASH', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
     URL = os.environ.get('URL', "")  # Does not contain token
     PORT = int(os.environ.get('PORT', 5000))
