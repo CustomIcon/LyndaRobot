@@ -5,6 +5,8 @@ import time
 import telegram.ext as tg
 import spamwatch
 
+from telethon import TelegramClient
+
 StartTime = time.time()
 
 # enable logging
@@ -62,6 +64,8 @@ if ENV:
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
     URL = os.environ.get('URL', "")  # Does not contain token
     PORT = int(os.environ.get('PORT', 5000))
+    API_KEY = os.environ.get('API_KEY', None)
+    API_HASH = os.environ.get('API_HASH', None)
     CERT_PATH = os.environ.get("CERT_PATH")
     DB_URI = os.environ.get('DATABASE_URL')
     DONATION_LINK = os.environ.get('DONATION_LINK')
@@ -124,7 +128,8 @@ else:
     URL = Config.URL
     PORT = Config.PORT
     CERT_PATH = Config.CERT_PATH
-
+    API_KEY = Config.API_KEY
+    API_HASH = Config.API_HASH
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
@@ -144,6 +149,7 @@ else:
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
+telethn = TelegramClient("lynda", API_KEY, API_HASH)
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 

@@ -34,3 +34,4 @@ psutil
 py-cpuinfo
 nekos.py
 spamwatch
+telethon
