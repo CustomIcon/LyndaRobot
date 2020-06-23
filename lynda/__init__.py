@@ -150,7 +150,7 @@ else:
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
-telethn = TelegramClient("lynda", API_KEY, API_HASH)
+telethn = TelegramClient("lynda", API_ID, API_HASH)
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
