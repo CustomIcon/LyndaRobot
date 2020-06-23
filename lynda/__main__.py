@@ -1,5 +1,6 @@
 import importlib
 import re
+from sys import argv
 from typing import Optional, List
 
 from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
@@ -9,7 +10,7 @@ from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 
 from lynda import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, DONATION_LINK, CERT_PATH, PORT, URL, LOGGER, \
-    ALLOW_EXCL
+    ALLOW_EXCL, telethn
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from lynda.modules import ALL_MODULES
@@ -519,10 +520,15 @@ def main():
     else:
         LOGGER.info("Using long polling.")
         updater.start_polling(timeout=15, read_latency=4)
+    if len(argv) not in (1, 3, 4):
+        telethn.disconnect()
+    else:
+        telethn.run_until_disconnected()
 
     updater.idle()
 
 
 if __name__ == '__main__':
     LOGGER.info("Successfully loaded modules: %s", str(ALL_MODULES))
+    telethn.start(bot_token=TOKEN)
     main()

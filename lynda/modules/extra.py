@@ -1,6 +1,5 @@
 import datetime
 from random import randint
-from tswift import Song
 from gtts import gTTS
 import os
 import re
@@ -411,34 +410,6 @@ def convert(bot: Bot, update: Update):
 
 
 @run_async
-def lyrics(bot: Bot, update: Update, args):
-    msg = update.effective_message
-    query = " ".join(args)
-    song = ""
-    if not query:
-        msg.reply_text("You haven't specified which song to look for!")
-        return
-    else:
-        song = Song.find_song(query)
-        if song:
-            if song.lyrics:
-                reply = song.format()
-            else:
-                reply = "Couldn't find any lyrics for that song!"
-        else:
-            reply = "Song not found!"
-        if len(reply) > 4090:
-            with open("lyrics.txt", 'w') as f:
-                f.write(f"{reply}\n\n\nOwO UwU OmO")
-            with open("lyrics.txt", 'rb') as f:
-                msg.reply_document(
-                    document=f,
-                    caption="Message length exceeded max limit! Sending as a text file.")
-        else:
-            msg.reply_text(reply)
-
-
-@run_async
 def wall(bot: Bot, update: Update, args):
     chat_id = update.effective_chat.id
     msg = update.effective_message
@@ -509,9 +480,6 @@ Example syntax: /cash 1 USD INR
 **Wallpapers: **
  - /wall <query>: get a wallpaper from wall.alphacoders.com
 
-**Lyrics: **
- - /lyrics <artist> <song>: returns the lyrics of that song.
-
 **Google Reverse Search: **
  - /reverse: Does a reverse image search of the media which it was replied to.
 
@@ -529,7 +497,6 @@ Example syntax: /cash 1 USD INR
 APP_HANDLER = DisableAbleCommandHandler("app", app)
 UD_HANDLER = DisableAbleCommandHandler("ud", ud)
 COVID_HANDLER = DisableAbleCommandHandler(["covid", "corona"], covid)
-LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
 WALL_HANDLER = DisableAbleCommandHandler("wall", wall, pass_args=True)
 CONVERTER_HANDLER = CommandHandler('cash', convert)
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
@@ -543,7 +510,6 @@ dispatcher.add_handler(REVERSE_HANDLER)
 dispatcher.add_handler(WALL_HANDLER)
 dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
-dispatcher.add_handler(LYRICS_HANDLER)
 dispatcher.add_handler(TTS_HANDLER)
 dispatcher.add_handler(UD_HANDLER)
 
@@ -552,7 +518,6 @@ __command_list__ = [
     "time",
     "cash",
     "wall",
-    "lyrics",
     "reverse",
     "covid",
     "corona",
@@ -563,7 +528,6 @@ __handlers__ = [
     TIME_HANDLER,
     CONVERTER_HANDLER,
     WALL_HANDLER,
-    LYRICS_HANDLER,
     REVERSE_HANDLER,
     COVID_HANDLER,
     TTS_HANDLER,

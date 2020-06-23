@@ -1,5 +1,4 @@
 future
-covid
 emoji
 beautifulsoup4
 requests
@@ -23,9 +22,7 @@ jikanpy
 speedtest-cli
 coffeehouse
 typing
-deezloader
 gtts
-PTable
 wikipedia
 pyowm
 animu-cf
