@@ -4,6 +4,7 @@ import sys
 import time
 import telegram.ext as tg
 import spamwatch
+
 from telethon import TelegramClient
 
 StartTime = time.time()
@@ -60,11 +61,11 @@ if ENV:
         raise Exception("Your Sardegna users list does not contain valid integers.")
 
     GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
-    API_ID = os.environ.get('API_ID', None)
-    API_HASH = os.environ.get('API_HASH', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
     URL = os.environ.get('URL', "")  # Does not contain token
     PORT = int(os.environ.get('PORT', 5000))
+    API_ID = os.environ.get('API_ID', None)
+    API_HASH = os.environ.get('API_HASH', None)
     CERT_PATH = os.environ.get("CERT_PATH")
     DB_URI = os.environ.get('DATABASE_URL')
     DONATION_LINK = os.environ.get('DONATION_LINK')
@@ -86,7 +87,7 @@ if ENV:
 
 else:
     from lynda.config import Development as Config
-    TOKEN = Config.API_KEY
+    TOKEN = Config.TOKEN
 
     try:
         OWNER_ID = int(Config.OWNER_ID)
@@ -127,7 +128,8 @@ else:
     URL = Config.URL
     PORT = Config.PORT
     CERT_PATH = Config.CERT_PATH
-
+    API_KEY = Config.API_KEY
+    API_HASH = Config.API_HASH
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
@@ -144,10 +146,11 @@ else:
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     DEEPFRY_TOKEN = Config.DEEPFRY_TOKEN
     API_WEATHER = Config.API_WEATHER
+    SW_API = Config.SW_API
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
-telethn = TelegramClient("lynda", API_ID, API_HASH)
+telethn = TelegramClient("lynda", API_KEY, API_HASH)
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
