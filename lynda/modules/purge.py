@@ -1,3 +1,4 @@
+from asyncio import sleep
 from lynda.modules.helper_funcs.telethn.chatstatus import user_is_admin 
 from lynda.modules.helper_funcs.telethn.chatstatus import can_delete_messages
 from lynda.lyn import lyndabot
@@ -32,9 +33,11 @@ async def purge_messages(event):
             await event.client.delete_messages(event.chat_id, messages)
             messages = []
 
+    message_count = len(messages)
     await event.client.delete_messages(event.chat_id, messages)
-    text = ("Purged Successfully!")
-    await event.respond(text, parse_mode='markdown')
+    msg = await event.reply(f"Purged {message_count} messages successfully!", parse_mode='markdown')
+    await sleep(5)
+    await msg.delete()
 
 
 @lyndabot(pattern="^/del$")
