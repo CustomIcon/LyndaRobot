@@ -1,6 +1,6 @@
 import threading
 
-from sqlalchemy import Column, String, UnicodeText, func, distinct, Integer, Boolean
+from sqlalchemy import Column, String, UnicodeText, Integer, Boolean
 
 from lynda.modules.sql import SESSION, BASE
 
@@ -98,6 +98,14 @@ def get_fed_id(chat_id):
 		return False
 	else:
 		return get['fid']
+
+
+def get_fed_name(chat_id):
+    get = FEDERATION_CHATS.get(str(chat_id))
+    if get is None:
+        return False
+    else:
+        return get['chat_name']
 
 
 def new_fed(owner_id, fed_name, fed_id):
@@ -381,7 +389,6 @@ def get_all_fban_users_target(fed_id, user_id):
 
 
 def get_all_fban_users_global():
-	list_fbanned = FEDERATION_BANNED_USERID
 	total = []
 	for x in list(FEDERATION_BANNED_USERID):
 		for y in FEDERATION_BANNED_USERID[x]:
@@ -389,7 +396,6 @@ def get_all_fban_users_global():
 	return total
 
 def get_all_feds_users_global():
-	list_fed = FEDERATION_BYFEDID
 	total = []
 	for x in list(FEDERATION_BYFEDID):
 		total.append(FEDERATION_BYFEDID[x])
