@@ -60,48 +60,42 @@ UNFBAN_ERRORS = {
 
 @run_async
 def new_fed(bot: Bot, update: Update):
-    chat = update.effective_chat
-    user = update.effective_user
-    message = update.effective_message
-    if chat.type != "private":
-        message.reply_text(
-            "Federations can only be created by privately messaging me.")
-        return
-    if len(message.text) == 1:
-        send_message(message,
-                     "Please write the name of the federation!")
-        return
-    fednam = message.text.split(None, 1)[1]
-    if not fednam == '':
-        fed_id = str(uuid.uuid4())
-        fed_name = fednam
-        LOGGER.info(fed_id)
-        x = sql.new_fed(user.id, fed_name, fed_id)
-        if not x:
-            message.reply_text(
-                "Can't federate! Please contact @LyndaEagleSupport if the problem persist.")
-            return
+	chat = update.effective_chat  
+	user = update.effective_user  
+	message = update.effective_message
+	if chat.type != "private":
+		update.effective_message.reply_text("Federations can only be created by privately messaging me.")
+		return
+	if len(message.text) == 1:
+		send_message(update.effective_message, "Please write the name of the federation!")
+		return
+	fednam = message.text.split(None, 1)[1]
+	if not fednam == '':
+		fed_id = str(uuid.uuid4())
+		fed_name = fednam
+		LOGGER.info(fed_id)
 
-        message.reply_text(
-            "*You have succeeded in creating a new federation!*"
-            "\nName: `{}`"
-            "\nID: `{}`"
-            "\n\nUse the command below to join the federation:"
-            "\n`/joinfed {}`".format(
-                fed_name,
-                fed_id,
-                fed_id),
-            parse_mode=ParseMode.MARKDOWN)
-        try:
-            bot.send_message(GBAN_LOGS,
-                             "New Federation: <b>{}</b>\nID: <pre>{}</pre>".format(fed_name,
-                                                                                   fed_id),
-                             parse_mode=ParseMode.HTML)
-        except BaseException:
-            LOGGER.warning("Cannot send a message to GBAN_LOGS")
-    else:
-        message.reply_text(
-            "Please write down the name of the federation")
+		# Currently only for creator
+		#if fednam == 'Team Nusantara Disciplinary Circle':
+			 #fed_id = "TeamNusantaraDevs"
+
+		x = sql.new_fed(user.id, fed_name, fed_id)
+		if not x:
+			update.effective_message.reply_text("Can't federate! Please contact @OnePunchSupport if the problem persist.")
+			return
+
+		update.effective_message.reply_text("*You have succeeded in creating a new federation!*"\
+											"\nName: `{}`"\
+											"\nID: `{}`"
+											"\n\nUse the command below to join the federation:"
+											"\n`/joinfed {}`".format(fed_name, fed_id, fed_id), parse_mode=ParseMode.MARKDOWN)
+		try:
+			bot.send_message(GBAN_LOGS,
+				"New Federation: <b>{}</b>\nID: <pre>{}</pre>".format(fed_name, fed_id), parse_mode=ParseMode.HTML)
+		except:
+			LOGGER.warning("Cannot send a message to GBAN_LOGS")
+	else:
+		update.effective_message.reply_text("Please write down the name of the federation")
 
 
 @run_async
