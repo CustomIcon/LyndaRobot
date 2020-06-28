@@ -208,7 +208,7 @@ def new_fed(owner_id, fed_name, fed_id):
             {'fid': str(fed_id), 'owner': str(owner_id), 'frules': 'Rules is not set in this federation.', 'flog': None,
             'fusers': str({'owner': str(owner_id), 'members': '[]'})})
             return fed
-        else:
+        except:
             SESSION.rollback()
             raise
 
