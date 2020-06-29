@@ -376,6 +376,8 @@ __help__ = """
  - /kick <userhandle>: kickes a user out of the group, (via handle, or reply)
 """
 
+BANME_HANDLER = DisableAbleCommandHandler(
+    "banme", banme, filters=Filters.group)
 BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
 TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
 KICK_HANDLER = CommandHandler("kick", kick, pass_args=True)
@@ -390,6 +392,7 @@ dispatcher.add_handler(KICK_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)
 dispatcher.add_handler(KICKME_HANDLER)
+dispatcher.add_handler(BANME_HANDLER)
 
 __mod_name__ = "Bans"
 __handlers__ = [
@@ -398,4 +401,5 @@ __handlers__ = [
     KICK_HANDLER,
     UNBAN_HANDLER,
     ROAR_HANDLER,
-    KICKME_HANDLER]
+    KICKME_HANDLER,
+    BANME_HANDLER]
