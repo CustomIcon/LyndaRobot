@@ -6,7 +6,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from lynda import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, SARDEGNA_USERS
+from lynda import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, SARDEGNA_USERS, BAN_STICKER
 from lynda.modules.disable import DisableAbleCommandHandler
 from lynda.modules.helper_funcs.chat_status import (
     bot_admin,
@@ -20,6 +20,19 @@ from lynda.modules.helper_funcs.extraction import extract_user_and_text
 from lynda.modules.helper_funcs.string_handling import extract_time
 from lynda.modules.log_channel import loggable, gloggable
 
+@run_async
+def banme(bot: Bot, update: Update):
+    message = update.effective_message
+    if is_user_admin(update.effective_chat, update.effective_message.from_user.id):
+        update.effective_message.reply_text("Can't ban admins as you can see.")
+        return
+    try:
+        bot.kick_chat_member(update.effective_chat.id, update.effective_message.from_user.id)
+        bot.send_sticker(update.effective_chat.id, BAN_STICKER)  # banhammer marie sticker
+        response_message = "lmao have a load of ban UwU!"
+    except Exception:
+        response_message = "Ohno! something is not right please contact @LyndaEagleSupport"
+    message.reply_text(response_message)
 
 @run_async
 @connection_status
