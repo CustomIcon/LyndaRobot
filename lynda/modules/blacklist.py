@@ -18,7 +18,7 @@ BLACKLIST_GROUP = 11
 
 @run_async
 @connection_status
-def blacklist(bot: Bot, update: Update, args: List[str]):
+def blacklist(_bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
     chat = update.effective_chat
 
@@ -57,7 +57,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(bot: Bot, update: Update):
+def add_blacklist(_bot: Bot, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -88,7 +88,7 @@ def add_blacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(bot: Bot, update: Update):
+def unblacklist(_bot: Bot, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -135,7 +135,7 @@ def unblacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(bot: Bot, update: Update):
+def del_blacklist(_bot: Bot, update: Update):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)

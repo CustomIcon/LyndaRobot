@@ -38,12 +38,14 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
         except (BadRequest, Unauthorized):
             kicked_chats += 1
             chat_list.append(cid)
-        except Exception:
+        except Exception as e:
+            print(e)
             pass
 
     try:
         progress_message.delete()
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
 
     if not remove:
@@ -68,7 +70,8 @@ def get_invalid_gban(bot: Bot, _update: Update, remove: bool = False):
         except BadRequest:
             ungbanned_users += 1
             ungban_list.append(user_id)
-        except Exception:
+        except Exception as e:
+            print(e)
             pass
 
     if not remove:
@@ -117,7 +120,8 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
                 try:
                     bot.editMessageText(
                         progress_bar, chat_id, progress_message.message_id)
-                except Exception:
+                except Exception as e:
+                    print(e)
                     pass
             else:
                 progress_message = bot.sendMessage(chat_id, progress_bar)
@@ -131,12 +135,14 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
         except (BadRequest, Unauthorized):
             muted_chats += +1
             chat_list.append(cid)
-        except Exception:
+        except Exception as e:
+            print(e)
             pass
 
     try:
         progress_message.delete()
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
 
     if not leave:
@@ -146,7 +152,8 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
             sleep(0.1)
             try:
                 bot.leaveChat(muted_chat, timeout=60)
-            except Exception:
+            except Exception as e:
+                print(e)
                 pass
             user_sql.rem_chat(muted_chat)
         return muted_chats

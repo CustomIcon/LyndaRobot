@@ -392,7 +392,7 @@ def left_member(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def welcome(bot: Bot, update: Update, args: List[str]):
+def welcome(_bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
     # if no args, show current replies.
     if not args or args[0].lower() == "noformat":
@@ -441,7 +441,7 @@ def welcome(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def goodbye(bot: Bot, update: Update, args: List[str]):
+def goodbye(_bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
 
     if not args or args[0] == "noformat":
@@ -490,7 +490,7 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 @loggable
-def set_welcome(bot: Bot, update: Update) -> str:
+def set_welcome(_bot: Bot, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -530,7 +530,7 @@ def reset_welcome(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_goodbye(bot: Bot, update: Update) -> str:
+def set_goodbye(_bot: Bot, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -551,7 +551,7 @@ def set_goodbye(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def reset_goodbye(bot: Bot, update: Update) -> str:
+def reset_goodbye(_bot: Bot, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -568,7 +568,7 @@ def reset_goodbye(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
+def welcomemute(_bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -617,7 +617,7 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @user_admin
 @loggable
-def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
+def clean_welcome(_bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -730,14 +730,14 @@ WELC_MUTE_HELP_TXT = (
 
 @run_async
 @user_admin
-def welcome_help(bot: Bot, update: Update):
+def welcome_help(_bot: Bot, update: Update):
     update.effective_message.reply_text(
         WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
 @user_admin
-def welcome_mute_help(bot: Bot, update: Update):
+def welcome_mute_help(_bot: Bot, update: Update):
     update.effective_message.reply_text(
         WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 

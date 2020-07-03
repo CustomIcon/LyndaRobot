@@ -1,12 +1,12 @@
 from asyncio import sleep
-from lynda.modules.helper_funcs.telethn.chatstatus import user_is_admin 
+from lynda.modules.helper_funcs.telethn.chatstatus import user_is_admin
 from lynda.modules.helper_funcs.telethn.chatstatus import can_delete_messages
 from lynda.lyn import lyndabot
 
 
 @lyndabot(pattern="^/purge")
 async def purge_messages(event):
-    if event.from_id == None:
+    if event.from_id is None:
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
@@ -42,7 +42,7 @@ async def purge_messages(event):
 
 @lyndabot(pattern="^/del$")
 async def delete_messages(event):
-    if event.from_id == None:
+    if event.from_id is None:
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
@@ -60,6 +60,7 @@ async def delete_messages(event):
     chat = await event.get_input_chat()
     del_message = [message, event.message]
     await event.client.delete_messages(chat, del_message)
+
 
 __help__ = """
 *Admin only:*

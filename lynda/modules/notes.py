@@ -165,7 +165,7 @@ def hash_get(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def save(bot: Bot, update: Update):
+def save(_bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
 
@@ -204,7 +204,7 @@ def save(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def clear(bot: Bot, update: Update, args: List[str]):
+def clear(_bot: Bot, update: Update, args: List[str]):
     chat_id = update.effective_chat.id
     if len(args) >= 1:
         notename = args[0]
@@ -217,7 +217,7 @@ def clear(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def list_notes(bot: Bot, update: Update):
+def list_notes(_bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
 

@@ -9,7 +9,7 @@ import urllib.request
 from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 import requests
-from typing import Optional, List
+from typing import List
 from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction
 from telegram.ext import CommandHandler, run_async
 from lynda import dispatcher, TIME_API_KEY, CASH_API_KEY, WALL_API
@@ -17,12 +17,11 @@ from lynda.modules.disable import DisableAbleCommandHandler
 
 opener = urllib.request.build_opener()
 useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.38 Safari/537.36'
-#useragent = 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'
 opener.addheaders = [('User-agent', useragent)]
 
 
 @run_async
-def app(bot: Bot, update: Update):
+def app(_bot: Bot, update: Update):
     message = update.effective_message
     try:
         progress_message = update.effective_message.reply_text(
@@ -71,7 +70,7 @@ def app(bot: Bot, update: Update):
 
 
 @run_async
-def ud(bot: Bot, update: Update):
+def ud(_bot: Bot, update: Update):
     message = update.effective_message
     text = message.text[len('/ud '):]
     results = requests.get(
@@ -84,7 +83,7 @@ def ud(bot: Bot, update: Update):
 
 
 @run_async
-def tts(bot: Bot, update: Update, args):
+def tts(_bot: Bot, update: Update, args):
     datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
     datetime.now().strftime("%d%m%y-%H%M%S%f")
     reply = " ".join(args)
@@ -131,7 +130,8 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             txt = args[0]
             try:
                 lim = int(txt)
-            except Exception:
+            except Exception as e:
+                print(e)
                 lim = 2
         else:
             lim = 2
@@ -191,7 +191,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
                 chat_id, "Image was successfully uploaded to Google."
                 "\nParsing source now. Maybe.", reply_to_message_id=rtmid)
         else:
-            xx = bot.send_message(
+            bot.send_message(
                 chat_id,
                 "Google told me to go away.",
                 reply_to_message_id=rtmid)
@@ -244,23 +244,20 @@ def reverse(bot: Bot, update: Update, args: List[str]):
 
 def ParseSauce(googleurl):
     """Parse/Scrape the HTML code for the info we want."""
-
     source = opener.open(googleurl).read()
     soup = BeautifulSoup(source, 'html.parser')
-
     results = {
         'similar_images': '',
         'override': '',
         'best_guess': ''
     }
-
     try:
         for bess in soup.findAll('a', {'class': 'PBorbe'}):
             url = 'https://www.google.com' + bess.get('href')
             results['override'] = url
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
-
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
         url = 'https://www.google.com/search?tbm=isch&q=' + \
             urllib.parse.quote_plus(similar_image.get('value'))
@@ -268,13 +265,11 @@ def ParseSauce(googleurl):
 
     for best_guess in soup.findAll('div', attrs={'class': 'r5a77d'}):
         results['best_guess'] = best_guess.get_text()
-
     return results
 
 
 def scam(imgspage, lim):
     """Parse/Scrape the HTML code for the info we want."""
-
     single = opener.open(imgspage).read()
     decoded = single.decode('utf-8')
     if int(lim) > 10:
@@ -341,7 +336,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
 
 @run_async
-def gettime(bot: Bot, update: Update):
+def gettime(_bot: Bot, update: Update):
     message = update.effective_message
 
     try:
@@ -370,7 +365,7 @@ def gettime(bot: Bot, update: Update):
 
 
 @run_async
-def convert(bot: Bot, update: Update):
+def convert(_bot: Bot, update: Update):
     args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
 
@@ -447,7 +442,7 @@ def wall(bot: Bot, update: Update, args):
 
 
 @run_async
-def covid(bot: Bot, update: Update):
+def covid(_bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(' ', 1)
     if len(text) == 1:

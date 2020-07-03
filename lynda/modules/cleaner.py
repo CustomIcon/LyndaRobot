@@ -13,7 +13,7 @@ from lynda.modules.sql import cleaner_sql as sql
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
 else:
-    CMD_STARTERS = ('/')
+    CMD_STARTERS = '/'
 
 BLUE_TEXT_CLEAN_GROUP = 15
 CommandHandlerList = (
@@ -67,7 +67,7 @@ def clean_blue_text_must_click(bot: Bot, update: Update):
 @connection_status
 @bot_can_delete
 @user_admin
-def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
+def set_blue_text_must_click(_bot: Bot, update: Update, args: List[str]):
 
     chat = update.effective_chat
     message = update.effective_message

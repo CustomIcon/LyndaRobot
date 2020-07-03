@@ -19,7 +19,7 @@ from lynda.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 @run_async
 @dev_plus
-def load(bot: Bot, update: Update):
+def load(_bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     load_messasge = message.reply_text(
@@ -85,7 +85,7 @@ def load(bot: Bot, update: Update):
 
 @run_async
 @dev_plus
-def unload(bot: Bot, update: Update):
+def unload(_bot: Bot, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     unload_messasge = message.reply_text(
@@ -152,7 +152,7 @@ def unload(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def listmodules(bot: Bot, update: Update):
+def listmodules(_bot: Bot, update: Update):
     message = update.effective_message
     module_list = []
 

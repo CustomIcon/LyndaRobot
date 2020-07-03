@@ -19,7 +19,7 @@ REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
-def report_setting(bot: Bot, update: Update, args: List[str]):
+def report_setting(_bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
 

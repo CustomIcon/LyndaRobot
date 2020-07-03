@@ -8,7 +8,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def totranslate(bot: Bot, update: Update):
+def totranslate(_bot: Bot, update: Update):
     msg = update.effective_message
     problem_lang_code = []
     for key in LANGUAGES:

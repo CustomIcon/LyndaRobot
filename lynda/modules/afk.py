@@ -13,7 +13,7 @@ AFK_REPLY_GROUP = 8
 
 
 @run_async
-def afk(bot: Bot, update: Update):
+def afk(_bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
     reason = ""
     if len(args) >= 2:
@@ -26,7 +26,7 @@ def afk(bot: Bot, update: Update):
 
 
 @run_async
-def no_longer_afk(bot: Bot, update: Update):
+def no_longer_afk(_bot: Bot, update: Update):
     user = update.effective_user
 
     if not user:

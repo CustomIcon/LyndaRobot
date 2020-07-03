@@ -87,6 +87,7 @@ if ENV:
 
 else:
     from lynda.config import Development as Config
+
     TOKEN = Config.TOKEN
 
     try:
@@ -171,7 +172,6 @@ else:
     except Exception:
         spam_watch = None
 
-
 # Load at end to ensure all prev variables have been set
 from lynda.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler
 
@@ -180,8 +180,8 @@ tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
 
+
 def spamfilters(_text, user_id, _chat_id):
-    #print("{} | {} | {}".format(text, user_id, chat_id))
     if int(user_id) in SPAMMERS:
         print("This user is a spammer!")
         return True

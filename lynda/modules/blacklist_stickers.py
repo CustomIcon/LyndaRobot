@@ -278,8 +278,10 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
             sql.set_blacklist_strength(chat_id, 5, "0")
         elif args[0].lower() == 'tban':
             if len(args) == 1:
-                teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tban <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = """You are trying to set a temporary value to blacklist, but has not determined the time;
+                use `/blstickermode tban <timevalue>`.
+                Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
+                """
                 send_message(
                     update.effective_message,
                     teks,
@@ -289,8 +291,9 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == 'tmute':
             if len(args) == 1:
-                teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tmute <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = """You are trying to set a temporary value to blacklist, but has not determined the time;
+                use `/blstickermode tmute <timevalue>`.
+                Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(
                     update.effective_message,
                     teks,

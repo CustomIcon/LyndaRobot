@@ -194,7 +194,8 @@ def anime(bot: Bot, update: Update):
 
     try:
         search_query = args[1]
-    except Exception:
+    except Exception as e:
+        print(e)
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -216,7 +217,8 @@ def anime(bot: Bot, update: Update):
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=False)
-    except Exception:
+    except Exception as e:
+        print(e)
         image = getBannerLink(first_mal_id, False)
         update.effective_message.reply_photo(
             photo=image,
@@ -228,13 +230,14 @@ def anime(bot: Bot, update: Update):
 
 
 @run_async
-def manga(bot: Bot, update: Update):
+def manga(_bot: Bot, update: Update):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
     try:
         search_query = args[1]
-    except Exception:
+    except Exception as e:
+        print(e)
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -261,13 +264,14 @@ def manga(bot: Bot, update: Update):
 
 
 @run_async
-def character(bot: Bot, update: Update):
+def character(_bot: Bot, update: Update):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
     try:
         search_query = args[1]
-    except Exception:
+    except Exception as e:
+        print(e)
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
@@ -328,7 +332,7 @@ def character(bot: Bot, update: Update):
 
 
 @run_async
-def user(bot: Bot, update: Update):
+def user(_bot: Bot, update: Update):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -360,7 +364,8 @@ def user(bot: Bot, update: Update):
     try:
         user_birthday = datetime.datetime.fromisoformat(user['birthday'])
         user_birthday_formatted = user_birthday.strftime(date_format)
-    except Exception:
+    except Exception as e:
+        print(e)
         user_birthday_formatted = "Unknown"
 
     user_joined_date = datetime.datetime.fromisoformat(user['joined'])
@@ -408,7 +413,7 @@ def user(bot: Bot, update: Update):
 
 
 @run_async
-def upcoming(bot: Bot, update: Update):
+def upcoming(_bot: Bot, update: Update):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top('anime', page=1, subtype="upcoming")
 

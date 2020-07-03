@@ -12,7 +12,7 @@ from subprocess import Popen, PIPE
 def shell(command):
     process = Popen(command, stdout=PIPE, shell=True, stderr=PIPE)
     stdout, stderr = process.communicate()
-    return (stdout, stderr)
+    return stdout, stderr
 
 
 @dev_plus

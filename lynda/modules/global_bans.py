@@ -52,7 +52,6 @@ def gban(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-    log_message = ""
 
     user_id, reason = extract_user_and_text(message, args)
 
@@ -152,7 +151,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
         try:
             log = bot.send_message(
                 GBAN_LOGS, log_message, parse_mode=ParseMode.HTML)
-        except BadRequest as excp:
+        except BadRequest as e:
+            print(e)
             log = bot.send_message(
                 GBAN_LOGS,
                 log_message +
@@ -224,7 +224,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
             "You have been globally banned from all groups where I have administrative permissions."
             "If you think that this was a mistake, you may appeal your ban here: @Aman_Ahmed",
             parse_mode=ParseMode.HTML)
-    except Exception:
+    except Exception as e:
+        print(e)
         pass  # bot probably blocked by user
 
 
@@ -234,7 +235,6 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-    log_message = ""
 
     user_id = extract_user(message, args)
 
@@ -289,7 +289,6 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     for chat in chats:
         chat_id = chat.chat_id
 
-        # Check if this group has disabled gbans
         if not sql.does_chat_gban(chat_id):
             continue
 
@@ -340,7 +339,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @support_plus
-def gbanlist(bot: Bot, update: Update):
+def gbanlist(_bot: Bot, update: Update):
     banned_users = sql.get_gban_list()
 
     if not banned_users:
@@ -376,7 +375,8 @@ def check_and_ban(update, user_id, should_message=True):
                     return
                 else:
                     return
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
 
     if sql.is_user_gbanned(user_id):
@@ -414,7 +414,7 @@ def enforce_gban(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def gbanstat(bot: Bot, update: Update, args: List[str]):
+def gbanstat(_bot: Bot, update: Update, args: List[str]):
     if len(args) > 0:
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)

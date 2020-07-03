@@ -12,7 +12,7 @@ import lynda.modules.sql.last_fm_sql as sql
 
 
 @run_async
-def set_user(bot: Bot, update: Update, args):
+def set_user(_bot: Bot, update: Update, args):
     msg = update.effective_message
     if args:
         user = update.effective_user.id
@@ -25,7 +25,7 @@ def set_user(bot: Bot, update: Update, args):
 
 
 @run_async
-def clear_user(bot: Bot, update: Update):
+def clear_user(_bot: Bot, update: Update):
     user = update.effective_user.id
     sql.set_user(user, "")
     update.effective_message.reply_text(
@@ -33,7 +33,7 @@ def clear_user(bot: Bot, update: Update):
 
 
 @run_async
-def last_fm(bot: Bot, update: Update):
+def last_fm(_bot: Bot, update: Update):
     msg = update.effective_message
     user = update.effective_user.first_name
     user_id = update.effective_user.id
@@ -84,16 +84,7 @@ def last_fm(bot: Bot, update: Update):
     msg.reply_text(rep, parse_mode=ParseMode.HTML)
 
 
-# __help__ = """
-# Share what you're what listening to with the help of this module!
-# *Available commands:*
-#  - /setuser <username>: sets your last.fm username.
-#  - /clearuser: removes your last.fm username from the bot's database.
-#  - /lastfm: returns what you're scrobbling on last.fm.
-# """
-
 __mod_name__ = "Last.FM"
-
 
 SET_USER_HANDLER = CommandHandler("setuser", set_user, pass_args=True)
 CLEAR_USER_HANDLER = CommandHandler("clearuser", clear_user)

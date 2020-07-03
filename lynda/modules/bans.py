@@ -20,6 +20,7 @@ from lynda.modules.helper_funcs.extraction import extract_user_and_text
 from lynda.modules.helper_funcs.string_handling import extract_time
 from lynda.modules.log_channel import loggable, gloggable
 
+
 @run_async
 def banme(bot: Bot, update: Update):
     message = update.effective_message
@@ -33,6 +34,7 @@ def banme(bot: Bot, update: Update):
     except Exception:
         response_message = "Ohno! something is not right please contact @LyndaEagleSupport"
     message.reply_text(response_message)
+
 
 @run_async
 @connection_status
@@ -258,10 +260,11 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def kickme(bot: Bot, update: Update):
-    user_id = update.effective_message.from_user.id
+def kickme(_bot: Bot, update: Update):
+    message = update.effective_message
+    user_id = message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
-        update.effective_message.reply_text(
+        message.reply_text(
             "I wish I could... but you're an admin.")
         return
 
