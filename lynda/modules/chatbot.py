@@ -14,14 +14,13 @@ import lynda.modules.sql.chatbot_sql as sql
 from lynda.modules.helper_funcs.chat_status import user_admin
 from lynda.modules.helper_funcs.filters import CustomFilters
 
-
 CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
 @run_async
 @user_admin
-def add_chat(bot: Bot, update: Update):
+def add_chat(_bot: Bot, update: Update):
     global api_client
     chat_id = update.effective_chat.id
     msg = update.effective_message
@@ -38,7 +37,7 @@ def add_chat(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def remove_chat(bot: Bot, update: Update):
+def remove_chat(_bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
@@ -91,6 +90,7 @@ def chatbot(bot: Bot, update: Update):
             bot.send_message(
                 OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
 
+
 @run_async
 def list_chatbot(bot: Bot, update: Update):
     chats = sql.get_all_chats()
@@ -107,6 +107,7 @@ def list_chatbot(bot: Bot, update: Update):
         except RetryAfter as e:
             sleep(e.retry_after)
     update.effective_message.reply_text(text, parse_mode="HTML")
+
 
 __mod_name__ = "Chatbot"
 

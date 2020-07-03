@@ -60,7 +60,7 @@ def cleanup_code(code):
     return code.strip('` \n')
 
 
-def do(func, bot, update):
+def do(_func, bot, update):
     log_input(update)
     content = update.message.text.split(' ', 1)[-1]
     body = cleanup_code(content)

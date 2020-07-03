@@ -11,8 +11,7 @@ from telegram.utils.helpers import escape_markdown
 
 from lynda import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, DONATION_LINK, CERT_PATH, PORT, URL, LOGGER, \
     ALLOW_EXCL, telethn
-# needed to dynamically load modules
-# NOTE: Module order is not guaranteed, specify that in the config file!
+
 from lynda.modules import ALL_MODULES
 from lynda.modules.helper_funcs.chat_status import is_user_admin
 from lynda.modules.helper_funcs.misc import paginate_modules
@@ -117,16 +116,6 @@ def send_help(chat_id, text, keyboard=None):
 
 
 @run_async
-def test(bot: Bot, update: Update):
-    """test"""
-    # pprint(eval(str(update)))
-    # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    message = update.effective_message
-    message.reply_text("This person edited a message")
-    print(message)
-
-
-@run_async
 def start(bot: Bot, update: Update, args: List[str]):
     """Triggers start command in pm and in groupchats"""
     message = update.effective_message
@@ -170,7 +159,7 @@ def start(bot: Bot, update: Update, args: List[str]):
 
 
 # for test purposes
-def error_callback(bot, update, error):
+def error_callback(_bot, _update, error):
     """Callback error Handler"""
     try:
         raise error
@@ -480,21 +469,15 @@ def migrate_chats(_bot: Bot, update: Update):
 
 def main():
     """Initial Startup results"""
-    CommandHandler("test", test)
     start_handler = CommandHandler("start", start, pass_args=True)
-
     help_handler = CommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_")
-
     settings_handler = CommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(
         settings_button, pattern=r"stngs_")
-
     donate_handler = CommandHandler("donate", donate)
     migrate_handler = MessageHandler(
         Filters.status_update.migrate, migrate_chats)
-
-    # dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(settings_handler)

@@ -71,7 +71,7 @@ def broadcast(bot: Bot, update: Update):
 
 
 @run_async
-def log_user(bot: Bot, update: Update):
+def log_user(_bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -93,7 +93,7 @@ def log_user(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def chats(bot: Bot, update: Update):
+def chats(_bot: Bot, update: Update):
 
     all_chats = sql.get_all_chats() or []
     chatfile = 'List of chats.\n'

@@ -36,12 +36,11 @@ WIDE_MAP[0x20] = 0x3000
 
 
 @run_async
-def owo(bot: Bot, update: Update):
+def owo(_bot: Bot, update: Update):
     message = update.effective_message
     if not message.reply_to_message:
         message.reply_text("I need a message to meme. OwO")
     else:
-        reply_text = re.sub(r'[rl]', "w", message.reply_to_message.text)
         reply_text = re.sub(r'[ｒｌ]', "ｗ", message.reply_to_message.text)
         reply_text = re.sub(r'[RL]', 'W', reply_text)
         reply_text = re.sub(r'[ＲＬ]', 'Ｗ', reply_text)
@@ -68,7 +67,7 @@ def owo(bot: Bot, update: Update):
 
 
 @run_async
-def stretch(bot: Bot, update: Update):
+def stretch(_bot: Bot, update: Update):
     message = update.effective_message
     if not message.reply_to_message:
         message.reply_text("I need a message to meme.")
@@ -82,7 +81,7 @@ def stretch(bot: Bot, update: Update):
 
 
 @run_async
-def vapor(bot: Bot, update: Update, args: List[str]):
+def vapor(_bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
     if not message.reply_to_message:
         if not args:
@@ -105,7 +104,7 @@ def vapor(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def kan(bot: Bot, update: Update):
+def kan(_bot: Bot, update: Update):
     msg = update.effective_message
     if not msg.reply_to_message:
         msg.reply_text("need to reply to a message to kannify.")
@@ -126,7 +125,7 @@ def kan(bot: Bot, update: Update):
 
 
 @run_async
-def eightball(bot: Bot, update: Update):
+def eightball(_bot: Bot, update: Update):
     msg = update.effective_message
     target = '8ball'
     with open("temp.png", "wb") as f:
@@ -159,7 +158,7 @@ def changemymind(bot: Bot, update: Update):
 
 
 @run_async
-def trumptweet(bot: Bot, update: Update):
+def trumptweet(_bot: Bot, update: Update):
     msg = update.effective_message
     if not msg.reply_to_message:
         msg.reply_text("need to reply to a message to tweet")
@@ -180,7 +179,7 @@ def trumptweet(bot: Bot, update: Update):
 
 
 @run_async
-def zalgotext(bot: Bot, update: Update):
+def zalgotext(_bot: Bot, update: Update):
     message = update.effective_message
     if message.reply_to_message:
         data = message.reply_to_message.text
@@ -192,7 +191,7 @@ def zalgotext(bot: Bot, update: Update):
 
 
 @run_async
-def forbesify(bot: Bot, update: Update):
+def forbesify(_bot: Bot, update: Update):
     message = update.effective_message
     if message.reply_to_message:
         data = message.reply_to_message.text
@@ -275,12 +274,11 @@ async def process_deepfry(image: Image, reply: Message, _bot: Bot):
 
 
 @run_async
-def shout(bot: Bot, update: Update, args):
+def shout(_bot: Bot, update: Update, args):
     if len(args) == 0:
         update.effective_message.reply_text("Where is text?")
         return
 
-    msg = "```"
     text = " ".join(args)
     result = []
     result.append(' '.join(s for s in text))
@@ -294,7 +292,7 @@ def shout(bot: Bot, update: Update, args):
 
 
 @run_async
-def copypasta(bot: Bot, update: Update):
+def copypasta(_bot: Bot, update: Update):
     message = update.effective_message
     reply_text = random.choice(fun_strings.emojis)
     # choose a random character in the message to be substituted with 🅱️
@@ -317,7 +315,7 @@ def copypasta(bot: Bot, update: Update):
 
 
 @run_async
-def bmoji(bot: Bot, update: Update):
+def bmoji(_bot: Bot, update: Update):
     message = update.effective_message
     # choose a random character in the message to be substituted with 🅱️
     b_char = random.choice(message.reply_to_message.text).lower()
@@ -327,7 +325,7 @@ def bmoji(bot: Bot, update: Update):
 
 
 @run_async
-def clapmoji(bot: Bot, update: Update):
+def clapmoji(_bot: Bot, update: Update):
     message = update.effective_message
     reply_text = "👏 "
     reply_text += message.reply_to_message.text.replace(" ", " 👏 ")
@@ -336,7 +334,7 @@ def clapmoji(bot: Bot, update: Update):
 
 
 @run_async
-def angrymoji(bot: Bot, update: Update):
+def angrymoji(_bot: Bot, update: Update):
     message = update.effective_message
     reply_text = "😡 "
     for i in message.reply_to_message.text:
@@ -349,7 +347,7 @@ def angrymoji(bot: Bot, update: Update):
 
 
 @run_async
-def crymoji(bot: Bot, update: Update):
+def crymoji(_bot: Bot, update: Update):
     message = update.effective_message
     reply_text = "😭 "
     for i in message.reply_to_message.text:
@@ -362,7 +360,7 @@ def crymoji(bot: Bot, update: Update):
 
 
 @run_async
-def me_too(bot: Bot, update: Update):
+def me_too(_bot: Bot, update: Update):
     message = update.effective_message
     if random.randint(0, 100) > 60:
         reply = random.choice(
@@ -371,7 +369,7 @@ def me_too(bot: Bot, update: Update):
 
 
 @run_async
-def weebify(bot: Bot, update: Update, args: List[str]):
+def weebify(_bot: Bot, update: Update, args: List[str]):
     string = '  '.join(args).lower()
     for normiecharacter in string:
         if normiecharacter in fun_strings.NORMIEFONT:
@@ -387,7 +385,7 @@ def weebify(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def runs(bot: Bot, update: Update):
+def runs(_bot: Bot, update: Update):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 
@@ -447,7 +445,7 @@ def slap(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def pat(bot: Bot, update: Update):
+def pat(_bot: Bot, update: Update):
     msg = update.effective_message
     pat = requests.get("https://some-random-api.ml/animu/pat").json()
     link = pat.get("link")
@@ -458,7 +456,7 @@ def pat(bot: Bot, update: Update):
 
 
 @run_async
-def hug(bot: Bot, update: Update):
+def hug(_bot: Bot, update: Update):
     msg = update.effective_message
     hug = requests.get("https://some-random-api.ml/animu/hug").json()
     link = hug.get("link")
@@ -469,38 +467,38 @@ def hug(bot: Bot, update: Update):
 
 
 @run_async
-def roll(bot: Bot, update: Update):
+def roll(_bot: Bot, update: Update):
     update.message.reply_text(random.choice(range(1, 7)))
 
 
 @run_async
-def toss(bot: Bot, update: Update):
+def toss(_bot: Bot, update: Update):
     update.message.reply_text(random.choice(fun_strings.TOSS))
 
 
 @run_async
-def abuse(bot: Bot, update: Update):
+def abuse(_bot: Bot, update: Update):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(random.choice(fun_strings.ABUSE_STRINGS))
 
 
 @run_async
-def insult(bot: Bot, update: Update):
+def insult(_bot: Bot, update: Update):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(random.choice(fun_strings.INSULT_STRINGS))
 
 
 @run_async
-def shrug(bot: Bot, update: Update):
+def shrug(_bot: Bot, update: Update):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(r"¯\_(ツ)_/¯")
 
 
 @run_async
-def bluetext(bot: Bot, update: Update):
+def bluetext(_bot: Bot, update: Update):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(
@@ -508,7 +506,7 @@ def bluetext(bot: Bot, update: Update):
 
 
 @run_async
-def rlg(bot: Bot, update: Update):
+def rlg(_bot: Bot, update: Update):
     eyes = random.choice(fun_strings.EYES)
     mouth = random.choice(fun_strings.MOUTHS)
     ears = random.choice(fun_strings.EARS)
@@ -521,19 +519,19 @@ def rlg(bot: Bot, update: Update):
 
 
 @run_async
-def decide(bot: Bot, update: Update):
+def decide(_bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
 
 
 @run_async
-def table(bot: Bot, update: Update):
+def table(_bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
 
 
 @run_async
-def react(bot: Bot, update: Update):
+def react(_bot: Bot, update: Update):
     message = update.effective_message
     react = random.choice(fun_strings.REACTIONS)
     if message.reply_to_message:
@@ -543,7 +541,7 @@ def react(bot: Bot, update: Update):
 
 
 @run_async
-def police(bot: Bot, update: Update):
+def police(_bot: Bot, update: Update):
     message = update.effective_message.reply_text('/police')
     for i in fun_strings.POLICE:
         message.edit_text(i)
@@ -551,7 +549,7 @@ def police(bot: Bot, update: Update):
 
 
 @run_async
-def moon(bot: Bot, update: Update):
+def moon(_bot: Bot, update: Update):
     message = update.effective_message.reply_text('/moon')
     for i in fun_strings.MOON:
         message.edit_text(i)
@@ -559,7 +557,7 @@ def moon(bot: Bot, update: Update):
 
 
 @run_async
-def clock(bot: Bot, update: Update):
+def clock(_bot: Bot, update: Update):
     message = update.effective_message.reply_text('/moon')
     for i in fun_strings.CLOCK:
         message.edit_text(i)

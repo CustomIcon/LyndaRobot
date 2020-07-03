@@ -96,7 +96,8 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         user_member = chat.get_member(user_id)
-    except Exception:
+    except Exception as e:
+        print(e)
         return log_message
 
     if user_member.status == 'creator':
@@ -150,7 +151,8 @@ def set_title(bot: Bot, update: Update, args: List[str]):
     user_id, title = extract_user_and_text(message, args)
     try:
         user_member = chat.get_member(user_id)
-    except Exception:
+    except Exception as e:
+        print(e)
         return
 
     if not user_id:
@@ -269,7 +271,6 @@ def invite(bot: Bot, update: Update):
 @connection_status
 def adminlist(bot: Bot, update: Update):
     chat = update.effective_chat
-    user = update.effective_user
 
     chat_id = chat.id
     update_chat_title = chat.title

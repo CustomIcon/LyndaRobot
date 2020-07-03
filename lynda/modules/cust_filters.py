@@ -22,7 +22,7 @@ HANDLER_GROUP = 10
 
 @run_async
 @connection_status
-def list_handlers(bot: Bot, update: Update):
+def list_handlers(_bot: Bot, update: Update):
     chat = update.effective_chat
     all_handlers = sql.get_chat_triggers(chat.id)
 
@@ -64,7 +64,7 @@ def list_handlers(bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def filters(bot: Bot, update: Update):
+def filters(_bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -153,7 +153,7 @@ def filters(bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def stop_filter(bot: Bot, update: Update):
+def stop_filter(_bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)

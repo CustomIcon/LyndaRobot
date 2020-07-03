@@ -66,7 +66,7 @@ def import_data(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def export_data(bot: Bot, update: Update):
+def export_data(_bot: Bot, update: Update):
     msg = update.effective_message
     msg.reply_text("Doesn't work yet.")
 

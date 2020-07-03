@@ -100,7 +100,7 @@ def list_urls(bot, update):
 
 
 @user_admin
-def add_url(bot, update, args):
+def add_url(_bot, update, args):
     if len(args) >= 1:
 
         tg_chat_id = str(update.effective_chat.id)
@@ -138,20 +138,15 @@ def add_url(bot, update, args):
 
 
 @user_admin
-def remove_url(bot, update, args):
+def remove_url(_bot, update, args):
     if len(args) >= 1:
         tg_chat_id = str(update.effective_chat.id)
-
         tg_feed_link = args[0]
-
         link_processed = parse(tg_feed_link)
-
         if link_processed.bozo == 0:
             user_data = sql.check_url_availability(tg_chat_id, tg_feed_link)
-
             if user_data:
                 sql.remove_url(tg_chat_id, tg_feed_link)
-
                 update.effective_message.reply_text(
                     "Removed URL from subscription")
             else:
@@ -166,20 +161,15 @@ def remove_url(bot, update, args):
 
 def rss_update(bot, _job):
     user_data = sql.get_all()
-
     # this loop checks for every row in the DB
     for row in user_data:
         row_id = row.id
         tg_chat_id = row.chat_id
         tg_feed_link = row.feed_link
-
         feed_processed = parse(tg_feed_link)
-
         tg_old_entry_link = row.old_entry_link
-
         new_entry_links = []
         new_entry_titles = []
-
         # this loop checks for every entry from the RSS Feed link from the DB
         # row
         for entry in feed_processed.entries:
@@ -190,7 +180,6 @@ def rss_update(bot, _job):
                 new_entry_titles.append(entry.title)
             else:
                 break
-
         # check if there's any new entries queued from the last check
         if new_entry_links:
             sql.update_url(row_id, new_entry_links)
@@ -247,9 +236,7 @@ def rss_set(_bot, _job):
         row_id = row.id
         tg_feed_link = row.feed_link
         tg_old_entry_link = row.old_entry_link
-
         feed_processed = parse(tg_feed_link)
-
         new_entry_links = []
         new_entry_titles = []
 

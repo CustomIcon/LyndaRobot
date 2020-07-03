@@ -78,7 +78,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def gifid(bot: Bot, update: Update):
+def gifid(_bot: Bot, update: Update):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         update.effective_message.reply_text(
@@ -182,7 +182,7 @@ def info(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def echo(bot: Bot, update: Update):
+def echo(_bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -195,7 +195,7 @@ def echo(bot: Bot, update: Update):
 
 
 @run_async
-def markdown_help(bot: Bot, update: Update):
+def markdown_help(_bot: Bot, update: Update):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
@@ -208,7 +208,7 @@ def markdown_help(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def stats(bot: Bot, update: Update):
+def stats(_bot: Bot, update: Update):
     stats = "Current stats:\n" + "\n".join(mod.__stats__() for mod in STATS)
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     r = requests.get("https://api.waa.ai/v2/links/Lynda").json()

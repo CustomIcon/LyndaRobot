@@ -16,7 +16,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def stickerid(bot: Bot, update: Update):
+def stickerid(_bot: Bot, update: Update):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text(

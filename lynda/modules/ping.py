@@ -81,7 +81,7 @@ def ping(bot: Bot, update: Update):
 
 
 @run_async
-def pingall(bot: Bot, update: Update):
+def pingall(_bot: Bot, update: Update):
     to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
     pinged_list = ping_func(to_ping)
     pinged_list.insert(2, '')

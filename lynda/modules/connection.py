@@ -19,7 +19,7 @@ MEMBER_STAUS = ('member',)
 
 @user_admin
 @run_async
-def allow_connections(bot: Bot, update: Update, args: List[str]):
+def allow_connections(_bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
 
     if chat.type != chat.PRIVATE:
@@ -280,7 +280,7 @@ def connected(bot, update, chat, user_id, need_admin=True):
 
 
 @run_async
-def help_connect_chat(bot: Bot, update: Update):
+def help_connect_chat(_bot: Bot, update: Update):
     msg = update.effective_message
     spam = spamfilters(msg.text, msg.from_user.id, update.effective_chat.id)
     if spam is True:

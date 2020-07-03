@@ -119,7 +119,7 @@ def warn(
 @user_admin_no_reply
 @bot_admin
 @loggable
-def button(bot: Bot, update: Update) -> str:
+def button(_bot: Bot, update: Update) -> str:
     query: Optional[CallbackQuery] = update.callback_query
     user: Optional[User] = update.effective_user
     match = re.match(r"rm_warn\((.+?)\)", query.data)
@@ -151,7 +151,7 @@ def button(bot: Bot, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def warn_user(bot: Bot, update: Update, args: List[str]) -> str:
+def warn_user(_bot: Bot, update: Update, args: List[str]) -> str:
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     warner: Optional[User] = update.effective_user
@@ -174,7 +174,7 @@ def warn_user(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @bot_admin
 @loggable
-def reset_warns(bot: Bot, update: Update, args: List[str]) -> str:
+def reset_warns(_bot: Bot, update: Update, args: List[str]) -> str:
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
@@ -195,7 +195,7 @@ def reset_warns(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-def warns(bot: Bot, update: Update, args: List[str]):
+def warns(_bot: Bot, update: Update, args: List[str]):
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     user_id = extract_user(message, args) or update.effective_user.id
@@ -223,7 +223,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
 
 # Dispatcher handler stop - do not async
 @user_admin
-def add_warn_filter(bot: Bot, update: Update):
+def add_warn_filter(_bot: Bot, update: Update):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -256,7 +256,7 @@ def add_warn_filter(bot: Bot, update: Update):
 
 
 @user_admin
-def remove_warn_filter(bot: Bot, update: Update):
+def remove_warn_filter(_bot: Bot, update: Update):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -290,7 +290,7 @@ def remove_warn_filter(bot: Bot, update: Update):
 
 
 @run_async
-def list_warn_filters(bot: Bot, update: Update):
+def list_warn_filters(_bot: Bot, update: Update):
     chat: Optional[Chat] = update.effective_chat
     all_handlers = sql.get_chat_warn_triggers(chat.id)
 
@@ -316,7 +316,7 @@ def list_warn_filters(bot: Bot, update: Update):
 
 @run_async
 @loggable
-def reply_filter(bot: Bot, update: Update) -> str:
+def reply_filter(_bot: Bot, update: Update) -> str:
     chat: Optional[Chat] = update.effective_chat
     message: Optional[Message] = update.effective_message
 
@@ -337,7 +337,7 @@ def reply_filter(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_warn_limit(bot: Bot, update: Update, args: List[str]) -> str:
+def set_warn_limit(_bot: Bot, update: Update, args: List[str]) -> str:
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
     msg: Optional[Message] = update.effective_message
@@ -365,7 +365,7 @@ def set_warn_limit(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_admin
-def set_warn_strength(bot: Bot, update: Update, args: List[str]):
+def set_warn_strength(_bot: Bot, update: Update, args: List[str]):
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
     msg: Optional[Message] = update.effective_message

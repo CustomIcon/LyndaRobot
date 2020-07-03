@@ -67,7 +67,7 @@ def check_flood(bot: Bot, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
+def set_flood(_bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -131,7 +131,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @connection_status
-def flood(bot: Bot, update: Update):
+def flood(_bot: Bot, update: Update):
     chat = update.effective_chat
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
