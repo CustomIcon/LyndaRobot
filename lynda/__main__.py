@@ -17,31 +17,31 @@ from lynda.modules.helper_funcs.chat_status import is_user_admin
 from lynda.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Hi {}, my name is {}!
-// I am an Anime themed group management bot with a lot of Special Features.
+Hellp {}, 
+my name is {} !
+I am an group management bot with a lot of Special Features.
+I Made Made Using Python 3 And Best For Big Groups !
 You can find the list of available commands with /help.
 ==========================
--> [Lynda's Repo](https://waa.ai/Lynda)
--> Report [Lynda Support](https://t.me/LyndaEagleSupport) if I go offline
+✗ [Support Channel](https://t.me/ileanaBotSupport)
+✗ [Thanks To These People](https://t.me/ileanaSayThanks)
 ==========================
-`Maintained by` @YorktownEagleUnion
+`Maintained by` This By This [✗ God ✗](t.me/starkxD)
 
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a part of Eagle Union.
-Have a look at the following for an idea of some of \
+I'm a part of ✘ ＳＴＡＲＫＧＡＮＧ ✘
+Have a look at the following for an idea of some of 
 the things I can help you with.
-I'm managed by [Poki](https://t.me/pokurt)
-Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
-Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
+I'm managed by [✘ God ✘](https://t.me/StarkxD)
 *Main* commands available:
- - /start: start the bot
- - /help: PM's you this message.
- - /help <module name>: PM's you info about that module.
- - /donate: information about how to donate!
- - /settings:
+ ✘ /start: start the bot
+ ✘ /help: PM's you this message.
+ ✘ /help <module name>: PM's you info about that module.
+ ✘ /donate: information about how to donate!
+ ✘ /settings:
    - in PM: will send you your settings for all supported modules.
    - in a group: will redirect you to pm, with all that chat's settings.
 
@@ -49,10 +49,10 @@ Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/35005c01182645232f2d3.jpg"
+LYNDA_IMG = "https://telegra.ph/file/331f26b02aaa6ba58594c.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
-Lynda is hosted on one of Digital Ocean Servers. \
+Ileana Is Hosted On Heroku Servers. \
 You can donate to the original writer of the Base code, Paul
 There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
@@ -142,9 +142,9 @@ def start(bot: Bot, update: Update, args: List[str]):
         else:
             first_name = update.effective_user.first_name
             buttons = InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
-                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
-                 [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
+                [[InlineKeyboardButton(text="➕ Add To Group ➕", url="https://t.me/ileanaRobot?startgroup=new")],
+                 [InlineKeyboardButton(text="🔰 Support Group 🔰", url="https://t.me/ileanaBotSupport"), InlineKeyboardButton(text="🚫 Global Logs 🚫", url="https://t.me/IleanaGLogs")],
+                 [InlineKeyboardButton(text="❔ Help ❔", callback_data="help_back"), InlineKeyboardButton(text="⚡ Update Channel ⚡", url="https://t.me/ileanaBotSupport")]])
             message.reply_photo(
                 LYNDA_IMG,
                 PM_START_TEXT.format(
