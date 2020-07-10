@@ -5,7 +5,7 @@ import requests
 import json
 from jikanpy.exceptions import APIException
 
-from telegram import Message, Chat, User, ParseMode, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import ParseMode, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CommandHandler,  run_async
 
 from lynda import dispatcher
@@ -82,7 +82,7 @@ def formatJSON(outData):
 
 
 @run_async
-def anime(bot: Bot, update: Update, args):
+def anime(_bot: Bot, update: Update, args):
     message = update.effective_message
     query = " ".join(args)
     result = anime_call_api(query)
@@ -91,15 +91,13 @@ def anime(bot: Bot, update: Update, args):
     url_link = f"https://www.youtube.com/results?search_query={yt_search}"
     kaizoku = f'https://animekaizoku.com/?s={query}'
     kayo = f'https://animekayo.com/?s={query}'
-    buttons = [
-        [InlineKeyboardButton("🎥Trailer", url=url_link)]
-    ]
-    buttons.append([InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)])
+    buttons = [[InlineKeyboardButton("🎥Trailer", url=url_link)],
+               [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]]
     message.reply_text(msg, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons))
     
 
 @run_async
-def character(bot: Bot, update: Update, args):
+def character(_bot: Bot, update: Update, args):
     msg = update.effective_message
     res = ""
     query = " ".join(args)
@@ -133,7 +131,7 @@ def character(bot: Bot, update: Update, args):
         
         
 @run_async
-def upcoming(bot: Bot, update: Update):
+def upcoming(_bot: Bot, update: Update):
     msg = update.effective_message
     rep = "<b>Upcoming anime</b>\n"
     later = jikan.season_later()
@@ -148,11 +146,9 @@ def upcoming(bot: Bot, update: Update):
     
     
 @run_async
-def manga(bot: Bot, update: Update, args):
+def manga(_bot: Bot, update: Update, args):
     msg = update.effective_message
     query = " ".join(args)
-    res = ""
-    manga = ""
     try:
         res = jikan.search("manga", query).get("results")[0].get("mal_id")
     except APIException:
