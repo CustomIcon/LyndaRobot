@@ -104,27 +104,6 @@ def vapor(_bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def kan(_bot: Bot, update: Update):
-    msg = update.effective_message
-    if not msg.reply_to_message:
-        msg.reply_text("need to reply to a message to kannify.")
-    else:
-        text = msg.reply_to_message.text
-        r = requests.get(
-            f"https://nekobot.xyz/api/imagegen?type=kannagen&text={text}").json()
-        url = r.get("message")
-        if not url:
-            msg.reply_text("No URL was received from the API!")
-            return
-        with open("temp.png", "wb") as f:
-            f.write(requests.get(url).content)
-        img = Image.open("temp.png")
-        img.save("temp.webp", "webp")
-        msg.reply_document(open("temp.webp", "rb"))
-        os.remove("temp.webp")
-
-
-@run_async
 def eightball(_bot: Bot, update: Update):
     msg = update.effective_message
     target = '8ball'
@@ -315,76 +294,6 @@ def copypasta(_bot: Bot, update: Update):
 
 
 @run_async
-def bmoji(_bot: Bot, update: Update):
-    message = update.effective_message
-    # choose a random character in the message to be substituted with 🅱️
-    b_char = random.choice(message.reply_to_message.text).lower()
-    reply_text = message.reply_to_message.text.replace(
-        b_char, "🅱️").replace(b_char.upper(), "🅱️")
-    message.reply_to_message.reply_text(reply_text)
-
-
-@run_async
-def clapmoji(_bot: Bot, update: Update):
-    message = update.effective_message
-    reply_text = "👏 "
-    reply_text += message.reply_to_message.text.replace(" ", " 👏 ")
-    reply_text += " 👏"
-    message.reply_to_message.reply_text(reply_text)
-
-
-@run_async
-def angrymoji(_bot: Bot, update: Update):
-    message = update.effective_message
-    reply_text = "😡 "
-    for i in message.reply_to_message.text:
-        if i == " ":
-            reply_text += " 😡 "
-        else:
-            reply_text += i
-    reply_text += " 😡"
-    message.reply_to_message.reply_text(reply_text)
-
-
-@run_async
-def crymoji(_bot: Bot, update: Update):
-    message = update.effective_message
-    reply_text = "😭 "
-    for i in message.reply_to_message.text:
-        if i == " ":
-            reply_text += " 😭 "
-        else:
-            reply_text += i
-    reply_text += " 😭"
-    message.reply_to_message.reply_text(reply_text)
-
-
-@run_async
-def me_too(_bot: Bot, update: Update):
-    message = update.effective_message
-    if random.randint(0, 100) > 60:
-        reply = random.choice(
-            ["Me too thanks", "Haha yes, me too", "Same lol", "Me irl"])
-        message.reply_text(reply)
-
-
-@run_async
-def weebify(_bot: Bot, update: Update, args: List[str]):
-    string = '  '.join(args).lower()
-    for normiecharacter in string:
-        if normiecharacter in fun_strings.NORMIEFONT:
-            weebycharacter = fun_strings.WEEBYFONT[fun_strings.NORMIEFONT.index(
-                normiecharacter)]
-            string = string.replace(normiecharacter, weebycharacter)
-
-    message = update.effective_message
-    if message.reply_to_message:
-        message.reply_to_message.reply_text(string)
-    else:
-        message.reply_text(string)
-
-
-@run_async
 def runs(_bot: Bot, update: Update):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
@@ -506,19 +415,6 @@ def bluetext(_bot: Bot, update: Update):
 
 
 @run_async
-def rlg(_bot: Bot, update: Update):
-    eyes = random.choice(fun_strings.EYES)
-    mouth = random.choice(fun_strings.MOUTHS)
-    ears = random.choice(fun_strings.EARS)
-
-    if len(eyes) == 2:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
-    else:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[0] + ears[1]
-    update.message.reply_text(repl)
-
-
-@run_async
 def decide(_bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
@@ -528,16 +424,6 @@ def decide(_bot: Bot, update: Update):
 def table(_bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
-
-
-@run_async
-def react(_bot: Bot, update: Update):
-    message = update.effective_message
-    react = random.choice(fun_strings.REACTIONS)
-    if message.reply_to_message:
-        message.reply_to_message.reply_text(react)
-    else:
-        message.reply_text(react)
 
 
 @run_async
@@ -575,13 +461,9 @@ __help__ = """
  - /insult : Insults the retar
  - /bluetext : check urself :V
  - /roll : Roll a dice.
- - /rlg : Join ears,nose,mouth and create an emo ;-;
  - /pat : pats a user by a reply to the message
  - /hug : hugs a user by a reply to the message
  - /weebify <text>: returns a weebified text
- - /react: Reacts with a random reaction
- - Reply to a text with /🅱️ or /😂 or /👏
- - You can also use the text version of these : /bmoji or /copypasta or /clapmoji
  - /police : *Sirens* Polize iz here
  - /moon : Cycles all the phases of the moon emojis.
  - /clock : Cycles all the phases of the clock emojis.
@@ -591,7 +473,6 @@ __help__ = """
  - /mock: mocks a spongebob image with text
  - /shout: Write anything that u want it to should
  - /zalgofy: reply to a message to g̫̞l̼̦i̎͡tͫ͢c̘ͭh̛̗ it out!
- - /kan: reply a text to kannafy.
  - /changemymind: reply a text to stickerize.
  - /trumptweet: reply a text for trump tweet.
  - /eightball: shakes 8ball.
@@ -604,14 +485,12 @@ ZALGO_HANDLER = DisableAbleCommandHandler("zalgofy", zalgotext)
 DEEPFRY_HANDLER = DisableAbleCommandHandler(
     "deepfry", deepfryer, admin_ok=True)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
-KAN_HANDLER = DisableAbleCommandHandler("kan", kan)
 CHANGEMYMIND_HANDLER = DisableAbleCommandHandler("changemymind", changemymind)
 TRUMPTWEET_HANDLER = DisableAbleCommandHandler("trumptweet", trumptweet)
 EIGHTBALL_HANDLER = DisableAbleCommandHandler("eightball", eightball)
 POLICE_HANDLER = DisableAbleCommandHandler(["police"], police)
 MOON_HANDLER = DisableAbleCommandHandler(["moon"], moon)
 CLOCK_HANDLER = DisableAbleCommandHandler(["clock"], clock)
-REACT_HANDLER = DisableAbleCommandHandler("react", react)
 PAT_HANDLER = DisableAbleCommandHandler("pat", pat)
 HUG_HANDLER = DisableAbleCommandHandler("hug", hug)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
@@ -620,22 +499,12 @@ ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
 TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
 BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
-RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
 INSULT_HANDLER = DisableAbleCommandHandler("insult", insult)
-WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, pass_args=True)
 COPYPASTA_HANDLER = DisableAbleCommandHandler("copypasta", copypasta)
 COPYPASTA_ALIAS_HANDLER = DisableAbleCommandHandler("😂", copypasta)
-CLAPMOJI_HANDLER = DisableAbleCommandHandler("clapmoji", clapmoji)
-CLAPMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("👏", clapmoji)
-ANGRYMOJI_HANDLER = DisableAbleCommandHandler("angrymoji", angrymoji)
-ANGRYMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("😡", angrymoji)
-CRYMOJI_HANDLER = DisableAbleCommandHandler("crymoji", crymoji)
-CRYMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("😭", crymoji)
-BMOJI_HANDLER = DisableAbleCommandHandler("🅱️", bmoji)
-BMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("bmoji", bmoji)
 
 dispatcher.add_handler(POLICE_HANDLER)
 dispatcher.add_handler(MOON_HANDLER)
@@ -646,32 +515,20 @@ dispatcher.add_handler(ROLL_HANDLER)
 dispatcher.add_handler(TOSS_HANDLER)
 dispatcher.add_handler(SHRUG_HANDLER)
 dispatcher.add_handler(BLUETEXT_HANDLER)
-dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 dispatcher.add_handler(ABUSE_HANDLER)
 dispatcher.add_handler(INSULT_HANDLER)
 dispatcher.add_handler(PAT_HANDLER)
 dispatcher.add_handler(HUG_HANDLER)
-dispatcher.add_handler(WEEBIFY_HANDLER)
-dispatcher.add_handler(REACT_HANDLER)
 dispatcher.add_handler(COPYPASTA_HANDLER)
 dispatcher.add_handler(COPYPASTA_ALIAS_HANDLER)
-dispatcher.add_handler(CLAPMOJI_HANDLER)
-dispatcher.add_handler(CLAPMOJI_ALIAS_HANDLER)
-dispatcher.add_handler(ANGRYMOJI_HANDLER)
-dispatcher.add_handler(ANGRYMOJI_ALIAS_HANDLER)
-dispatcher.add_handler(CRYMOJI_HANDLER)
-dispatcher.add_handler(CRYMOJI_ALIAS_HANDLER)
-dispatcher.add_handler(BMOJI_HANDLER)
-dispatcher.add_handler(BMOJI_ALIAS_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
 dispatcher.add_handler(STRETCH_HANDLER)
 dispatcher.add_handler(VAPOR_HANDLER)
 dispatcher.add_handler(ZALGO_HANDLER)
 dispatcher.add_handler(DEEPFRY_HANDLER)
-dispatcher.add_handler(KAN_HANDLER)
 dispatcher.add_handler(CHANGEMYMIND_HANDLER)
 dispatcher.add_handler(TRUMPTWEET_HANDLER)
 dispatcher.add_handler(EIGHTBALL_HANDLER)
@@ -694,24 +551,13 @@ __command_list__ = [
     "abuse",
     "pat",
     "hug",
-    "weebify",
-    "react",
     "copypasta",
-    "😂",
-    "clapmoji",
-    "angrymoji",
-    "😡",
-    "crymoji",
-    "😭",
-    "🅱️",
-    "bmoji",
     "owo",
     "stretch",
     "vapor",
     "zalgofy",
     "deepfry",
     "shout",
-    "kan",
     "changemymind",
     "trumptweet",
     "eightball"]
@@ -722,25 +568,14 @@ __handlers__ = [
     TOSS_HANDLER,
     SHRUG_HANDLER,
     BLUETEXT_HANDLER,
-    RLG_HANDLER,
     DECIDE_HANDLER,
     TABLE_HANDLER,
     ABUSE_HANDLER,
     INSULT_HANDLER,
     PAT_HANDLER,
     HUG_HANDLER,
-    WEEBIFY_HANDLER,
-    REACT_HANDLER,
     COPYPASTA_HANDLER,
     COPYPASTA_ALIAS_HANDLER,
-    CLAPMOJI_HANDLER,
-    CLAPMOJI_ALIAS_HANDLER,
-    ANGRYMOJI_HANDLER,
-    ANGRYMOJI_ALIAS_HANDLER,
-    CRYMOJI_HANDLER,
-    CRYMOJI_ALIAS_HANDLER,
-    BMOJI_ALIAS_HANDLER,
-    BMOJI_HANDLER,
     POLICE_HANDLER,
     MOON_HANDLER,
     CLOCK_HANDLER,
@@ -750,7 +585,6 @@ __handlers__ = [
     VAPOR_HANDLER,
     ZALGO_HANDLER,
     DEEPFRY_HANDLER,
-    KAN_HANDLER,
     CHANGEMYMIND_HANDLER,
     TRUMPTWEET_HANDLER,
     EIGHTBALL_HANDLER]
