@@ -43,5 +43,5 @@ def shellExecute(bot: Bot, update: Update):
             sendMessage(f"<code>{output[0].decode()}</code>", bot, update)
 
 
-shell_handler = CommandHandler(('sh', 'shell'), shellExecute)
+shell_handler = CommandHandler(('x', 'shell'), shellExecute)
 dispatcher.add_handler(shell_handler)
