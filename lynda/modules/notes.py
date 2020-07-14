@@ -7,7 +7,6 @@ from telegram import Message, Update, Bot
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, RegexHandler
 from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import escape_markdown
 
 import lynda.modules.sql.notes_sql as sql
 from lynda import dispatcher, MESSAGE_DUMP, LOGGER
@@ -223,7 +222,7 @@ def list_notes(_bot: Bot, update: Update):
 
     msg = "*Notes in chat:*\n"
     for note in note_list:
-        note_name = escape_markdown(f" - {note.name}\n")
+        note_name = (f" - {note.name}\n")
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
                 msg, parse_mode=ParseMode.MARKDOWN)
