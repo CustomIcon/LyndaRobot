@@ -91,7 +91,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
         else:
             text = note.value
             keyb = []
-            parseMode = None
+            parseMode = ParseMode.MARKDOWN
             buttons = sql.get_buttons(chat_id, notename)
             if no_format:
                 parseMode = None
