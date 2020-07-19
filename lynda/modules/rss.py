@@ -11,8 +11,6 @@ from lynda.modules.sql import rss_sql as sql
 
 
 def show_url(bot, update, args):
-    tg_chat_id = str(update.effective_chat.id)
-
     if len(args) >= 1:
         tg_feed_link = args[0]
         link_processed = parse(tg_feed_link)
@@ -33,6 +31,8 @@ def show_url(bot, update, args):
                            "\n\n<b>Feed Link:</b> \n{}".format(html.escape(feed_title),
                                                                feed_description,
                                                                html.escape(feed_link))
+
+            tg_chat_id = str(update.effective_chat.id)
 
             if len(link_processed.entries) >= 1:
                 entry_title = link_processed.entries[0].get(
@@ -103,8 +103,6 @@ def list_urls(bot, update):
 def add_url(_bot, update, args):
     if len(args) >= 1:
 
-        tg_chat_id = str(update.effective_chat.id)
-
         tg_feed_link = args[0]
 
         link_processed = parse(tg_feed_link)
@@ -115,6 +113,8 @@ def add_url(_bot, update, args):
                 tg_old_entry_link = link_processed.entries[0].link
             else:
                 tg_old_entry_link = ""
+
+            tg_chat_id = str(update.effective_chat.id)
 
             # gather the row which contains exactly that telegram group ID and
             # link for later comparison
@@ -140,10 +140,10 @@ def add_url(_bot, update, args):
 @user_admin
 def remove_url(_bot, update, args):
     if len(args) >= 1:
-        tg_chat_id = str(update.effective_chat.id)
         tg_feed_link = args[0]
         link_processed = parse(tg_feed_link)
         if link_processed.bozo == 0:
+            tg_chat_id = str(update.effective_chat.id)
             user_data = sql.check_url_availability(tg_chat_id, tg_feed_link)
             if user_data:
                 sql.remove_url(tg_chat_id, tg_feed_link)
@@ -183,9 +183,6 @@ def rss_update(bot, _job):
         # check if there's any new entries queued from the last check
         if new_entry_links:
             sql.update_url(row_id, new_entry_links)
-        else:
-            pass
-
         if len(new_entry_links) < 5:
             # this loop sends every new update to each user from each group
             # based on the DB entries
@@ -254,8 +251,6 @@ def rss_set(_bot, _job):
         # check if there's any new entries queued from the last check
         if new_entry_links:
             sql.update_url(row_id, new_entry_links)
-        else:
-            pass
 
 
 __help__ = """

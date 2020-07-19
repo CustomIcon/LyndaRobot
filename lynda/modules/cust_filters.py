@@ -215,18 +215,18 @@ def reply_filter(bot: Bot, update: Update):
                         disable_web_page_preview=True,
                         reply_markup=keyboard)
                 except BadRequest as excp:
-                    if excp.message == "Unsupported url protocol":
-                        message.reply_text(
-                            "You seem to be trying to use an unsupported url protocol. Telegram "
-                            "doesn't support buttons for some protocols, such as tg://. Please try "
-                            "again, or ask @Aman_Ahmed for help.")
-                    elif excp.message == "Reply message not found":
+                    if excp.message == "Reply message not found":
                         bot.send_message(
                             chat.id,
                             filt.reply,
                             parse_mode=ParseMode.MARKDOWN,
                             disable_web_page_preview=True,
                             reply_markup=keyboard)
+                    elif excp.message == "Unsupported url protocol":
+                        message.reply_text(
+                            "You seem to be trying to use an unsupported url protocol. Telegram "
+                            "doesn't support buttons for some protocols, such as tg://. Please try "
+                            "again, or ask @Aman_Ahmed for help.")
                     else:
                         message.reply_text(
                             "This note could not be sent, as it is incorrectly formatted. Ask in "

@@ -10,10 +10,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 @run_async
 def totranslate(_bot: Bot, update: Update):
     msg = update.effective_message
-    problem_lang_code = []
-    for key in LANGUAGES:
-        if "-" in key:
-            problem_lang_code.append(key)
+    problem_lang_code = [key for key in LANGUAGES if "-" in key]
     try:
         if msg.reply_to_message and msg.reply_to_message.text:
 

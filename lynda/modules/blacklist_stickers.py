@@ -41,7 +41,7 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 
     all_stickerlist = sql.get_chat_stickers(chat_id)
 
-    if len(args) > 0 and args[0].lower() == 'copy':
+    if args and args[0].lower() == 'copy':
         for trigger in all_stickerlist:
             sticker_list += "<code>{}</code>\n".format(html.escape(trigger))
     elif len(args) == 0:
@@ -257,11 +257,10 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
         chat_name = update.effective_message.chat.title
 
     if args:
-        if args[0].lower() == 'off' or args[0].lower(
-        ) == 'nothing' or args[0].lower() == 'no':
+        if args[0].lower() in ['off', 'nothing', 'no']:
             settypeblacklist = 'turn off'
             sql.set_blacklist_strength(chat_id, 0, "0")
-        elif args[0].lower() == 'del' or args[0].lower() == 'delete':
+        elif args[0].lower() in ['del', 'delete']:
             settypeblacklist = 'left, the message will be deleted'
             sql.set_blacklist_strength(chat_id, 1, "0")
         elif args[0].lower() == 'warn':
@@ -446,9 +445,7 @@ def del_blackliststicker(bot: Bot, update: Update):
                         parse_mode="markdown")
                     return
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
-                    pass
-                else:
+                if excp.message != "Message to delete not found":
                     LOGGER.exception("Error while deleting blacklist message.")
                 break
 

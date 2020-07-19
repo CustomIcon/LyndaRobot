@@ -58,7 +58,6 @@ def formatJSON(outData):
     res = list(jsonData.keys())
     if "errors" in res:
         msg += f"**Error** : `{jsonData['errors'][0]['message']}`"
-        return msg
     else:
         jsonData = jsonData['data']['Media']
         if "bannerImage" in jsonData.keys():
@@ -78,7 +77,8 @@ def formatJSON(outData):
         msg += f"\n**Score** : {jsonData['averageScore']}"
         msg += f"\n**Duration** : {jsonData['duration']} min"
         msg += f"\n\n __{jsonData['description']}__"
-        return msg
+
+    return msg
 
 
 @run_async
