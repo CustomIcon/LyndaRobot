@@ -135,7 +135,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
                 lim = 2
         else:
             lim = 2
-    elif args and not reply:
+    elif args:
         splatargs = msg.text.split(" ")
         if len(splatargs) == 3:
             img_link = splatargs[1]
@@ -257,7 +257,6 @@ def ParseSauce(googleurl):
             results['override'] = url
     except Exception as e:
         print(e)
-        pass
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
         url = 'https://www.google.com/search?tbm=isch&q=' + \
             urllib.parse.quote_plus(similar_image.get('value'))
@@ -304,11 +303,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 country_zone = zone['zoneName']
                 country_code = zone['countryCode']
 
-                if zone['dst'] == 1:
-                    daylight_saving = "Yes"
-                else:
-                    daylight_saving = "No"
-
+                daylight_saving = "Yes" if zone['dst'] == 1 else "No"
                 date_fmt = r"%d-%m-%Y"
                 time_fmt = r"%H:%M:%S"
                 day_fmt = r"%A"
@@ -406,14 +401,10 @@ def convert(_bot: Bot, update: Update):
 
 @run_async
 def wall(bot: Bot, update: Update, args):
-    chat_id = update.effective_chat.id
     msg = update.effective_message
     msg_id = update.effective_message.message_id
     query = " ".join(args)
-    if not query:
-        msg.reply_text("Please enter a query!")
-        return
-    else:
+    if query:
         caption = query
         term = query.replace(" ", "%20")
         json_rep = requests.get(
@@ -422,14 +413,12 @@ def wall(bot: Bot, update: Update, args):
             msg.reply_text("An error occurred! Report this @LyndaEagleSupport")
         else:
             wallpapers = json_rep.get("wallpapers")
-            if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
-                return
-            else:
+            if wallpapers:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
                 wallpaper = wallpapers[index]
                 wallpaper = wallpaper.get("url_image")
                 wallpaper = wallpaper.replace("\\", "")
+                chat_id = update.effective_chat.id
                 bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
                                reply_to_message_id=msg_id, timeout=60)
                 bot.send_document(
@@ -439,6 +428,13 @@ def wall(bot: Bot, update: Update, args):
                     caption=caption,
                     reply_to_message_id=msg_id,
                     timeout=60)
+
+            else:
+                msg.reply_text("No results found! Refine your search.")
+                return
+    else:
+        msg.reply_text("Please enter a query!")
+        return
 
 
 @run_async
