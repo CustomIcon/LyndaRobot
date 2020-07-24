@@ -73,11 +73,10 @@ def ping(bot: Bot, update: Update):
     uptime = get_readable_time((time.time() - StartTime))
 
     reply_msg = ("PONG!!\n"
-                 "<b>Time Taken:</b> <code>{}</code>\n"
-                 "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping,
-                                                                 uptime))
+                 f"<b>Time Taken:</b> <code>{telegram_ping}</code>\n"
+                 f"<b>Service uptime:</b> <code>{uptime}</code>")
 
-    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(reply_msg)
 
 
 @run_async
