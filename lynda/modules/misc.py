@@ -159,8 +159,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         Nation_level_present = True
 
     if Nation_level_present:
-        text += ' [<a href="http://t.me/{}?start=Nations">?</a>]'.format(
-            bot.username)
+        text += ' [<a href="tg://user?id={}">?</a>]'.format(user.id)
 
     text += "\n"
     for mod in USER_INFO:

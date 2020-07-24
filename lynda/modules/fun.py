@@ -504,7 +504,6 @@ TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
 INSULT_HANDLER = DisableAbleCommandHandler("insult", insult)
 COPYPASTA_HANDLER = DisableAbleCommandHandler("copypasta", copypasta)
-COPYPASTA_ALIAS_HANDLER = DisableAbleCommandHandler("😂", copypasta)
 
 dispatcher.add_handler(POLICE_HANDLER)
 dispatcher.add_handler(MOON_HANDLER)
@@ -522,7 +521,6 @@ dispatcher.add_handler(INSULT_HANDLER)
 dispatcher.add_handler(PAT_HANDLER)
 dispatcher.add_handler(HUG_HANDLER)
 dispatcher.add_handler(COPYPASTA_HANDLER)
-dispatcher.add_handler(COPYPASTA_ALIAS_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
 dispatcher.add_handler(STRETCH_HANDLER)
@@ -575,7 +573,6 @@ __handlers__ = [
     PAT_HANDLER,
     HUG_HANDLER,
     COPYPASTA_HANDLER,
-    COPYPASTA_ALIAS_HANDLER,
     POLICE_HANDLER,
     MOON_HANDLER,
     CLOCK_HANDLER,
