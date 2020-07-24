@@ -222,7 +222,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         bot.send_message(
             user_id,
             "You have been globally banned from all groups where I have administrative permissions."
-            "If you think that this was a mistake, you may appeal your ban here: @Aman_Ahmed",
+            "If you think that this was a mistake, you may appeal your ban here: @LyndaEagleSupport",
             parse_mode=ParseMode.HTML)
     except Exception as e:
         print(e)
