@@ -348,3 +348,4 @@ MigrationBackup/
 lynda/config.py
 lynda.session-journal
 lynda.session
+lynda/elevated_users.json
