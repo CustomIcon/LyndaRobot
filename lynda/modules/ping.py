@@ -55,13 +55,13 @@ def ping_func(to_ping: List[str]) -> List[str]:
         end_time = time.time()
         ping_time = str(round((end_time - start_time), 2)) + "s"
 
-        pinged_site = f"<b>{each_ping}</b>"
+        pinged_site = f"**{each_ping}**"
 
         if each_ping == "Kaizoku" or each_ping == "Kayo":
             pinged_site = f'<a href="{sites_list[each_ping]}">{each_ping}</a>'
-            ping_time = f"<code>{ping_time}"
+            ping_time = f"`{ping_time}"
 
-        ping_text = f"{pinged_site}: <code>{ping_time}</code>"
+        ping_text = f"{pinged_site}: `{ping_time}`"
         ping_result.append(ping_text)
 
     return ping_result
@@ -74,10 +74,10 @@ def ping(bot: Bot, update: Update):
     uptime = get_readable_time((time.time() - StartTime))
 
     reply_msg = ("PONG!!\n"
-                 f"<b>Time Taken:</b> {telegram_ping}\n"
-                 f"<b>Service uptime:</b> <code>{uptime}</code>")
+                 f"**Time Taken:** {telegram_ping}\n"
+                 f"**Service uptime:** `{uptime}`")
 
-    message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+    message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
@@ -89,11 +89,11 @@ def pingall(_bot: Bot, update: Update):
 
     reply_msg = "⏱Ping results are:\n"
     reply_msg += "\n".join(pinged_list)
-    reply_msg += '\n<b>Service uptime:</b> <code>{}</code>'.format(uptime)
+    reply_msg += '\n**Service uptime:** `{}`'.format(uptime)
 
     update.effective_message.reply_text(
         reply_msg,
-        parse_mode=ParseMode.HTML,
+        parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True)
 
 
