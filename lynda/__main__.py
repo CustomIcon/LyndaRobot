@@ -277,7 +277,7 @@ def get_help(bot: Bot, update: Update):
             [[InlineKeyboardButton(text="Back", callback_data="help_back")]]))
 
     else:
-        send_help(chat.id, HELP_STRINGS)
+        send_help(chat.id, HELP_STRINGS, disable_web_preview=True)
 
 
 def send_settings(chat_id, user_id, user=False):
