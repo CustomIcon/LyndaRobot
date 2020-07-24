@@ -59,7 +59,7 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
         if each_ping == "Kaizoku" or each_ping == "Kayo":
             pinged_site = f'<a href="{sites_list[each_ping]}">{each_ping}</a>'
-            ping_time = f"<code>{ping_time} (Status: {r.status_code})</code>"
+            ping_time = f"<code>{ping_time}"
 
         ping_text = f"{pinged_site}: <code>{ping_time}</code>"
         ping_result.append(ping_text)
