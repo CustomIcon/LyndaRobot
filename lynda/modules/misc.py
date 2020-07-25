@@ -140,22 +140,16 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     if user.id == OWNER_ID:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">God</a>'
-            Nation_level_present = True
     elif user.id in DEV_USERS:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">Hero Union</a>'
-            Nation_level_present = True
     elif user.id in SUDO_USERS:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">Royal</a>'
-            Nation_level_present = True
     elif user.id in SUPPORT_USERS:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">Sakura</a>'
-            Nation_level_present = True
     elif user.id in SARDEGNA_USERS:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">Sardegna</a>'
-            Nation_level_present = True
     elif user.id in WHITELIST_USERS:
             text += f'\nThe Nation level of this person is <a href="https://t.me/lyndarobot?start=nations">Neptunia</a>'
-            Nation_level_present = True
 
 
     text += "\n"
