@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "C:\\Users\\Aman\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+    "python.linting.enabled": true,
+    "python.testing.pytestArgs": [
+        "env"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+    "python.linting.enabled": true
+
+}
