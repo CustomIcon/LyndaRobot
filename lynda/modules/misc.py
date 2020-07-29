@@ -1,6 +1,7 @@
 import html
 import re
 from typing import List
+import time
 
 import requests
 from telegram import Bot, Update, MessageEntity, ParseMode
