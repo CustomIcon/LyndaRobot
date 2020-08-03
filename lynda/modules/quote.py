@@ -372,7 +372,7 @@ async def replied_user(draw, tot, text, maxlength, title):
                 draw.text((180 + space, 132), letter, font=textfont, fill="white")
                 space += textfont.getsize(letter)[0]
                 
-@lyndabot(pattern="^/quote")
+@lyndabot(pattern="^/q")
 async def _(event):
     if event.fwd_from:
         return
@@ -383,6 +383,8 @@ async def _(event):
         await event.client.get_entity(reply.forward.sender) if reply.fwd_from
         else reply.sender)
     res, canvas = await process(msg, user, event.client, reply, repliedreply)
+    if not reply:
+        await event.reply('Reply to message to make a sticker')
     if not res:
         return
     canvas.save('sticker.webp')
