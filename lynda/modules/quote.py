@@ -383,7 +383,7 @@ async def _(event):
         await event.client.get_entity(reply.forward.sender) if reply.fwd_from
         else reply.sender)
     res, canvas = await process(msg, user, event.client, reply, repliedreply)
-    if msg is None:
+    if not msg:
         await event.reply('Reply to message to make a sticker')
         return
     if not res:
