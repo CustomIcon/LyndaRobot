@@ -374,18 +374,17 @@ async def replied_user(draw, tot, text, maxlength, title):
                 
 @lyndabot(pattern="^/quote")
 async def _(event):
-        if event.fwd_from:
-             return
-        await event.delete()
-        reply = await event.get_reply_message()
-        msg = reply.message
-        repliedreply = await reply.get_reply_message()
-        user = (
-            await event.client.get_entity(reply.forward.sender) if reply.fwd_from
-            else reply.sender)
-        res, canvas = await process(msg, user, event.client, reply, repliedreply)
-        if not res:
-            return
-        canvas.save('sticker.webp')
-        await event.client.send_file(event.chat_id, "sticker.webp")
-        os.remove('sticker.webp')
+    if event.fwd_from:
+        return
+    reply = await event.get_reply_message()
+    msg = reply.message
+    repliedreply = await reply.get_reply_message()
+    user = (
+        await event.client.get_entity(reply.forward.sender) if reply.fwd_from
+        else reply.sender)
+    res, canvas = await process(msg, user, event.client, reply, repliedreply)
+    if not res:
+        return
+    canvas.save('sticker.webp')
+    await event.client.send_file(event.chat_id, "sticker.webp")
+    os.remove('sticker.webp')
