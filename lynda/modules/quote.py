@@ -385,6 +385,7 @@ async def _(event):
     res, canvas = await process(msg, user, event.client, reply, repliedreply)
     if msg is None:
         await event.reply('Reply to message to make a sticker')
+        return
     if not res:
         return
     canvas.save('sticker.webp')
