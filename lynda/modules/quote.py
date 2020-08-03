@@ -389,5 +389,5 @@ async def _(event):
     if not res:
         return
     canvas.save('sticker.webp')
-    await event.client.send_file(event.chat_id, "sticker.webp")
+    await event.client.send_file(event.chat_id, "sticker.webp", reply_to=event.reply_to_msg_id)
     os.remove('sticker.webp')
