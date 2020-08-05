@@ -1,3 +1,5 @@
+# Oringinal Source from Nicegrill: https://github.com/erenmetesar/NiceGrill/
+# Ported to Lynda by: @pokurt
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from telethon.tl import types, functions
 from fontTools.ttLib import TTFont 
