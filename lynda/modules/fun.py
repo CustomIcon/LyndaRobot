@@ -90,12 +90,9 @@ def vapor(_bot: Bot, update: Update, args: List[str]):
         else:
             noreply = True
             data = message.text.split(None, 1)[1]
-    elif message.reply_to_message:
+    else:
         noreply = False
         data = message.reply_to_message.text
-    else:
-        data = ''
-
     reply_text = str(data).translate(WIDE_MAP)
     if noreply:
         message.reply_text(reply_text)
