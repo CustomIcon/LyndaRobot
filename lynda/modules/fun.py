@@ -103,8 +103,8 @@ def vapor(_bot: Bot, update: Update, args: List[str]):
 @run_async
 def eightball(_bot: Bot, update: Update):
     msg = update.effective_message
-    target = '8ball'
     with open("temp.png", "wb") as f:
+        target = '8ball'
         f.write(requests.get(nekos.img(target)).content)
     img = Image.open("temp.png")
     img.save("temp.webp", "webp")
@@ -169,11 +169,7 @@ def zalgotext(_bot: Bot, update: Update):
 @run_async
 def forbesify(_bot: Bot, update: Update):
     message = update.effective_message
-    if message.reply_to_message:
-        data = message.reply_to_message.text
-    else:
-        data = ''
-
+    data = message.reply_to_message.text if message.reply_to_message else ''
     data = data.lower()
     accidentals = ['VB', 'VBD', 'VBG', 'VBN']
     reply_text = data.split()
@@ -256,8 +252,7 @@ def shout(_bot: Bot, update: Update, args):
         return
 
     text = " ".join(args)
-    result = []
-    result.append(' '.join(s for s in text))
+    result = [' '.join(iter(text))]
     for pos, symbol in enumerate(text[1:]):
         result.append(symbol + ' ' + '  ' * pos + symbol)
     result = list("\n".join(result))
@@ -282,10 +277,7 @@ def copypasta(_bot: Bot, update: Update):
         elif c.lower() == b_char:
             reply_text += "🅱️"
         else:
-            if bool(random.getrandbits(1)):
-                reply_text += c.upper()
-            else:
-                reply_text += c.lower()
+            reply_text += c.upper() if bool(random.getrandbits(1)) else c.lower()
     reply_text += random.choice(fun_strings.emojis)
     message.reply_to_message.reply_text(reply_text)
 
