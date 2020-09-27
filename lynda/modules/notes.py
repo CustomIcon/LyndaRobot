@@ -221,20 +221,20 @@ def list_notes(_bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
 
-    msg = "*Notes in chat:*\n"
+    msg = "<b>Notes in chat:</b>\n"
     for note in note_list:
-        note_name = escape_markdown(f" - ```#{note.name}```\n")
+        note_name = escape_markdown(f" - <code>#{note.name}</code>\n")
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
-                msg, parse_mode=ParseMode.MARKDOWN)
+                msg, parse_mode=ParseMode.HTML)
             msg = ""
         msg += note_name
 
-    if msg == "*Notes in chat:*\n":
+    if msg == "<b>Notes in chat:</b>\n":
         update.effective_message.reply_text("No notes in this chat!")
 
     elif len(msg) != 0:
-        update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 def __import_data__(chat_id, data):
