@@ -147,7 +147,7 @@ def start(update: Update, context: CallbackContext):
                 [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"),
                 InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
-                [InlineKeyboardButton(text="❔ Help", url="https://t.me/LyndaRobot?start=help"),
+                [InlineKeyboardButton(text="❔ Help", callback_data="help_button"),
                 InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
             update.effective_message.reply_photo(
                 LYNDA_IMG,
@@ -217,6 +217,7 @@ def help_button(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
                 ),
+                disable_web_page_preview=True
             )
 
         elif prev_match:
