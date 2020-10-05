@@ -252,7 +252,7 @@ def get_help(context: CallbackContext, update: Update):
     """Sends Help String"""
     message = update.effective_message
     chat = update.effective_chat  # type: Optional[Chat]
-    args = message.text.split(None, 1)
+    args = context.args
 
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:

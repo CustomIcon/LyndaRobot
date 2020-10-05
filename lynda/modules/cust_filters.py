@@ -2,10 +2,9 @@ import html
 import re
 
 import telegram
-from telegram import Bot, Update
-from telegram import ParseMode, InlineKeyboardMarkup
+from telegram import Update, ParseMode, InlineKeyboardMarkup
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
+from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async, CallbackContext
 from telegram.utils.helpers import escape_markdown
 
 from lynda import dispatcher, LOGGER
@@ -22,7 +21,7 @@ HANDLER_GROUP = 10
 
 @run_async
 @connection_status
-def list_handlers(_bot: Bot, update: Update):
+def list_handlers(_, update: Update):
     chat = update.effective_chat
     all_handlers = sql.get_chat_triggers(chat.id)
 
@@ -64,7 +63,7 @@ def list_handlers(_bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def filters(_bot: Bot, update: Update):
+def filters(_, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -153,7 +152,7 @@ def filters(_bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def stop_filter(_bot: Bot, update: Update):
+def stop_filter(_, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -178,7 +177,7 @@ def stop_filter(_bot: Bot, update: Update):
 
 
 @run_async
-def reply_filter(bot: Bot, update: Update):
+def reply_filter(context: CallbackContext, update: Update):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
@@ -215,22 +214,22 @@ def reply_filter(bot: Bot, update: Update):
                         disable_web_page_preview=True,
                         reply_markup=keyboard)
                 except BadRequest as excp:
-                    if excp.message == "Unsupported url protocol":
-                        message.reply_text(
-                            "You seem to be trying to use an unsupported url protocol. Telegram "
-                            "doesn't support buttons for some protocols, such as tg://. Please try "
-                            "again, or ask @Aman_Ahmed for help.")
-                    elif excp.message == "Reply message not found":
-                        bot.send_message(
+                    if excp.message == "Reply message not found":
+                        context.bot.send_message(
                             chat.id,
                             filt.reply,
                             parse_mode=ParseMode.MARKDOWN,
                             disable_web_page_preview=True,
                             reply_markup=keyboard)
+                    elif excp.message == "Unsupported url protocol":
+                        message.reply_text(
+                            "You seem to be trying to use an unsupported url protocol. Telegram "
+                            "doesn't support buttons for some protocols, such as tg://. Please try "
+                            "again, or ask @LyndaEagleSupport for help.")
                     else:
                         message.reply_text(
                             "This note could not be sent, as it is incorrectly formatted. Ask in "
-                            "@Aman_Ahmed if you can't figure out why!")
+                            "@LyndaEagleSupport if you can't figure out why!")
                         LOGGER.warning(
                             "Message %s could not be parsed", str(
                                 filt.reply))

@@ -2,9 +2,9 @@
 # @TheRealPhoenix
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async
+from telegram.ext import CommandHandler, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 import lynda.modules.sql.blacklistusers_sql as sql
@@ -21,7 +21,8 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @run_async
 @dev_plus
 @gloggable
-def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def bl_user(context: CallbackContext, update: Update) -> str:
+    args = context.args
     message = update.effective_message
     user = update.effective_user
 
@@ -31,7 +32,7 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
         message.reply_text("I doubt that's a user.")
         return ""
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text(
             "How am I supposed to do my work if I am ignoring myself?")
         return ""
@@ -41,7 +42,7 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
     try:
-        target_user = bot.get_chat(user_id)
+        target_user = context.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
@@ -64,7 +65,8 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 @gloggable
-def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def unbl_user(context: CallbackContext, update: Update) -> str:
+    args = context.args
     message = update.effective_message
     user = update.effective_user
 
@@ -74,12 +76,12 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         message.reply_text("I doubt that's a user.")
         return ""
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("I always notice myself.")
         return ""
 
     try:
-        target_user = bot.get_chat(user_id)
+        target_user = context.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
@@ -105,12 +107,12 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @dev_plus
-def bl_users(bot: Bot, update: Update):
+def bl_users(context: CallbackContext, update: Update):
     users = []
 
     for each_user in sql.BLACKLIST_USERS:
 
-        user = bot.get_chat(each_user)
+        user = context.bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
 
         if reason:
