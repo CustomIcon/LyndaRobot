@@ -5,10 +5,10 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
-from telegram.ext import CallbackQueryHandler, run_async
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram.ext import run_async, CallbackContext
 
-from lynda import dispatcher, OWNER_ID, SUDO_USERS
+from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 
 info_btn = "More Information"
@@ -159,7 +159,7 @@ url = 'https://graphql.anilist.co'
 
 
 @run_async
-def anime(bot: Bot, update: Update):
+def anime(context: CallbackContext, update: Update):
    message = update.effective_message
    search = message.text.split(' ', 1)
    if len(search) == 1: return
@@ -202,7 +202,7 @@ def anime(bot: Bot, update: Update):
           update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons))
 
 @run_async
-def character(bot: Bot, update: Update):
+def character(_, update: Update):
    message = update.effective_message
    search = message.text.split(' ', 1)
    if len(search) == 1:
@@ -223,7 +223,7 @@ def character(bot: Bot, update: Update):
       else: update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 @run_async
-def manga(bot: Bot, update: Update):
+def manga(_, update: Update):
    message = update.effective_message
    search = message.text.split(' ', 1)
    if len(search) == 1:
@@ -262,7 +262,7 @@ def manga(bot: Bot, update: Update):
 
 
 @run_async
-def user(bot: Bot, update: Update):
+def user(_, update: Update):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -338,7 +338,7 @@ def user(bot: Bot, update: Update):
 
 
 @run_async
-def upcoming(bot: Bot, update: Update):
+def upcoming(_, update: Update):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top('anime', page=1, subtype="upcoming")
 
@@ -353,35 +353,7 @@ def upcoming(bot: Bot, update: Update):
     update.effective_message.reply_text(upcoming_message)
 
 
-def button(bot, update):
-    query = update.callback_query
-    message = query.message
-    data = query.data.split(", ")
-    query_type = data[0]
-    original_user_id = int(data[1])
-
-    bot.answer_callback_query(query.id)
-    if query_type == "anime_close":
-        user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS
-
-        if query.from_user.id in user_and_admin_list:
-            message.delete()
-        else:
-            query.answer("You are not allowed to use this.")
-    elif query_type in ["anime_anime", "anime_manga"]:
-        mal_id = data[2]
-        if query.from_user.id == original_user_id:
-            message.delete()
-            progress_message = bot.sendMessage(message.chat.id, "Searching.... ")
-            caption, buttons, image = get_anime_manga(mal_id, query_type, original_user_id)
-            bot.sendPhoto(message.chat.id, photo=image, caption=caption, parse_mode=ParseMode.HTML,
-                          reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
-            progress_message.delete()
-        else:
-            query.answer("You are not allowed to use this.")
-
-
-def site_search(bot: Bot, update: Update, site: str):
+def site_search(_, update: Update, site: str):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
     more_results = True
@@ -438,13 +410,13 @@ def site_search(bot: Bot, update: Update, site: str):
 
 
 @run_async
-def kaizoku(bot: Bot, update: Update):
-    site_search(bot, update, "kaizoku")
+def kaizoku(context: CallbackContext, update: Update):
+    site_search(context.bot, update, "kaizoku")
 
 
 @run_async
-def kayo(bot: Bot, update: Update):
-    site_search(bot, update, "kayo")
+def kayo(context: CallbackContext, update: Update):
+    site_search(context.bot, update, "kayo")
 
 
 
@@ -455,9 +427,7 @@ USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
 KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
-BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 
-dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
@@ -468,4 +438,4 @@ dispatcher.add_handler(UPCOMING_HANDLER)
 
 __command_list__ = ["anime", "manga", "character", "user", "upcoming", "kaizoku", "kayo"]
 __handlers__ = [ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER, UPCOMING_HANDLER, KAIZOKU_SEARCH_HANDLER,
-                KAYO_SEARCH_HANDLER, BUTTON_HANDLER]
+                KAYO_SEARCH_HANDLER]

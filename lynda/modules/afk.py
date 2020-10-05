@@ -1,7 +1,7 @@
 import random
 
-from telegram import Bot, Update, MessageEntity
-from telegram.ext import Filters, run_async
+from telegram import Update, MessageEntity
+from telegram.ext import Filters, run_async, CallbackContext
 
 from lynda import dispatcher
 from lynda.modules.disable import (
@@ -17,7 +17,7 @@ AFK_REPLY_GROUP = 8
 
 
 @run_async
-def afk(bot: Bot, update: Update):
+def afk(_, update: Update):
     args = update.effective_message.text.split(None, 1)
     reason = ""
     if len(args) >= 2:
@@ -30,7 +30,7 @@ def afk(bot: Bot, update: Update):
 
 
 @run_async
-def no_longer_afk(bot: Bot, update: Update):
+def no_longer_afk(_, update: Update):
     user = update.effective_user
 
     if not user:
@@ -55,7 +55,7 @@ def no_longer_afk(bot: Bot, update: Update):
 
 
 @run_async
-def reply_afk(bot: Bot, update: Update):
+def reply_afk(context: CallbackContext, update: Update):
     message = update.effective_message
     entities = message.parse_entities(
         [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]
@@ -73,7 +73,7 @@ def reply_afk(bot: Bot, update: Update):
                 )
                 if not user_id:
                     return
-                chat = bot.get_chat(user_id)
+                chat = context.bot.get_chat(user_id)
                 fst_name = chat.first_name
 
             else:
