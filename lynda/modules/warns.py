@@ -119,7 +119,7 @@ def warn(
 @user_admin_no_reply
 @bot_admin
 @loggable
-def button(_, update: Update) -> str:
+def button(update: Update, _) -> str:
     query: Optional[CallbackQuery] = update.callback_query
     user: Optional[User] = update.effective_user
     match = re.match(r"rm_warn\((.+?)\)", query.data)
@@ -151,7 +151,7 @@ def button(_, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def warn_user(context: CallbackContext, update: Update) -> str:
+def warn_user(update: Update, context: CallbackContext) -> str:
     args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
@@ -175,7 +175,7 @@ def warn_user(context: CallbackContext, update: Update) -> str:
 @user_admin
 @bot_admin
 @loggable
-def reset_warns(context: CallbackContext, update: Update) -> str:
+def reset_warns(update: Update, context: CallbackContext) -> str:
     args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
@@ -197,7 +197,7 @@ def reset_warns(context: CallbackContext, update: Update) -> str:
 
 
 @run_async
-def warns(context: CallbackContext, update: Update):
+def warns(update: Update, context: CallbackContext):
     args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
@@ -226,7 +226,7 @@ def warns(context: CallbackContext, update: Update):
 
 # Dispatcher handler stop - do not async
 @user_admin
-def add_warn_filter(_, update: Update):
+def add_warn_filter(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -259,7 +259,7 @@ def add_warn_filter(_, update: Update):
 
 
 @user_admin
-def remove_warn_filter(_, update: Update):
+def remove_warn_filter(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -293,7 +293,7 @@ def remove_warn_filter(_, update: Update):
 
 
 @run_async
-def list_warn_filters(_, update: Update):
+def list_warn_filters(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     all_handlers = sql.get_chat_warn_triggers(chat.id)
 
@@ -319,7 +319,7 @@ def list_warn_filters(_, update: Update):
 
 @run_async
 @loggable
-def reply_filter(_, update: Update) -> str:
+def reply_filter(update: Update, _) -> str:
     chat: Optional[Chat] = update.effective_chat
     message: Optional[Message] = update.effective_message
 
@@ -340,7 +340,7 @@ def reply_filter(_, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_warn_limit(context: CallbackContext, update: Update) -> str:
+def set_warn_limit(update: Update, context: CallbackContext) -> str:
     args = context.args
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
@@ -369,7 +369,7 @@ def set_warn_limit(context: CallbackContext, update: Update) -> str:
 
 @run_async
 @user_admin
-def set_warn_strength(context: CallbackContext, update: Update):
+def set_warn_strength(update: Update, context: CallbackContext):
     args = context.args
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user

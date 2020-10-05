@@ -19,7 +19,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def stickerid(context: CallbackContext, update: Update):
+def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text(
@@ -33,7 +33,7 @@ def stickerid(context: CallbackContext, update: Update):
 
 
 @run_async
-def getsticker(context: CallbackContext, update: Update):
+def getsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
@@ -50,7 +50,7 @@ def getsticker(context: CallbackContext, update: Update):
 
 
 @run_async
-def steal(context: CallbackContext, update: Update):
+def steal(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     msg = update.effective_message

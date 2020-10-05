@@ -44,7 +44,7 @@ def get_user_id(username):
     return None
 @run_async
 @dev_plus
-def broadcast(context: CallbackContext, update: Update):
+def broadcast(update: Update, context: CallbackContext):
     bot = context.bot
 
     to_send = update.effective_message.text.split(None, 1)
@@ -68,7 +68,7 @@ def broadcast(context: CallbackContext, update: Update):
 
 
 @run_async
-def log_user(_, update: Update):
+def log_user(update: Update, _):
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -90,7 +90,7 @@ def log_user(_, update: Update):
 
 @run_async
 @sudo_plus
-def chats(_, update: Update):
+def chats(update: Update, _):
 
     all_chats = sql.get_all_chats() or []
     chatfile = 'List of chats.\n'

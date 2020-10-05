@@ -6,7 +6,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 import wikipedia
 
 
-def wiki(context: CallbackContext, update: Update):
+def wiki(update: Update, context: CallbackContext):
     args = context.args
     reply = " ".join(args)
     summary = '{} {}'

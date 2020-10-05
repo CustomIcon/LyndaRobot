@@ -12,7 +12,7 @@ from lynda.modules.helper_funcs.extraction import extract_user
 
 
 @run_async
-def about_me(context: CallbackContext, update: Update):
+def about_me(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -35,7 +35,7 @@ def about_me(context: CallbackContext, update: Update):
 
 
 @run_async
-def set_about_me(context: CallbackContext, update: Update):
+def set_about_me(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
     user_id = message.from_user.id
@@ -62,7 +62,7 @@ def set_about_me(context: CallbackContext, update: Update):
 
 
 @run_async
-def about_bio(context: CallbackContext, update: Update):
+def about_bio(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     message = update.effective_message

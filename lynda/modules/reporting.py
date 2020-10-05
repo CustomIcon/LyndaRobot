@@ -19,7 +19,7 @@ REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
-def report_setting(context: CallbackContext, update: Update):
+def report_setting(update: Update, context: CallbackContext):
     args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
@@ -62,7 +62,7 @@ def report_setting(context: CallbackContext, update: Update):
 @run_async
 @user_not_admin
 @loggable
-def report(context: CallbackContext, update: Update) -> str:
+def report(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
@@ -176,12 +176,12 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(_bot, _update, chat, _chatP, _user):
+def __chat_settings__(_, __, chat, _chatP, _user):
     return "This chat is setup to send user reports to admins, via /report and @admin: `{}`".format(
         sql.chat_should_report(chat.id))
 
 
-def __user_settings__(_bot, _update, user):
+def __user_settings__(_, __, user):
     if sql.user_should_report(user.id) is True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[InlineKeyboardButton(
@@ -194,7 +194,7 @@ def __user_settings__(_bot, _update, user):
     return text, keyboard
 
 
-def control_panel_user(_bot, update):
+def control_panel_user(update: Update, _):
     chat = update.effective_chat
     query = update.callback_query
     enable = re.match(r"panel_reporting_U_enable", query.data)
@@ -218,7 +218,7 @@ def control_panel_user(_bot, update):
         parse_mode=ParseMode.MARKDOWN)
 
 
-def buttons(context: CallbackContext, update: Update):
+def buttons(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")

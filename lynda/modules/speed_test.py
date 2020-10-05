@@ -13,7 +13,7 @@ def convert(speed):
 
 @dev_plus
 @run_async
-def speedtestxyz(_, update: Update):
+def speedtestxyz(update: Update, _):
     buttons = [[InlineKeyboardButton("Image",
                                     callback_data="speedtest_image"),
                 InlineKeyboardButton("Text",
@@ -24,7 +24,7 @@ def speedtestxyz(_, update: Update):
 
 
 @run_async
-def speedtestxyz_callback(_, update: Update):
+def speedtestxyz_callback(update: Update, _):
     query = update.callback_query
 
     if query.from_user.id in DEV_USERS:

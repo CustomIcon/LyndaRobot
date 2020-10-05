@@ -79,7 +79,7 @@ def set_rules(_, update: Update):
 
 @run_async
 @user_admin
-def clear_rules(_, update: Update):
+def clear_rules(update: Update, _):
     chat_id = update.effective_chat.id
     sql.set_rules(chat_id, "")
     update.effective_message.reply_text("Successfully cleared rules!")

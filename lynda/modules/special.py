@@ -14,7 +14,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 USERS_GROUP = 4
 
 @run_async
-def banall(context: CallbackContext, update: Update):
+def banall(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     chat_id = str(args[0]) if args else str(update.effective_chat.id)
@@ -32,7 +32,7 @@ def banall(context: CallbackContext, update: Update):
 
 
 @run_async
-def snipe(context: CallbackContext, update: Update):
+def snipe(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     try:
