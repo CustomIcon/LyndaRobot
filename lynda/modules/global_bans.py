@@ -4,13 +4,24 @@ from datetime import datetime
 from io import BytesIO
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest, TelegramError
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 import lynda.modules.sql.global_bans_sql as sql
-from lynda import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, SARDEGNA_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS, spam_watch
+from lynda import (
+    dispatcher,
+    OWNER_ID,
+    SUDO_USERS,
+    DEV_USERS,
+    SUPPORT_USERS,
+    SARDEGNA_USERS,
+    WHITELIST_USERS,
+    STRICT_GBAN,
+    GBAN_LOGS,
+    spam_watch
+)
 from lynda.modules.helper_funcs.chat_status import user_admin, is_user_admin, support_plus
 from lynda.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from lynda.modules.helper_funcs.misc import send_to_list
@@ -49,7 +60,9 @@ UNGBAN_ERRORS = {
 
 @run_async
 @support_plus
-def gban(bot: Bot, update: Update, args: List[str]):
+def gban(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -190,7 +203,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                         parse_mode=ParseMode.HTML)
                 else:
                     send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
-                                 f"Could not gban due to: {excp.message}")
+                                f"Could not gban due to: {excp.message}")
                 sql.ungban_user(user_id)
                 return
         except TelegramError:
@@ -232,10 +245,12 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @support_plus
-def ungban(bot: Bot, update: Update, args: List[str]):
+def ungban(update: Update, context: CallbackContext):
+    args = context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
+    bot = context.bot
 
     user_id = extract_user(message, args)
 
@@ -338,7 +353,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @support_plus
-def gbanlist(_bot: Bot, update: Update):
+def gbanlist(update: Update, _):
     banned_users = sql.get_gban_list()
 
     if not banned_users:
@@ -384,7 +399,8 @@ def check_and_ban(update, user_id, should_message=True):
 
 
 @run_async
-def enforce_gban(bot: Bot, update: Update):
+def enforce_gban(update: Update, context: CallbackContext):
+    bot = context.bot
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     if (
         not sql.does_chat_gban(update.effective_chat.id)
@@ -411,7 +427,8 @@ def enforce_gban(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def gbanstat(_bot: Bot, update: Update, args: List[str]):
+def gbanstat(update: Update, context: CallbackContext):
+    args = context.args
     if args:
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
@@ -463,11 +480,12 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
-*Admin only:*
- - /gbanstat
+──「 *Admin only:* 」──
+-> `/gbanstat`
 Note: You can appeal gbans or ask gbans at @LyndaEagleSupport
 Lynda also integrates @Spamwatch API into gbans to remove Spammers as much as possible from your chatroom!
-*What is SpamWatch?*
+
+──「 *What is SpamWatch?* 」──
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/ac12a2c6b831dd005015b.jpg)
 Lynda will constantly help banning spammers off from your group automatically So, you don't have to worry about spammers storming your group.
 """

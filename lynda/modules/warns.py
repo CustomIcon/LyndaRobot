@@ -4,9 +4,9 @@ from typing import Optional, List
 
 import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, User, CallbackQuery
-from telegram import Message, Chat, Update, Bot
+from telegram import Message, Chat, Update
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, DispatcherHandlerStop, MessageHandler, Filters, CallbackQueryHandler
+from telegram.ext import CommandHandler, run_async, DispatcherHandlerStop, MessageHandler, Filters, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda import dispatcher, BAN_STICKER, WHITELIST_USERS, SARDEGNA_USERS
@@ -119,7 +119,7 @@ def warn(
 @user_admin_no_reply
 @bot_admin
 @loggable
-def button(_bot: Bot, update: Update) -> str:
+def button(update: Update, _) -> str:
     query: Optional[CallbackQuery] = update.callback_query
     user: Optional[User] = update.effective_user
     match = re.match(r"rm_warn\((.+?)\)", query.data)
@@ -151,7 +151,8 @@ def button(_bot: Bot, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def warn_user(_bot: Bot, update: Update, args: List[str]) -> str:
+def warn_user(update: Update, context: CallbackContext) -> str:
+    args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     warner: Optional[User] = update.effective_user
@@ -174,7 +175,8 @@ def warn_user(_bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @bot_admin
 @loggable
-def reset_warns(_bot: Bot, update: Update, args: List[str]) -> str:
+def reset_warns(update: Update, context: CallbackContext) -> str:
+    args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
@@ -195,7 +197,8 @@ def reset_warns(_bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-def warns(_bot: Bot, update: Update, args: List[str]):
+def warns(update: Update, context: CallbackContext):
+    args = context.args
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     user_id = extract_user(message, args) or update.effective_user.id
@@ -223,7 +226,7 @@ def warns(_bot: Bot, update: Update, args: List[str]):
 
 # Dispatcher handler stop - do not async
 @user_admin
-def add_warn_filter(_bot: Bot, update: Update):
+def add_warn_filter(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -256,7 +259,7 @@ def add_warn_filter(_bot: Bot, update: Update):
 
 
 @user_admin
-def remove_warn_filter(_bot: Bot, update: Update):
+def remove_warn_filter(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     msg: Optional[Message] = update.effective_message
 
@@ -290,7 +293,7 @@ def remove_warn_filter(_bot: Bot, update: Update):
 
 
 @run_async
-def list_warn_filters(_bot: Bot, update: Update):
+def list_warn_filters(update: Update, _):
     chat: Optional[Chat] = update.effective_chat
     all_handlers = sql.get_chat_warn_triggers(chat.id)
 
@@ -316,7 +319,7 @@ def list_warn_filters(_bot: Bot, update: Update):
 
 @run_async
 @loggable
-def reply_filter(_bot: Bot, update: Update) -> str:
+def reply_filter(update: Update, _) -> str:
     chat: Optional[Chat] = update.effective_chat
     message: Optional[Message] = update.effective_message
 
@@ -337,7 +340,8 @@ def reply_filter(_bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_warn_limit(_bot: Bot, update: Update, args: List[str]) -> str:
+def set_warn_limit(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
     msg: Optional[Message] = update.effective_message
@@ -365,7 +369,8 @@ def set_warn_limit(_bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_admin
-def set_warn_strength(_bot: Bot, update: Update, args: List[str]):
+def set_warn_strength(update: Update, context: CallbackContext):
+    args = context.args
     chat: Optional[Chat] = update.effective_chat
     user: Optional[User] = update.effective_user
     msg: Optional[Message] = update.effective_message
@@ -428,17 +433,25 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /warns <userhandle>: get a user's number, and reason, of warns.
- - /warnlist: list of all current warning filters
+-> `/warns` <userhandle>
+get a user's number, and reason, of warns.
+-> `/warnlist`
+list of all current warning filters
 
-*Admins only:*
- - /warn <userhandle>: warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
- - /resetwarn <userhandle>: reset the warns for a user. Can also be used as a reply.
- - /addwarn <keyword> <reply message>: set a warning filter on a certain keyword. If you want your keyword to \
+──「 *Admins only:* 」──
+-> `/warn` <userhandle>
+warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
+-> `/resetwarn` <userhandle>
+reset the warns for a user. Can also be used as a reply.
+-> `/addwarn` <keyword> <reply message>
+set a warning filter on a certain keyword. If you want your keyword to \
 be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`.
- - /nowarn <keyword>: stop a warning filter
- - /warnlimit <num>: set the warning limit
- - /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
+-> `/nowarn` <keyword>
+stop a warning filter
+-> `/warnlimit` <num>
+set the warning limit
+-> `/strongwarn` <on/yes/off/no>
+If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
 """
 
 __mod_name__ = "Warnings"

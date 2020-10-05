@@ -2,8 +2,8 @@
 
 import requests
 
-from telegram import Bot, Update, ParseMode
-from telegram.ext import run_async, CommandHandler
+from telegram import Update, ParseMode
+from telegram.ext import run_async, CommandHandler, CallbackContext
 
 from lynda import dispatcher, LASTFM_API_KEY
 from lynda.modules.disable import DisableAbleCommandHandler
@@ -12,7 +12,8 @@ import lynda.modules.sql.last_fm_sql as sql
 
 
 @run_async
-def set_user(_bot: Bot, update: Update, args):
+def set_user(update: Update, context: CallbackContext):
+    args = context.args
     msg = update.effective_message
     if args:
         user = update.effective_user.id
@@ -25,7 +26,7 @@ def set_user(_bot: Bot, update: Update, args):
 
 
 @run_async
-def clear_user(_bot: Bot, update: Update):
+def clear_user(update: Update, _):
     user = update.effective_user.id
     sql.set_user(user, "")
     update.effective_message.reply_text(
@@ -33,7 +34,7 @@ def clear_user(_bot: Bot, update: Update):
 
 
 @run_async
-def last_fm(_bot: Bot, update: Update):
+def last_fm(update: Update, _):
     msg = update.effective_message
     user = update.effective_user.first_name
     user_id = update.effective_user.id
@@ -45,7 +46,7 @@ def last_fm(_bot: Bot, update: Update):
     base_url = "http://ws.audioscrobbler.com/2.0"
     res = requests.get(
         f"{base_url}?method=user.getrecenttracks&limit=3&extended=1&user={username}&api_key={LASTFM_API_KEY}&format=json")
-    if not res.status_code == 200:
+    if res.status_code != 200:
         msg.reply_text(
             "Hmm... something went wrong.\nPlease ensure that you've set the correct username!")
         return

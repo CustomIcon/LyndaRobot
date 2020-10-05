@@ -2,9 +2,9 @@ import html
 import re
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 
 import lynda.modules.sql.blacklist_sql as sql
 from lynda import dispatcher, LOGGER
@@ -18,10 +18,10 @@ BLACKLIST_GROUP = 11
 
 @run_async
 @connection_status
-def blacklist(_bot: Bot, update: Update, args: List[str]):
+def blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
 
@@ -57,7 +57,7 @@ def blacklist(_bot: Bot, update: Update, args: List[str]):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(_bot: Bot, update: Update):
+def add_blacklist(update: Update, _):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -88,7 +88,7 @@ def add_blacklist(_bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(_bot: Bot, update: Update):
+def unblacklist(update: Update, _):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -96,7 +96,7 @@ def unblacklist(_bot: Bot, update: Update):
     if len(words) > 1:
         text = words[1]
         to_unblacklist = list({trigger.strip()
-                               for trigger in text.split("\n") if trigger.strip()})
+                            for trigger in text.split("\n") if trigger.strip()})
         successful = 0
 
         for trigger in to_unblacklist:
@@ -135,7 +135,7 @@ def unblacklist(_bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(_bot: Bot, update: Update):
+def del_blacklist(update: Update, _):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
@@ -173,24 +173,34 @@ __help__ = """
 Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, \
 the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
 *NOTE:* blacklists do not affect group admins.
- - /blacklist: View the current blacklisted words.
-*Admin only:*
- - /addblacklist <triggers>: Add a trigger to the blacklist. Each line is considered one trigger, so using different \
+-> /blacklist:
+View the current blacklisted words.
+
+──「 *Admin only:* 」──
+-> `/addblacklist` <triggers>
+Add a trigger to the blacklist. Each line is considered one trigger, so using different \
 lines will allow you to add multiple triggers.
- - /unblacklist <triggers>: Remove triggers from the blacklist. Same newline logic applies here, so you can remove \
+-> `/unblacklist` <triggers>
+Remove triggers from the blacklist. Same newline logic applies here, so you can remove \
 multiple triggers at once.
- - /rmblacklist <triggers>: Same as above.
+-> `/rmblacklist` <triggers>
+Same as above.
 
 Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
 *NOTE:* Blacklist stickers do not affect the group admin.
- - /blsticker: See current blacklisted sticker.
-*Only admin:*
- - /addblsticker <sticker link>: Add the sticker trigger to the black list. Can be added via reply sticker.
- - /unblsticker <sticker link>: Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once.
- - /rmblsticker <sticker link>: Same as above.
- - /blstickermode ban/tban/mute/tmute .
+-> `/blsticker`: See current blacklisted sticker.
+
+──「 *Only admin:* 」──
+-> `/addblsticker` <sticker link>
+Add the sticker trigger to the black list. Can be added via reply sticker.
+-> `/unblsticker` <sticker link>
+Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once.
+-> `/rmblsticker` <sticker link>
+Same as above.
+-> `/blstickermode` ban/tban/mute/tmute .
+
 Note:
- - `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
+ -> `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
 """
 
 BLACKLIST_HANDLER = DisableAbleCommandHandler(

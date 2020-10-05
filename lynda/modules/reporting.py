@@ -3,9 +3,9 @@
 import html
 from typing import Optional, List
 import re
-from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Message, Chat, Update, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler
+from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda.modules.helper_funcs.chat_status import user_not_admin, user_admin
@@ -19,7 +19,8 @@ REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
-def report_setting(_bot: Bot, update: Update, args: List[str]):
+def report_setting(update: Update, context: CallbackContext):
+    args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
 
@@ -61,7 +62,8 @@ def report_setting(_bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_not_admin
 @loggable
-def report(bot: Bot, update: Update) -> str:
+def report(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -77,17 +79,17 @@ def report(bot: Bot, update: Update) -> str:
 
         if chat.username and chat.type == Chat.SUPERGROUP:
             msg = "<b>{}:</b>" \
-                  "\n<b>Reported user:</b> {} (<code>{}</code>)" \
-                  "\n<b>Reported by:</b> {} (<code>{}</code>)".format(html.escape(chat.title),
-                                                                      mention_html(
-                                                                          reported_user.id,
-                                                                          reported_user.first_name),
-                                                                      reported_user.id,
-                                                                      mention_html(user.id,
-                                                                                   user.first_name),
-                                                                      user.id)
+                "\n<b>Reported user:</b> {} (<code>{}</code>)" \
+                "\n<b>Reported by:</b> {} (<code>{}</code>)".format(html.escape(chat.title),
+                                                                    mention_html(
+                                                                        reported_user.id,
+                                                                        reported_user.first_name),
+                                                                    reported_user.id,
+                                                                    mention_html(user.id,
+                                                                                user.first_name),
+                                                                    user.id)
             link = "\n<b>Link:</b> " \
-                   "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username, message.message_id)
+                "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username, message.message_id)
 
             should_forward = False
             keyboard = [
@@ -118,7 +120,7 @@ def report(bot: Bot, update: Update) -> str:
 
             if sql.user_should_report(admin.user.id):
                 try:
-                    if not chat.type == Chat.SUPERGROUP:
+                    if chat.type != Chat.SUPERGROUP:
                         bot.send_message(
                             admin.user.id, msg + link, parse_mode=ParseMode.HTML)
 
@@ -174,12 +176,12 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(_bot, _update, chat, _chatP, _user):
+def __chat_settings__(_, __, chat, _chatP, _user):
     return "This chat is setup to send user reports to admins, via /report and @admin: `{}`".format(
         sql.chat_should_report(chat.id))
 
 
-def __user_settings__(_bot, _update, user):
+def __user_settings__(_, __, user):
     if sql.user_should_report(user.id) is True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[InlineKeyboardButton(
@@ -192,7 +194,7 @@ def __user_settings__(_bot, _update, user):
     return text, keyboard
 
 
-def control_panel_user(_bot, update):
+def control_panel_user(update: Update, _):
     chat = update.effective_chat
     query = update.callback_query
     enable = re.match(r"panel_reporting_U_enable", query.data)
@@ -216,7 +218,8 @@ def control_panel_user(_bot, update):
         parse_mode=ParseMode.MARKDOWN)
 
 
-def buttons(bot: Bot, update):
+def buttons(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")
     if splitter[1] == "kick":
@@ -255,13 +258,17 @@ def buttons(bot: Bot, update):
 __mod_name__ = "Reporting"
 
 __help__ = """
- - /report <reason>: reply to a message to report it to admins.
- - @admin: reply to a message to report it to admins.
+-> `/report <reason>`
+reply to a message to report it to admins.
+-> `@admin`
+reply to a message to report it to admins.
 NOTE: neither of these will get triggered if used by admins
-*Admin only:*
- - /reports <on/off>: change report setting, or view current status.
-   - If done in pm, toggles your status.
-   - If in chat, toggles that chat's status.
+
+──「 *Admin only:* 」──
+-> `/reports` <on/off>
+change report setting, or view current status.
+- If done in pm, toggles your status.
+- If in chat, toggles that chat's status.
 """
 
 REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
