@@ -717,11 +717,11 @@ WELC_HELP_TXT = (
     "Buttons are also supported, so you can make your welcomes look awesome with some nice intro "
     "buttons.\n"
     f"To create a button linking to your rules, use this: `[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`. "
-    "Simply replace `group_id` with your group's id, which can be obtained via /id, and you're good to "
+    "Simply replace `group_id` with your group's id, which can be obtained via `/id`, and you're good to "
     "go. Note that group ids are usually preceded by a `-` sign; this is required, so please don't "
     "remove it.\n"
     "If you're feeling fun, you can even set images/gifs/videos/voice messages as the welcome message by "
-    "replying to the desired media, and calling /setwelcome.")
+    "replying to the desired media, and calling `/setwelcome`.")
 
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
@@ -784,7 +784,7 @@ shows current welcome settings.
 -> `/welcome` noformat
 shows current welcome settings, without the formatting - useful to recycle your welcome messages!
 -> `/goodbye`
-same usage and args as /welcome.
+same usage and args as `/welcome`.
 -> `/setwelcome` <sometext>
 set a custom welcome message. If used replying to media, uses that media.
 -> `/setgoodbye` <sometext>
@@ -856,7 +856,7 @@ dispatcher.add_handler(WELCOMEMUTE_HANDLER)
 dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
-__mod_name__ = "Welcomes/Goodbyes"
+__mod_name__ = "Greetings"
 __command_list__ = [
     "welcome",
     "goodbye",

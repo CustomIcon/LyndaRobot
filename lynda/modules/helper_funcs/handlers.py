@@ -85,11 +85,11 @@ class CustomRegexHandler(RegexHandler):
 class CustomMessageHandler(MessageHandler):
 
     def __init__(self,
-                 filters,
-                 callback,
-                 friendly="",
-                 allow_edit=False,
-                 **kwargs):
+                filters,
+                callback,
+                friendly="",
+                allow_edit=False,
+                **kwargs):
         super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
