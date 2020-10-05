@@ -10,8 +10,8 @@ from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 import requests
 from typing import List
-from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction
-from telegram.ext import CommandHandler, run_async
+from telegram import ParseMode, InputMediaPhoto, Update, TelegramError, ChatAction
+from telegram.ext import CommandHandler, run_async, CallbackContext
 from lynda import dispatcher, TIME_API_KEY, CASH_API_KEY, WALL_API
 from lynda.modules.disable import DisableAbleCommandHandler
 
@@ -21,7 +21,7 @@ opener.addheaders = [('User-agent', useragent)]
 
 
 @run_async
-def app(_bot: Bot, update: Update):
+def app(_, update: Update):
     message = update.effective_message
     try:
         progress_message = update.effective_message.reply_text(
@@ -70,7 +70,7 @@ def app(_bot: Bot, update: Update):
 
 
 @run_async
-def ud(_bot: Bot, update: Update):
+def ud(_, update: Update):
     message = update.effective_message
     text = message.text[len('/ud '):]
     results = requests.get(
@@ -83,7 +83,8 @@ def ud(_bot: Bot, update: Update):
 
 
 @run_async
-def tts(_bot: Bot, update: Update, args):
+def tts(context: CallbackContext, update: Update):
+    args = context.args
     datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
     datetime.now().strftime("%d%m%y-%H%M%S%f")
     reply = " ".join(args)
@@ -104,7 +105,8 @@ def tts(_bot: Bot, update: Update, args):
 
 
 @run_async
-def reverse(bot: Bot, update: Update, args: List[str]):
+def reverse(context: CallbackContext, update: Update):
+    args = context.args
     if os.path.isfile("okgoogle.png"):
         os.remove("okgoogle.png")
 
@@ -124,7 +126,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         else:
             msg.reply_text("Reply to an image or sticker to lookup.")
             return
-        image_file = bot.get_file(file_id)
+        image_file = context.bot.get_file(file_id)
         image_file.download(imagename)
         if args:
             txt = args[0]
@@ -135,7 +137,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
                 lim = 2
         else:
             lim = 2
-    elif args and not reply:
+    elif args:
         splatargs = msg.text.split(" ")
         if len(splatargs) == 3:
             img_link = splatargs[1]
@@ -187,11 +189,11 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         fetchUrl = response.headers['Location']
 
         if response != 400:
-            xx = bot.send_message(
+            xx = context.bot.send_message(
                 chat_id, "Image was successfully uploaded to Google."
                 "\nParsing source now. Maybe.", reply_to_message_id=rtmid)
         else:
-            bot.send_message(
+            context.bot.send_message(
                 chat_id,
                 "Google told me to go away.",
                 reply_to_message_id=rtmid)
@@ -228,7 +230,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             lmao = InputMediaPhoto(media=str(link))
             imglinks.append(lmao)
 
-        bot.send_media_group(
+        context.bot.send_media_group(
             chat_id=chat_id,
             media=imglinks,
             reply_to_message_id=rtmid)
@@ -257,7 +259,6 @@ def ParseSauce(googleurl):
             results['override'] = url
     except Exception as e:
         print(e)
-        pass
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
         url = 'https://www.google.com/search?tbm=isch&q=' + \
             urllib.parse.quote_plus(similar_image.get('value'))
@@ -304,11 +305,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 country_zone = zone['zoneName']
                 country_code = zone['countryCode']
 
-                if zone['dst'] == 1:
-                    daylight_saving = "Yes"
-                else:
-                    daylight_saving = "No"
-
+                daylight_saving = "Yes" if zone['dst'] == 1 else "No"
                 date_fmt = r"%d-%m-%Y"
                 time_fmt = r"%H:%M:%S"
                 day_fmt = r"%A"
@@ -336,7 +333,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
 
 @run_async
-def gettime(_bot: Bot, update: Update):
+def gettime(_, update: Update):
     message = update.effective_message
 
     try:
@@ -365,7 +362,7 @@ def gettime(_bot: Bot, update: Update):
 
 
 @run_async
-def convert(_bot: Bot, update: Update):
+def convert(_, update: Update):
     args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
 
@@ -405,34 +402,27 @@ def convert(_bot: Bot, update: Update):
 
 
 @run_async
-def wall(bot: Bot, update: Update, args):
-    chat_id = update.effective_chat.id
+def wall(context: CallbackContext, update: Update):
+    args = context.args
     msg = update.effective_message
     msg_id = update.effective_message.message_id
     query = " ".join(args)
-    if not query:
-        msg.reply_text("Please enter a query!")
-        return
-    else:
+    if query:
         caption = query
         term = query.replace(" ", "%20")
         json_rep = requests.get(
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}").json()
-        if not json_rep.get("success"):
-            msg.reply_text("An error occurred! Report this @LyndaEagleSupport")
-        else:
+        if json_rep.get("success"):
             wallpapers = json_rep.get("wallpapers")
-            if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
-                return
-            else:
+            if wallpapers:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
                 wallpaper = wallpapers[index]
                 wallpaper = wallpaper.get("url_image")
                 wallpaper = wallpaper.replace("\\", "")
-                bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
+                chat_id = update.effective_chat.id
+                context.bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
                                reply_to_message_id=msg_id, timeout=60)
-                bot.send_document(
+                context.bot.send_document(
                     chat_id,
                     document=wallpaper,
                     filename='wallpaper',
@@ -440,9 +430,18 @@ def wall(bot: Bot, update: Update, args):
                     reply_to_message_id=msg_id,
                     timeout=60)
 
+            else:
+                msg.reply_text("No results found! Refine your search.")
+                return
+        else:
+            msg.reply_text("An error occurred! Report this @LyndaEagleSupport")
+    else:
+        msg.reply_text("Please enter a query!")
+        return
+
 
 @run_async
-def covid(_bot: Bot, update: Update):
+def covid(_, update: Update):
     message = update.effective_message
     text = message.text.split(' ', 1)
     if len(text) == 1:

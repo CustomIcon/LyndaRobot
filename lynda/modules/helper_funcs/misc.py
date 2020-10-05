@@ -5,8 +5,9 @@
 
 
 from typing import List, Dict
-from telegram import MAX_MESSAGE_LENGTH, InlineKeyboardButton, Bot, ParseMode, Update
+from telegram import MAX_MESSAGE_LENGTH, InlineKeyboardButton, ParseMode, Update
 from telegram.error import TelegramError
+from telegram.ext import CallbackContext
 
 from lynda import NO_LOAD
 
@@ -66,17 +67,17 @@ def paginate_modules(_page_n: int, module_dict: Dict, prefix, chat=None) -> List
     return pairs
 
 
-def send_to_list(bot: Bot, send_to: list, message: str, markdown=False, html=False) -> None:
+def send_to_list(context: CallbackContext, send_to: list, message: str, markdown=False, html=False) -> None:
     if html and markdown:
         raise Exception("Can only send with either markdown or HTML!")
     for user_id in set(send_to):
         try:
             if markdown:
-                bot.send_message(user_id, message, parse_mode=ParseMode.MARKDOWN)
+                context.bot.send_message(user_id, message, parse_mode=ParseMode.MARKDOWN)
             elif html:
-                bot.send_message(user_id, message, parse_mode=ParseMode.HTML)
+                context.bot.send_message(user_id, message, parse_mode=ParseMode.HTML)
             else:
-                bot.send_message(user_id, message)
+                context.bot.send_message(user_id, message)
         except TelegramError:
             pass  # ignore users who fail
 
@@ -106,7 +107,7 @@ def revert_buttons(buttons):
 def is_module_loaded(name):
     return name not in NO_LOAD
 
-def sendMessage(text: str, bot: Bot, update: Update):
-    return bot.send_message(update.message.chat_id,
+def sendMessage(text: str, context: CallbackContext, update: Update):
+    return context.bot.send_message(update.message.chat_id,
                                     reply_to_message_id=update.message.message_id,
                                     text=text, parse_mode=ParseMode.HTML)

@@ -2,8 +2,8 @@ import importlib
 from typing import Union, List
 
 from future.utils import string_types
-from telegram import Bot, Update, ParseMode
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler
+from telegram import Update, ParseMode
+from telegram.ext import CommandHandler, RegexHandler, MessageHandler, CallbackContext
 from telegram.utils.helpers import escape_markdown
 
 from lynda import dispatcher
@@ -14,9 +14,7 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
-
     from telegram.ext.dispatcher import run_async
-
     from lynda.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
     from lynda.modules.sql import disable_sql as sql
 
@@ -25,7 +23,6 @@ if is_module_loaded(FILENAME):
     ADMIN_CMDS = []
 
     class DisableAbleCommandHandler(CustomCommandHandler):
-
         def __init__(
                 self,
                 command,
@@ -97,7 +94,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable(bot: Bot, update: Update, args: List[str]):
+    def disable(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_cmd = args[0]
@@ -119,7 +117,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable_module(bot: Bot, update: Update, args: List[str]):
+    def disable_module(context: CallbackContext, update: Update, args: List[str]):
         chat = update.effective_chat
         if len(args) >= 1:
             disable_module = "lynda.modules." + args[0].rsplit(".", 1)[0]
@@ -169,8 +167,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable(bot: Bot, update: Update, args: List[str]):
-
+    def enable(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             enable_cmd = args[0]
@@ -190,7 +188,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable_module(bot: Bot, update: Update, args: List[str]):
+    def enable_module(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
 
         if len(args) >= 1:
@@ -202,7 +201,6 @@ if is_module_loaded(FILENAME):
                 update.effective_message.reply_text(
                     "Does that module even exist?")
                 return
-
             try:
                 command_list = module.__command_list__
             except Exception:
@@ -212,7 +210,6 @@ if is_module_loaded(FILENAME):
 
             enabled_cmds = []
             failed_enabled_cmds = []
-
             for enable_cmd in command_list:
                 if enable_cmd.startswith(CMD_STARTERS):
                     enable_cmd = enable_cmd[1:]
@@ -240,7 +237,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def list_cmds(bot: Bot, update: Update):
+    def list_cmds(context: CallbackContext, update: Update):
         if DISABLE_CMDS + DISABLE_OTHER:
             result = ""
             for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
@@ -266,7 +263,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @connection_status
-    def commands(bot: Bot, update: Update):
+    def commands(context: CallbackContext, update: Update):
         chat = update.effective_chat
         update.effective_message.reply_text(
             build_curr_disabled(
