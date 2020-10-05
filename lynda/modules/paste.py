@@ -1,15 +1,16 @@
 from typing import List
 
 import requests
-from telegram import Update, Bot, ParseMode
-from telegram.ext import run_async
+from telegram import Update, ParseMode
+from telegram.ext import run_async, CallbackContext
 
 from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def paste(_bot: Bot, update: Update, args: List[str]):
+def paste(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
 
     if message.reply_to_message:
@@ -24,11 +25,8 @@ def paste(_bot: Bot, update: Update, args: List[str]):
 
     key = requests.post('https://nekobin.com/api/documents',
                         json={"content": data}).json().get('result').get('key')
-
     url = f'https://nekobin.com/{key}'
-
     reply_text = f'Nekofied to *Nekobin* : {url}'
-
     message.reply_text(
         reply_text,
         parse_mode=ParseMode.MARKDOWN,

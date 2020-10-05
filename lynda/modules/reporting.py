@@ -3,9 +3,9 @@
 import html
 from typing import Optional, List
 import re
-from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Message, Chat, Update, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler
+from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda.modules.helper_funcs.chat_status import user_not_admin, user_admin
@@ -19,7 +19,8 @@ REPORT_IMMUNE_USERS = SUDO_USERS + SARDEGNA_USERS
 
 @run_async
 @user_admin
-def report_setting(_bot: Bot, update: Update, args: List[str]):
+def report_setting(context: CallbackContext, update: Update):
+    args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
 
@@ -61,7 +62,8 @@ def report_setting(_bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_not_admin
 @loggable
-def report(bot: Bot, update: Update) -> str:
+def report(context: CallbackContext, update: Update) -> str:
+    bot = context.bot
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -77,17 +79,17 @@ def report(bot: Bot, update: Update) -> str:
 
         if chat.username and chat.type == Chat.SUPERGROUP:
             msg = "<b>{}:</b>" \
-                  "\n<b>Reported user:</b> {} (<code>{}</code>)" \
-                  "\n<b>Reported by:</b> {} (<code>{}</code>)".format(html.escape(chat.title),
-                                                                      mention_html(
-                                                                          reported_user.id,
-                                                                          reported_user.first_name),
-                                                                      reported_user.id,
-                                                                      mention_html(user.id,
-                                                                                   user.first_name),
-                                                                      user.id)
+                "\n<b>Reported user:</b> {} (<code>{}</code>)" \
+                "\n<b>Reported by:</b> {} (<code>{}</code>)".format(html.escape(chat.title),
+                                                                    mention_html(
+                                                                        reported_user.id,
+                                                                        reported_user.first_name),
+                                                                    reported_user.id,
+                                                                    mention_html(user.id,
+                                                                                user.first_name),
+                                                                    user.id)
             link = "\n<b>Link:</b> " \
-                   "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username, message.message_id)
+                "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username, message.message_id)
 
             should_forward = False
             keyboard = [
@@ -118,7 +120,7 @@ def report(bot: Bot, update: Update) -> str:
 
             if sql.user_should_report(admin.user.id):
                 try:
-                    if not chat.type == Chat.SUPERGROUP:
+                    if chat.type != Chat.SUPERGROUP:
                         bot.send_message(
                             admin.user.id, msg + link, parse_mode=ParseMode.HTML)
 
@@ -216,7 +218,8 @@ def control_panel_user(_bot, update):
         parse_mode=ParseMode.MARKDOWN)
 
 
-def buttons(bot: Bot, update):
+def buttons(context: CallbackContext, update: Update):
+    bot = context.bot
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")
     if splitter[1] == "kick":

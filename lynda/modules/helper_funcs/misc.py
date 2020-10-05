@@ -48,12 +48,12 @@ def paginate_modules(_page_n: int, module_dict: Dict, prefix, chat=None) -> List
         modules = sorted(
             [EqInlineKeyboardButton(x.__mod_name__,
                                     callback_data="{}_module({})".format(prefix, x.__mod_name__.lower())) for x
-             in module_dict.values()])
+            in module_dict.values()])
     else:
         modules = sorted(
             [EqInlineKeyboardButton(x.__mod_name__,
                                     callback_data="{}_module({},{})".format(prefix, chat, x.__mod_name__.lower())) for x
-             in module_dict.values()])
+            in module_dict.values()])
     pairs = [
     modules[i * 3:(i + 1) * 3] for i in range((len(modules) + 3 - 1) // 3)
     ]

@@ -1,6 +1,6 @@
 import importlib
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import CommandHandler, run_async
 
 from lynda import dispatcher
@@ -19,7 +19,7 @@ from lynda.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 @run_async
 @dev_plus
-def load(_bot: Bot, update: Update):
+def load(_, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     load_messasge = message.reply_text(
@@ -85,7 +85,7 @@ def load(_bot: Bot, update: Update):
 
 @run_async
 @dev_plus
-def unload(_bot: Bot, update: Update):
+def unload(_, update: Update):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     unload_messasge = message.reply_text(
@@ -152,7 +152,7 @@ def unload(_bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def listmodules(_bot: Bot, update: Update):
+def listmodules(_, update: Update):
     message = update.effective_message
     module_list = []
 

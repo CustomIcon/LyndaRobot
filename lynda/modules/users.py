@@ -1,9 +1,9 @@
 from io import BytesIO
 from time import sleep
 
-from telegram import Bot, Update, TelegramError
+from telegram import Update, TelegramError
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 
 import lynda.modules.sql.users_sql as sql
 
@@ -44,7 +44,8 @@ def get_user_id(username):
     return None
 @run_async
 @dev_plus
-def broadcast(bot: Bot, update: Update):
+def broadcast(context: CallbackContext, update: Update):
+    bot = context.bot
 
     to_send = update.effective_message.text.split(None, 1)
 
@@ -67,7 +68,7 @@ def broadcast(bot: Bot, update: Update):
 
 
 @run_async
-def log_user(_bot: Bot, update: Update):
+def log_user(_, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -89,7 +90,7 @@ def log_user(_bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def chats(_bot: Bot, update: Update):
+def chats(_, update: Update):
 
     all_chats = sql.get_all_chats() or []
     chatfile = 'List of chats.\n'

@@ -1,9 +1,8 @@
 from typing import Optional
 
-from telegram import Message, Update, Bot, User
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Message, Update, User, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
+from telegram.ext import CommandHandler, run_async, Filters, CallbackContext
 from telegram.utils.helpers import escape_markdown
 
 import lynda.modules.sql.rules_sql as sql
@@ -13,7 +12,7 @@ from lynda.modules.helper_funcs.string_handling import markdown_parser
 
 
 @run_async
-def get_rules(_bot: Bot, update: Update):
+def get_rules(_, update: Update):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
 
@@ -51,7 +50,7 @@ def send_rules(update, chat_id, from_pm=False):
         update.effective_message.reply_text("Contact me in PM to get this group's rules.",
                                             reply_markup=InlineKeyboardMarkup(
                                                 [[InlineKeyboardButton(text="Rules",
-                                                                       url=f"t.me/{bot.username}?start={chat_id}")]]))
+                                                                    url=f"t.me/{bot.username}?start={chat_id}")]]))
     else:
         update.effective_message.reply_text(
             "The group admins haven't set any rules for this chat yet. "
@@ -60,7 +59,7 @@ def send_rules(update, chat_id, from_pm=False):
 
 @run_async
 @user_admin
-def set_rules(_bot: Bot, update: Update):
+def set_rules(_, update: Update):
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
     # use python's maxsplit to separate cmd and args
@@ -80,7 +79,7 @@ def set_rules(_bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def clear_rules(_bot: Bot, update: Update):
+def clear_rules(_, update: Update):
     chat_id = update.effective_chat.id
     sql.set_rules(chat_id, "")
     update.effective_message.reply_text("Successfully cleared rules!")

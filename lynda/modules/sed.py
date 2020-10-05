@@ -2,8 +2,8 @@ import re
 import sre_constants
 
 import telegram
-from telegram import Update, Bot
-from telegram.ext import run_async
+from telegram import Update
+from telegram.ext import run_async, CallbackContext
 
 from lynda import dispatcher, LOGGER
 from lynda.modules.disable import DisableAbleRegexHandler
@@ -57,7 +57,7 @@ def separate_sed(sed_string):
 
 
 @run_async
-def sed(_bot: Bot, update: Update):
+def sed(_, update: Update):
     sed_result = separate_sed(update.effective_message.text)
     if sed_result and update.effective_message.reply_to_message:
         if update.effective_message.reply_to_message.text:
@@ -109,7 +109,7 @@ def sed(_bot: Bot, update: Update):
         if len(text) >= telegram.MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
                 "The result of the sed command was too long for \
-                                                 telegram!")
+                                                telegram!")
         elif text:
             update.effective_message.reply_to_message.reply_text(text)
 

@@ -1,11 +1,13 @@
 from typing import Optional, List
-from telegram import Update, Bot
+from telegram import Update
+from telegram.ext import CallbackContext
 from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 import wikipedia
 
 
-def wiki(_bot: Bot, update: Update, args):
+def wiki(context: CallbackContext, update: Update):
+    args = context.args
     reply = " ".join(args)
     summary = '{} {}'
     update.message.reply_text(

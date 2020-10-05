@@ -5,10 +5,9 @@ import time
 from typing import List
 from functools import partial
 
-from telegram import Update, Bot
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest
-from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler, JobQueue
+from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler, JobQueue, CallbackContext
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import lynda.modules.sql.welcome_sql as sql
@@ -90,7 +89,8 @@ def send(update, message, keyboard, backup_message):
 
 @run_async
 @loggable
-def new_member(bot: Bot, update: Update, job_queue: JobQueue):
+def new_member(context: CallbackContext, update: Update):
+    bot, job_queue = context.bot, context.job_queue
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -115,8 +115,8 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                 update.effective_message.reply_text(
                     "Oh, Genos? Let's get this moving.")
                 welcome_log = (f"{html.escape(chat.title)}\n"
-                               f"#USER_JOINED\n"
-                               f"Bot Owner just joined the chat")
+                            f"#USER_JOINED\n"
+                            f"Bot Owner just joined the chat")
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
@@ -218,49 +218,48 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
         if new_mem.is_bot:
             should_mute = False
 
-        if user.id == new_mem.id:
-            if should_mute:
-                if welc_mutes == "soft":
-                    bot.restrict_chat_member(chat.id, new_mem.id,
-                                             can_send_messages=True,
-                                             can_send_media_messages=False,
-                                             can_send_other_messages=False,
-                                             can_add_web_page_previews=False,
-                                             until_date=(int(time.time() + 24 * 60 * 60)))
+        if user.id == new_mem.id and should_mute:
+            if welc_mutes == "soft":
+                bot.restrict_chat_member(chat.id, new_mem.id,
+                                         can_send_messages=True,
+                                         can_send_media_messages=False,
+                                         can_send_other_messages=False,
+                                         can_add_web_page_previews=False,
+                                         until_date=(int(time.time() + 24 * 60 * 60)))
 
-                if welc_mutes == "strong":
-                    welcome_bool = False
-                    VERIFIED_USER_WAITLIST.update({
-                        new_mem.id: {
-                            "should_welc": should_welc,
-                            "status": False,
-                            "update": update,
-                            "res": res,
-                            "keyboard": keyboard,
-                            "backup_message": backup_message
-                        }
-                    })
-                    new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-                    message = msg.reply_text(
-                        f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
-                        reply_markup=InlineKeyboardMarkup(
-                            [
-                                {
-                                    InlineKeyboardButton(
-                                        text="Yes, I'm human.",
-                                        callback_data=f"user_join_({new_mem.id})")}]),
-                        parse_mode=ParseMode.MARKDOWN)
-                    bot.restrict_chat_member(chat.id, new_mem.id,
-                                             can_send_messages=False,
-                                             can_send_media_messages=False,
-                                             can_send_other_messages=False,
-                                             can_add_web_page_previews=False)
+            if welc_mutes == "strong":
+                welcome_bool = False
+                VERIFIED_USER_WAITLIST.update({
+                    new_mem.id: {
+                        "should_welc": should_welc,
+                        "status": False,
+                        "update": update,
+                        "res": res,
+                        "keyboard": keyboard,
+                        "backup_message": backup_message
+                    }
+                })
+                new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
+                message = msg.reply_text(
+                    f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            {
+                                InlineKeyboardButton(
+                                    text="Yes, I'm human.",
+                                    callback_data=f"user_join_({new_mem.id})")}]),
+                    parse_mode=ParseMode.MARKDOWN)
+                bot.restrict_chat_member(chat.id, new_mem.id,
+                                         can_send_messages=False,
+                                         can_send_media_messages=False,
+                                         can_send_other_messages=False,
+                                         can_add_web_page_previews=False)
 
-                    job_queue.run_once(
-                        partial(
-                            check_not_bot, new_mem, chat.id, message.message_id
-                        ), 160, name="welcomemute"
-                    )
+                job_queue.run_once(
+                    partial(
+                        check_not_bot, new_mem, chat.id, message.message_id
+                    ), 160, name="welcomemute"
+                )
 
         if welcome_bool:
             sent = send(update, res, keyboard, backup_message)
@@ -306,7 +305,8 @@ def check_not_bot(member, chat_id, message_id, bot, _job):
 
 
 @run_async
-def left_member(bot: Bot, update: Update):
+def left_member(context: CallbackContext, update: Update):
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     should_goodbye, cust_goodbye, goodbye_type = sql.get_gdbye_pref(chat.id)
@@ -392,7 +392,8 @@ def left_member(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def welcome(_bot: Bot, update: Update, args: List[str]):
+def welcome(context: CallbackContext, update: Update):
+    args = context.args
     chat = update.effective_chat
     # if no args, show current replies.
     if not args or args[0].lower() == "noformat":
@@ -441,7 +442,8 @@ def welcome(_bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def goodbye(_bot: Bot, update: Update, args: List[str]):
+def goodbye(context: CallbackContext, update: Update):
+    args = context.args
     chat = update.effective_chat
 
     if not args or args[0] == "noformat":
@@ -490,7 +492,7 @@ def goodbye(_bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 @loggable
-def set_welcome(_bot: Bot, update: Update) -> str:
+def set_welcome(_, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -513,9 +515,9 @@ def set_welcome(_bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def reset_welcome(bot: Bot, update: Update) -> str:
-    chat = update.effective_chat
+def reset_welcome(_, update: Update) -> str:
     user = update.effective_user
+    chat = update.effective_chat
 
     sql.set_custom_welcome(chat.id, sql.DEFAULT_WELCOME, sql.Types.TEXT)
     update.effective_message.reply_text(
@@ -530,7 +532,7 @@ def reset_welcome(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_goodbye(_bot: Bot, update: Update) -> str:
+def set_goodbye(_, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -551,7 +553,7 @@ def set_goodbye(_bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def reset_goodbye(_bot: Bot, update: Update) -> str:
+def reset_goodbye(_, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -568,7 +570,8 @@ def reset_goodbye(_bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def welcomemute(_bot: Bot, update: Update, args: List[str]) -> str:
+def welcomemute(context: CallbackContext, update: Update) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -617,7 +620,8 @@ def welcomemute(_bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @user_admin
 @loggable
-def clean_welcome(_bot: Bot, update: Update, args: List[str]) -> str:
+def clean_welcome(context: CallbackContext, update: Update) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
 
@@ -654,7 +658,8 @@ def clean_welcome(_bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-def user_button(bot: Bot, update: Update):
+def user_button(context: CallbackContext, update: Update):
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     query = update.callback_query
@@ -730,14 +735,14 @@ WELC_MUTE_HELP_TXT = (
 
 @run_async
 @user_admin
-def welcome_help(_bot: Bot, update: Update):
+def welcome_help(_, update: Update):
     update.effective_message.reply_text(
         WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
 @user_admin
-def welcome_mute_help(_bot: Bot, update: Update):
+def welcome_mute_help(_, update: Update):
     update.effective_message.reply_text(
         WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
