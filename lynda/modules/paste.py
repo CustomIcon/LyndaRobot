@@ -31,7 +31,8 @@ def paste(update: Update, context: CallbackContext):
 
 
 __help__ = """
- - /paste - Do a paste at `neko.bin`
+-> `/paste`
+Do a paste at `neko.bin`
 """
 
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True)

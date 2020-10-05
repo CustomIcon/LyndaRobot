@@ -106,10 +106,10 @@ def unrestr_members(
     for mem in members:
         try:
             context.bot.restrict_chat_member(chat_id, mem.user,
-                                     can_send_messages=messages,
-                                     can_send_media_messages=media,
-                                     can_send_other_messages=other,
-                                     can_add_web_page_previews=previews)
+                                    can_send_messages=messages,
+                                    can_send_media_messages=media,
+                                    can_send_other_messages=other,
+                                    can_add_web_page_previews=previews)
         except TelegramError:
             pass
 
@@ -393,12 +393,15 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /locktypes: a list of possible locktypes
+-> /locktypes: a list of possible locktypes
 
-*Admin only:*
- - /lock <type>: lock items of a certain type (not available in private)
- - /unlock <type>: unlock items of a certain type (not available in private)
- - /locks: the current list of locks in this chat.
+──「 *Admin only:*  」──
+-> `/lock` <type>
+lock items of a certain type (not available in private)
+-> `/unlock` <type>
+unlock items of a certain type (not available in private)
+-> `/locks`
+the current list of locks in this chat.
 
 Locks can be used to restrict a group's users.
 eg:

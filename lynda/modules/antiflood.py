@@ -165,10 +165,12 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
--> `/flood`: Get the current flood control setting
+-> `/flood`
+Get the current flood control setting
 
-*Admin only:*
--> `/setflood` <int/'no'/'off'>: enables or disables flood control
+──「 *Admin only:* 」──
+-> `/setflood` <int/'no'/'off'>
+enables or disables flood control
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(

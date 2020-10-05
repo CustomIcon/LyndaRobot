@@ -352,13 +352,18 @@ def connect_button(update: Update, context: CallbackContext):
 
 
 __help__ = """
- - /connect: connect a chat (Can be done in a group by /connect or /connect <chat id> in PM)
- - /connection: list connected chats
- - /disconnect: disconnect from a chat
- - /helpconnect: list available commands that can be done remotely
+-> `/connect`
+connect a chat (Can be done in a group by /connect or /connect <chat id> in PM)
+-> `/connection`
+list connected chats
+-> `/disconnect`
+disconnect from a chat
+-> `/helpconnect`
+list available commands that can be done remotely
 
-*Admin only:*
- - /allowconnect <yes/no>: allow a user to connect to a chat
+──「 *Admin only:* 」──
+-> `/allowconnect` <yes/no>
+allow a user to connect to a chat
 """
 
 CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)

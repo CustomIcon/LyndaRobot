@@ -22,10 +22,10 @@ if is_module_loaded(FILENAME):
 
         @wraps(func)
         def log_action(update: Update,
-                       context: CallbackContext,
-                       job_queue: JobQueue = None,
-                       *args,
-                       **kwargs):
+                    context: CallbackContext,
+                    job_queue: JobQueue = None,
+                    *args,
+                    **kwargs):
             if not job_queue:
                 result = func(update, context, *args, **kwargs)
             else:
@@ -73,7 +73,7 @@ if is_module_loaded(FILENAME):
         return glog_action
 
     def send_log(context: CallbackContext, log_chat_id: str, orig_chat_id: str,
-                 result: str):
+                result: str):
         bot = context.bot
         try:
             bot.send_message(
@@ -131,11 +131,9 @@ if is_module_loaded(FILENAME):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
-                    pass
-                else:
+                if excp.message != 'Message to delete not found':
                     LOGGER.exception(
-                        "Error deleting message in log channel. Should work anyway though."
+                        'Error deleting message in log channel. Should work anyway though.'
                     )
 
             try:
@@ -187,15 +185,18 @@ if is_module_loaded(FILENAME):
         return "No log channel is set for this group!"
 
     __help__ = """
-*Admin only:*
-- /logchannel: get log channel info
-- /setlog: set the log channel.
-- /unsetlog: unset the log channel.
+──「 *Admin only:* 」──
+-> `/logchannel`
+get log channel info
+-> `/setlog`
+set the log channel.
+-> `/unsetlog`
+unset the log channel.
 
 Setting the log channel is done by:
-- adding the bot to the desired channel (as an admin!)
-- sending /setlog in the channel
-- forwarding the /setlog to the group
+-> adding the bot to the desired channel (as an admin!)
+-> sending `/setlog` in the channel
+-> forwarding the `/setlog` to the group
 """
 
     __mod_name__ = "Log Channels"

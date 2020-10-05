@@ -258,13 +258,17 @@ def buttons(update: Update, context: CallbackContext):
 __mod_name__ = "Reporting"
 
 __help__ = """
- - /report <reason>: reply to a message to report it to admins.
- - @admin: reply to a message to report it to admins.
+-> `/report <reason>`
+reply to a message to report it to admins.
+-> `@admin`
+reply to a message to report it to admins.
 NOTE: neither of these will get triggered if used by admins
-*Admin only:*
- - /reports <on/off>: change report setting, or view current status.
-   - If done in pm, toggles your status.
-   - If in chat, toggles that chat's status.
+
+──「 *Admin only:* 」──
+-> `/reports` <on/off>
+change report setting, or view current status.
+- If done in pm, toggles your status.
+- If in chat, toggles that chat's status.
 """
 
 REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)

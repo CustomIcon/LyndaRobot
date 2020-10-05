@@ -374,10 +374,14 @@ __help__ = """
 -> `/kickme`: kicks the user who issued the command
 
 ──「 *Admin only:* 」──
--> `/ban` <userhandle>: bans a user. (via handle, or reply)
--> `/tban` <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
--> `/unban` <userhandle>: unbans a user. (via handle, or reply)
--> `/kick` <userhandle>: kickes a user out of the group, (via handle, or reply)
+-> `/ban` <userhandle>
+bans a user. (via handle, or reply)
+-> `/tban` <userhandle> x(m/h/d)
+bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+-> `/unban` <userhandle>
+unbans a user. (via handle, or reply)
+-> `/kick` <userhandle>
+kickes a user out of the group, (via handle, or reply)
 """
 
 BANME_HANDLER = DisableAbleCommandHandler(

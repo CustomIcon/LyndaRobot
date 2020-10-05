@@ -726,9 +726,12 @@ WELC_HELP_TXT = (
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
     "The following options are possible:\n"
-    "- `/welcomemute soft`: restricts new members from sending media for 24 hours.\n"
-    "- `/welcomemute strong`: mutes new members till they tap on a button thereby verifying they're human.\n"
-    "- `/welcomemute off`: turns off welcomemute.\n"
+    "-> `/welcomemute soft`\n"
+    "restricts new members from sending media for 24 hours.\n"
+    "-> `/welcomemute strong`\n"
+    "mutes new members till they tap on a button thereby verifying they're human.\n"
+    "-> `/welcomemute off`\n"
+    "turns off welcomemute.\n"
     "`Note:` Strong mode kicks a user from the chat if they dont verify in 160seconds. They can always rejoin though"
 )
 
@@ -773,18 +776,29 @@ def __chat_settings__(chat_id, _user_id):
 __help__ = """
 {}
 
-*Admin only:*
- - /welcome <on/off>: enable/disable welcome messages.
- - /welcome: shows current welcome settings.
- - /welcome noformat: shows current welcome settings, without the formatting - useful to recycle your welcome messages!
- - /goodbye -> same usage and args as /welcome.
- - /setwelcome <sometext>: set a custom welcome message. If used replying to media, uses that media.
- - /setgoodbye <sometext>: set a custom goodbye message. If used replying to media, uses that media.
- - /resetwelcome: reset to the default welcome message.
- - /resetgoodbye: reset to the default goodbye message.
- - /cleanwelcome <on/off>: On new member, try to delete the previous welcome message to avoid spamming the chat.
- - /welcomemutehelp: gives information about welcome mutes.
- - /welcomehelp: view more formatting information for custom welcome/goodbye messages.
+──「 *Admin only:* 」──
+-> `/welcome` <on/off>
+enable/disable welcome messages.
+-> `/welcome`
+shows current welcome settings.
+-> `/welcome` noformat
+shows current welcome settings, without the formatting - useful to recycle your welcome messages!
+-> `/goodbye`
+same usage and args as /welcome.
+-> `/setwelcome` <sometext>
+set a custom welcome message. If used replying to media, uses that media.
+-> `/setgoodbye` <sometext>
+set a custom goodbye message. If used replying to media, uses that media.
+-> `/resetwelcome`
+reset to the default welcome message.
+-> `/resetgoodbye`
+reset to the default goodbye message.
+-> `/cleanwelcome` <on/off>
+On new member, try to delete the previous welcome message to avoid spamming the chat.
+-> `/welcomemutehelp`
+gives information about welcome mutes.
+-> `/welcomehelp`
+view more formatting information for custom welcome/goodbye messages.
 """.format(WELC_HELP_TXT)
 
 NEW_MEM_HANDLER = MessageHandler(

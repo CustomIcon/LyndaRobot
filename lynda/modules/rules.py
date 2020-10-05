@@ -104,11 +104,14 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /rules: get the rules for this chat.
+-> `/rules`
+get the rules for this chat.
 
-*Admin only:*
- - /setrules <your rules here>: set the rules for this chat.
- - /clearrules: clear the rules for this chat.
+──「 *Admin only:* 」──
+-> `/setrules` <your rules here>
+set the rules for this chat.
+-> `/clearrules`
+clear the rules for this chat.
 """
 
 __mod_name__ = "Rules"

@@ -527,13 +527,20 @@ def devlist(update: Update, context: CallbackContext):
 
 
 __help__ = """
- - /Eagle - Lists all Eagle Union members.
- - /Royals - Lists all Royal Nations.
- - /Sakuras - Lists all Sakura Nations.
- - /Sardegnas - Lists all Sardegnas Nations.
- - /Neptunians - Lists all Neptunia Nations.
- Note: These commands list users with special bot priveleges and can only be used by them.
- You can visit @YorktownEagleUnion or @LyndaEagleSupport to query more about these.
+-> `/Eagle`
+Lists all Eagle Union members.
+-> `/Royals`
+Lists all Royal Nations.
+-> `/Sakuras`
+Lists all Sakura Nations.
+-> `/Sardegnas`
+Lists all Sardegnas Nations.
+-> `/Neptunians`
+Lists all Neptunia Nations.
+
+──「 *Note:* 」──
+These commands list users with special bot priveleges and can only be used by them.
+You can visit @YorktownEagleUnion or @LyndaEagleSupport to query more about these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "addRoyal"), addsudo, pass_args=True)

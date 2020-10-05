@@ -120,7 +120,8 @@ def totranslate(update: Update, _):
 
 
 __help__ = """
-- /tr (language code) as reply to a long message.
+-> `/tr` (language code)
+Translates Languages to a desired Language code.
 """
 
 TRANSLATE_HANDLER = DisableAbleCommandHandler("tr", totranslate)

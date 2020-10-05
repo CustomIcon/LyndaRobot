@@ -208,10 +208,14 @@ def bluetext_ignore_list(update: Update, _):
 
 
 __help__ = """
- - /cleanbluetext <on/off/yes/no> - clean commands after sending
- - /ignorecleanbluetext <word> - prevent auto cleaning of the command
- - /unignorecleanbluetext <word> - remove prevent auto cleaning of the command
- - /listcleanbluetext - list currently whitelisted commands
+-> /cleanbluetext <on/off/yes/no>
+clean commands after sending
+-> /ignorecleanbluetext <word>
+prevent auto cleaning of the command
+-> /unignorecleanbluetext <word>
+remove prevent auto cleaning of the command
+-> /listcleanbluetext
+list currently whitelisted commands
 """
 
 SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(

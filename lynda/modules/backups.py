@@ -72,10 +72,12 @@ def export_data(update: Update, _):
 
 
 __help__ = """
-*Admin only:*
--> `/import`: reply to a group butler backup file to import as much as possible, making the transfer super simple! Note \
+──「 *Admin only:* 」──
+-> `/import`
+reply to a group butler backup file to import as much as possible, making the transfer super simple! Note \
 that files/photos can't be imported due to telegram restrictions.
--> `/export`: !!! This isn't a command yet, but should be coming soon!
+-> `/export`
+This isn't a command yet, but should be coming soon!
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data)

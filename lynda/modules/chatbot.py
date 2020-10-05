@@ -117,11 +117,14 @@ This is an ongoing upgrade and is only available in your chats if you reach out 
 In future we might make it open for any chat and controllable by group admins.
 Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
 Commands: These only work for Lynda Staff users.
- - /addchat : Enables Chatbot mode in the chat.
- - /rmchat  : Disables Chatbot mode in the chat.
+->  `/addchat`
+Enables Chatbot mode in the chat.
+-> `/rmchat`
+Disables Chatbot mode in the chat.
 
-*Nation Level Required:* 
- - /listai :  Lists the chats the chatmode is enabled in.
+──「 *Nation Level Required:* 」──
+-> `/listai`
+Lists the chats the chatmode is enabled in.
 """
 
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
