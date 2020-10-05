@@ -20,7 +20,8 @@ from lynda.modules.log_channel import loggable
 @can_promote
 @user_admin
 @loggable
-def promote(context: CallbackContext, update: Update, args: List[str]) -> str:
+def promote(context: CallbackContext, update: Update) -> str:
+    args = context.args
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -49,15 +50,16 @@ def promote(context: CallbackContext, update: Update, args: List[str]) -> str:
     bot_member = chat.get_member(context.bot.id)
 
     try:
-        context.bot.promoteChatMember(chat.id, user_id,
-                              can_change_info=bot_member.can_change_info,
-                              can_post_messages=bot_member.can_post_messages,
-                              can_edit_messages=bot_member.can_edit_messages,
-                              can_delete_messages=bot_member.can_delete_messages,
-                              can_invite_users=bot_member.can_invite_users,
-                              # can_promote_members=bot_member.can_promote_members,
-                              can_restrict_members=bot_member.can_restrict_members,
-                              can_pin_messages=bot_member.can_pin_messages)
+        context.bot.promoteChatMember(
+            chat.id, user_id,
+            can_change_info=bot_member.can_change_info,
+            can_post_messages=bot_member.can_post_messages,
+            can_edit_messages=bot_member.can_edit_messages,
+            can_delete_messages=bot_member.can_delete_messages,
+            can_invite_users=bot_member.can_invite_users,
+            # can_promote_members=bot_member.can_promote_members,
+            can_restrict_members=bot_member.can_restrict_members,
+            can_pin_messages=bot_member.can_pin_messages)
     except BadRequest as err:
         if err.message == 'User_not_mutual_contact':
             message.reply_text("I can't promote someone who isn't in the group.")
@@ -81,7 +83,8 @@ def promote(context: CallbackContext, update: Update, args: List[str]) -> str:
 @can_promote
 @user_admin
 @loggable
-def demote(context: CallbackContext, update: Update, args: List[str]) -> str:
+def demote(context: CallbackContext, update: Update) -> str:
+    args = context.args
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
@@ -111,15 +114,16 @@ def demote(context: CallbackContext, update: Update, args: List[str]) -> str:
         return log_message
 
     try:
-        context.bot.promoteChatMember(chat.id, user_id,
-                              can_change_info=False,
-                              can_post_messages=False,
-                              can_edit_messages=False,
-                              can_delete_messages=False,
-                              can_invite_users=False,
-                              can_restrict_members=False,
-                              can_pin_messages=False,
-                              can_promote_members=False)
+        context.bot.promoteChatMember(
+            chat.id, user_id,
+            can_change_info=False,
+            can_post_messages=False,
+            can_edit_messages=False,
+            can_delete_messages=False,
+            can_invite_users=False,
+            can_restrict_members=False,
+            can_pin_messages=False,
+            can_promote_members=False)
 
         context.bot.sendMessage(chat.id, f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
                         parse_mode=ParseMode.HTML)
@@ -132,7 +136,7 @@ def demote(context: CallbackContext, update: Update, args: List[str]) -> str:
         return log_message
     except BadRequest:
         message.reply_text("Could not demote. I might not be admin, or the admin status was appointed by another"
-                           "user, so I can't act upon them!")
+                        "user, so I can't act upon them!")
         return log_message
 
 
@@ -142,7 +146,8 @@ def demote(context: CallbackContext, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_promote
 @user_admin
-def set_title(context: CallbackContext, update: Update, args: List[str]):
+def set_title(context: CallbackContext, update: Update):
+    args = context.args
     chat = update.effective_chat
     message = update.effective_message
 
@@ -176,15 +181,16 @@ def set_title(context: CallbackContext, update: Update, args: List[str]):
     if len(title) > 16:
         message.reply_text("The title length is longer than 16 characters.\nTruncating it to 16 characters.")
 
-    result = requests.post(f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle"
-                           f"?chat_id={chat.id}"
-                           f"&user_id={user_id}"
-                           f"&custom_title={title}")
+    result = requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle"
+        f"?chat_id={chat.id}"
+        f"&user_id={user_id}"
+        f"&custom_title={title}")
     status = result.json()["ok"]
 
     if status is True:
         context.bot.sendMessage(chat.id, f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
-                                 f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
+                                f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
     else:
         description = result.json()["description"]
         if description == "Bad Request: not enough rights to change custom title of the user":
@@ -196,7 +202,8 @@ def set_title(context: CallbackContext, update: Update, args: List[str]):
 @can_pin
 @user_admin
 @loggable
-def pin(context: CallbackContext, update: Update, args: List[str]) -> str:
+def pin(context: CallbackContext, update: Update) -> str:
+    args = context.args
     user = update.effective_user
     chat = update.effective_chat
 
@@ -215,9 +222,10 @@ def pin(context: CallbackContext, update: Update, args: List[str]) -> str:
                 pass
             else:
                 raise
-        log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                       f"#PINNED\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+        log_message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#PINNED\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
 
         return log_message
 
@@ -239,9 +247,10 @@ def unpin(context: CallbackContext, update: Update) -> str:
         else:
             raise
 
-    log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                   f"#UNPINNED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"#UNPINNED\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
 
     return log_message
 
