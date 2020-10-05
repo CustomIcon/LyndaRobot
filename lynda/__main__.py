@@ -147,7 +147,7 @@ def start(update: Update, context: CallbackContext):
                 [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"),
                 InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
-                [InlineKeyboardButton(text="❔ Help", callback_data="help_button"),
+                [InlineKeyboardButton(text="❔ Help", url="https://t.me/LyndaRobot?start=help"),
                 InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
             update.effective_message.reply_photo(
                 LYNDA_IMG,
