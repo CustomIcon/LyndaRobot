@@ -2,9 +2,9 @@ import html
 import re
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 
 import lynda.modules.sql.blacklist_sql as sql
 from lynda import dispatcher, LOGGER
@@ -18,10 +18,10 @@ BLACKLIST_GROUP = 11
 
 @run_async
 @connection_status
-def blacklist(_bot: Bot, update: Update, args: List[str]):
+def blacklist(context: CallbackContext, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
 
@@ -57,7 +57,7 @@ def blacklist(_bot: Bot, update: Update, args: List[str]):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(_bot: Bot, update: Update):
+def add_blacklist(_, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -88,7 +88,7 @@ def add_blacklist(_bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(_bot: Bot, update: Update):
+def unblacklist(_, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -135,7 +135,7 @@ def unblacklist(_bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(_bot: Bot, update: Update):
+def del_blacklist(_, update: Update):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)

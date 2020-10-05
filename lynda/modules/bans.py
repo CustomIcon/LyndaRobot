@@ -1,9 +1,9 @@
 import html
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, run_async
+from telegram.ext import CommandHandler, Filters, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, SARDEGNA_USERS, BAN_STICKER
@@ -22,16 +22,17 @@ from lynda.modules.log_channel import loggable, gloggable
 
 
 @run_async
-def banme(bot: Bot, update: Update):
+def banme(context: CallbackContext, update: Update):
     message = update.effective_message
     if is_user_admin(update.effective_chat, update.effective_message.from_user.id):
         update.effective_message.reply_text("Can't ban admins as you can see.")
         return
     try:
-        bot.kick_chat_member(update.effective_chat.id, update.effective_message.from_user.id)
-        bot.send_sticker(update.effective_chat.id, BAN_STICKER)  # banhammer marie sticker
+        context.bot.kick_chat_member(update.effective_chat.id, update.effective_message.from_user.id)
+        context.bot.send_sticker(update.effective_chat.id, BAN_STICKER)  # banhammer marie sticker
         response_message = "lmao have a load of ban UwU!"
-    except Exception:
+    except Exception as e:
+        print(e)
         response_message = "Ohno! something is not right please contact @LyndaEagleSupport"
     message.reply_text(response_message)
 
@@ -42,7 +43,7 @@ def banme(bot: Bot, update: Update):
 @can_restrict
 @user_admin
 @loggable
-def ban(bot: Bot, update: Update, args: List[str]) -> str:
+def ban(context: CallbackContext, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -63,7 +64,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
         else:
             raise
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
@@ -83,7 +84,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        bot.sendMessage(
+        context.bot.sendMessage(
             chat.id,
             "Banned user {}.".format(
                 mention_html(
@@ -116,7 +117,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
+def temp_ban(context: CallbackContext, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -137,7 +138,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
         else:
             raise
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("I'm not gonna BAN myself, are you crazy?")
         return log_message
 
@@ -175,7 +176,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id, until_date=bantime)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        bot.sendMessage(
+        context.bot.sendMessage(
             chat.id,
             f"Banned! User {mention_html(member.user.id, member.user.first_name)} "
             f"will be banned for {time_val}.",
@@ -204,7 +205,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def kick(bot: Bot, update: Update, args: List[str]) -> str:
+def kick(context: CallbackContext, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -225,7 +226,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
         else:
             raise
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("Yeahhh I'm not gonna do that.")
         return log_message
 
@@ -237,7 +238,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
     res = chat.unban_member(user_id)  # unban on current user = kick
     if res:
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        bot.sendMessage(
+        context.bot.sendMessage(
             chat.id,
             f"Gunned Out! {mention_html(member.user.id, member.user.first_name)}.",
             parse_mode=ParseMode.HTML)
@@ -260,7 +261,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def kickme(_bot: Bot, update: Update):
+def kickme(_, update: Update):
     message = update.effective_message
     user_id = message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
@@ -282,7 +283,7 @@ def kickme(_bot: Bot, update: Update):
 @can_restrict
 @user_admin
 @loggable
-def unban(bot: Bot, update: Update, args: List[str]) -> str:
+def unban(context: CallbackContext, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -303,7 +304,7 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
         else:
             raise
 
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("How would I unban myself if I wasn't here...?")
         return log_message
 
@@ -330,20 +331,22 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_restrict
 @gloggable
-def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
+def selfunban(context: CallbackContext, update: Update) -> None:
     message = update.effective_message
     user = update.effective_user
+    args = context.args
 
     if user.id not in SUDO_USERS or user.id not in SARDEGNA_USERS:
         return
 
     try:
         chat_id = int(args[0])
-    except Exception:
+    except Exception as e:
+        print(e)
         message.reply_text("Give a valid chat ID.")
         return
 
-    chat = bot.getChat(chat_id)
+    chat = context.bot.getChat(chat_id)
 
     try:
         member = chat.get_member(user.id)

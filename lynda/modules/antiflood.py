@@ -1,9 +1,9 @@
 import html
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import MessageHandler, CommandHandler, Filters, run_async
+from telegram.ext import MessageHandler, CommandHandler, Filters, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda import dispatcher, WHITELIST_USERS, SARDEGNA_USERS
@@ -16,7 +16,7 @@ FLOOD_GROUP = 3
 
 @run_async
 @loggable
-def check_flood(bot: Bot, update: Update) -> str:
+def check_flood(context: CallbackContext, update: Update) -> str:
     user = update.effective_user
     chat = update.effective_chat
     msg = update.effective_message
@@ -37,8 +37,8 @@ def check_flood(bot: Bot, update: Update) -> str:
         return log_message
 
     try:
-        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        bot.send_message(
+        context.bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
+        context.bot.send_message(
             chat.id,
             f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!",
             parse_mode=ParseMode.HTML)
@@ -67,10 +67,11 @@ def check_flood(bot: Bot, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def set_flood(_bot: Bot, update: Update, args: List[str]) -> str:
+def set_flood(context: CallbackContext, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
+    args = context.args
     log_message = ""
 
     update_chat_title = chat.title
@@ -128,7 +129,7 @@ def set_flood(_bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @connection_status
-def flood(_bot: Bot, update: Update):
+def flood(_, update: Update):
     chat = update.effective_chat
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
