@@ -53,7 +53,7 @@ def send_nations(update):
 @run_async
 @dev_plus
 @gloggable
-def addsudo(context: CallbackContext, update: Update) -> str:
+def addsudo(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -110,7 +110,7 @@ def addsudo(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addsupport(context: CallbackContext, update: Update) -> str:
+def addsupport(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -166,7 +166,7 @@ def addsupport(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addwhitelist(context: CallbackContext, update: Update) -> str:
+def addwhitelist(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -222,7 +222,7 @@ def addwhitelist(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addSardegna(context: CallbackContext, update: Update) -> str:
+def addSardegna(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -283,7 +283,7 @@ def addSardegna(context: CallbackContext, update: Update) -> str:
 @run_async
 @dev_plus
 @gloggable
-def removesudo(context: CallbackContext, update: Update) -> str:
+def removesudo(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -321,7 +321,7 @@ def removesudo(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removesupport(context: CallbackContext, update: Update) -> str:
+def removesupport(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -365,7 +365,7 @@ def removesupport(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removewhitelist(context: CallbackContext, update: Update) -> str:
+def removewhitelist(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -408,7 +408,7 @@ def removewhitelist(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removeSardegna(context: CallbackContext, update: Update) -> str:
+def removeSardegna(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot= context.bot
     message = update.effective_message
@@ -450,7 +450,7 @@ def removeSardegna(context: CallbackContext, update: Update) -> str:
 
 @run_async
 @whitelist_plus
-def whitelistlist(context: CallbackContext, update: Update):
+def whitelistlist(update: Update, context: CallbackContext):
     bot = context.bot
     reply = "<b>Known Neptunia Nations 🐺:</b>\n"
     for each_user in WHITELIST_USERS:
@@ -466,7 +466,7 @@ def whitelistlist(context: CallbackContext, update: Update):
 
 @run_async
 @whitelist_plus
-def Sardegnalist(context: CallbackContext, update: Update):
+def Sardegnalist(update: Update, context: CallbackContext):
     bot = context.bot
     reply = "<b>Known Sardegna Nations 🐯:</b>\n"
     for each_user in SARDEGNA_USERS:
@@ -481,7 +481,7 @@ def Sardegnalist(context: CallbackContext, update: Update):
 
 @run_async
 @whitelist_plus
-def supportlist(context: CallbackContext, update: Update):
+def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
     reply = "<b>Known Sakura Nations 👹:</b>\n"
     for each_user in SUPPORT_USERS:
@@ -496,7 +496,7 @@ def supportlist(context: CallbackContext, update: Update):
 
 @run_async
 @whitelist_plus
-def sudolist(context: CallbackContext, update: Update):
+def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
     true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
     reply = "<b>Known Royal Nations 🐉:</b>\n"
@@ -512,7 +512,7 @@ def sudolist(context: CallbackContext, update: Update):
 
 @run_async
 @whitelist_plus
-def devlist(context: CallbackContext, update: Update):
+def devlist(update: Update, context: CallbackContext):
     bot = context.bot
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Eagle Union Members ⚡️:</b>\n"

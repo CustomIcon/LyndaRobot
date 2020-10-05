@@ -22,7 +22,7 @@ from lynda.modules.log_channel import loggable, gloggable
 
 
 @run_async
-def banme(context: CallbackContext, update: Update):
+def banme(update: Update, context: CallbackContext):
     message = update.effective_message
     if is_user_admin(update.effective_chat, update.effective_message.from_user.id):
         update.effective_message.reply_text("Can't ban admins as you can see.")
@@ -43,14 +43,13 @@ def banme(context: CallbackContext, update: Update):
 @can_restrict
 @user_admin
 @loggable
-def ban(context: CallbackContext, update: Update, args: List[str]) -> str:
+def ban(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
     user_id, reason = extract_user_and_text(message, args)
-
     if not user_id:
         message.reply_text("I doubt that's a user.")
         return log_message
@@ -117,7 +116,8 @@ def ban(context: CallbackContext, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def temp_ban(context: CallbackContext, update: Update, args: List[str]) -> str:
+def temp_ban(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -154,11 +154,7 @@ def temp_ban(context: CallbackContext, update: Update, args: List[str]) -> str:
     split_reason = reason.split(None, 1)
 
     time_val = split_reason[0].lower()
-    if len(split_reason) > 1:
-        reason = split_reason[1]
-    else:
-        reason = ""
-
+    reason = split_reason[1] if len(split_reason) > 1 else ""
     bantime = extract_time(message, time_val)
 
     if not bantime:
@@ -193,7 +189,7 @@ def temp_ban(context: CallbackContext, update: Update, args: List[str]) -> str:
         else:
             LOGGER.warning(update)
             LOGGER.exception("ERROR banning user %s in chat %s (%s) due to %s",
-                             user_id, chat.title, chat.id, excp.message)
+                            user_id, chat.title, chat.id, excp.message)
             message.reply_text("Well damn, I can't ban that user.")
 
     return log_message
@@ -205,7 +201,8 @@ def temp_ban(context: CallbackContext, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def kick(context: CallbackContext, update: Update, args: List[str]) -> str:
+def kick(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -261,7 +258,7 @@ def kick(context: CallbackContext, update: Update, args: List[str]) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def kickme(_, update: Update):
+def kickme(update: Update, _):
     message = update.effective_message
     user_id = message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
@@ -283,7 +280,8 @@ def kickme(_, update: Update):
 @can_restrict
 @user_admin
 @loggable
-def unban(context: CallbackContext, update: Update, args: List[str]) -> str:
+def unban(update: Update, context: CallbackContext) -> str:
+    args = context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -331,7 +329,7 @@ def unban(context: CallbackContext, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_restrict
 @gloggable
-def selfunban(context: CallbackContext, update: Update) -> None:
+def selfunban(update: Update, context: CallbackContext) -> None:
     message = update.effective_message
     user = update.effective_user
     args = context.args
@@ -373,13 +371,13 @@ def selfunban(context: CallbackContext, update: Update) -> None:
 
 
 __help__ = """
- - /kickme: kicks the user who issued the command
+-> `/kickme`: kicks the user who issued the command
 
-*Admin only:*
- - /ban <userhandle>: bans a user. (via handle, or reply)
- - /tban <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
- - /unban <userhandle>: unbans a user. (via handle, or reply)
- - /kick <userhandle>: kickes a user out of the group, (via handle, or reply)
+──「 *Admin only:* 」──
+-> `/ban` <userhandle>: bans a user. (via handle, or reply)
+-> `/tban` <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+-> `/unban` <userhandle>: unbans a user. (via handle, or reply)
+-> `/kick` <userhandle>: kickes a user out of the group, (via handle, or reply)
 """
 
 BANME_HANDLER = DisableAbleCommandHandler(

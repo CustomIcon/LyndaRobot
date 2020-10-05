@@ -116,7 +116,7 @@ def unrestr_members(
 
 @run_async
 @connection_status
-def locktypes(_, update: Update):
+def locktypes(update: Update, _):
     update.effective_message.reply_text(
         "\n - ".join(["Locks: "] + list(LOCK_TYPES) + list(RESTRICTION_TYPES)))
 
@@ -376,7 +376,7 @@ def build_lock_message(chat_id):
 @run_async
 @connection_status
 @user_admin
-def list_locks(_, update: Update):
+def list_locks(update: Update, _):
     chat = update.effective_chat
 
     res = build_lock_message(chat.id)

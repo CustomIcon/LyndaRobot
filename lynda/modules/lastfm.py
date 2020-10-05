@@ -12,7 +12,7 @@ import lynda.modules.sql.last_fm_sql as sql
 
 
 @run_async
-def set_user(context: CallbackContext, update: Update):
+def set_user(update: Update, context: CallbackContext):
     args = context.args
     msg = update.effective_message
     if args:
@@ -26,7 +26,7 @@ def set_user(context: CallbackContext, update: Update):
 
 
 @run_async
-def clear_user(_, update: Update):
+def clear_user(update: Update, _):
     user = update.effective_user.id
     sql.set_user(user, "")
     update.effective_message.reply_text(
@@ -34,7 +34,7 @@ def clear_user(_, update: Update):
 
 
 @run_async
-def last_fm(_, update: Update):
+def last_fm(update: Update, _):
     msg = update.effective_message
     user = update.effective_user.first_name
     user_id = update.effective_user.id

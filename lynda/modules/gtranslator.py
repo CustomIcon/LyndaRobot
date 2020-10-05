@@ -1,14 +1,14 @@
 from emoji import UNICODE_EMOJI
 from googletrans import Translator, LANGUAGES
-from telegram import Bot, Update, ParseMode
-from telegram.ext import run_async
+from telegram import Update, ParseMode
+from telegram.ext import run_async, CallbackContext
 
 from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def totranslate(_bot: Bot, update: Update):
+def totranslate(update: Update, _):
     msg = update.effective_message
     problem_lang_code = [key for key in LANGUAGES if "-" in key]
     try:

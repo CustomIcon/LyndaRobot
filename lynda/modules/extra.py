@@ -21,7 +21,7 @@ opener.addheaders = [('User-agent', useragent)]
 
 
 @run_async
-def app(_, update: Update):
+def app(update: Update, _):
     message = update.effective_message
     try:
         progress_message = update.effective_message.reply_text(
@@ -70,7 +70,7 @@ def app(_, update: Update):
 
 
 @run_async
-def ud(_, update: Update):
+def ud(update: Update, _):
     message = update.effective_message
     text = message.text[len('/ud '):]
     results = requests.get(
@@ -105,7 +105,7 @@ def tts(context: CallbackContext, update: Update):
 
 
 @run_async
-def reverse(context: CallbackContext, update: Update):
+def reverse(update: Update, context: CallbackContext):
     args = context.args
     if os.path.isfile("okgoogle.png"):
         os.remove("okgoogle.png")
@@ -319,13 +319,14 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 break
 
     try:
-        result = (f"<b>Country :</b> <code>{country_name}</code>\n"
-                  f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
-                  f"<b>Country Code :</b> <code>{country_code}</code>\n"
-                  f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
-                  f"<b>Day :</b> <code>{current_day}</code>\n"
-                  f"<b>Current Time :</b> <code>{current_time}</code>\n"
-                  f"<b>Current Date :</b> <code>{current_date}</code>")
+        result = (
+            f"<b>Country :</b> <code>{country_name}</code>\n"
+            f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
+            f"<b>Country Code :</b> <code>{country_code}</code>\n"
+            f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
+            f"<b>Day :</b> <code>{current_day}</code>\n"
+            f"<b>Current Time :</b> <code>{current_time}</code>\n"
+            f"<b>Current Date :</b> <code>{current_date}</code>")
     except Exception:
         result = None
 
@@ -333,9 +334,8 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
 
 @run_async
-def gettime(_, update: Update):
+def gettime(update: Update, _):
     message = update.effective_message
-
     try:
         query = message.text.strip().split(" ", 1)[1]
     except Exception:
@@ -362,7 +362,7 @@ def gettime(_, update: Update):
 
 
 @run_async
-def convert(_, update: Update):
+def convert(update: Update, _):
     args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
 
@@ -382,11 +382,12 @@ def convert(_, update: Update):
                 "You forgot to mention the currency code to convert into.")
             return
 
-        request_url = (f"https://www.alphavantage.co/query"
-                       f"?function=CURRENCY_EXCHANGE_RATE"
-                       f"&from_currency={orig_cur}"
-                       f"&to_currency={new_cur}"
-                       f"&apikey={CASH_API_KEY}")
+        request_url = (
+            f"https://www.alphavantage.co/query"
+            f"?function=CURRENCY_EXCHANGE_RATE"
+            f"&from_currency={orig_cur}"
+            f"&to_currency={new_cur}"
+            f"&apikey={CASH_API_KEY}")
         response = requests.get(request_url).json()
         try:
             current_rate = float(
@@ -402,7 +403,7 @@ def convert(_, update: Update):
 
 
 @run_async
-def wall(context: CallbackContext, update: Update):
+def wall(update: Update, context: CallbackContext):
     args = context.args
     msg = update.effective_message
     msg_id = update.effective_message.message_id
@@ -421,7 +422,7 @@ def wall(context: CallbackContext, update: Update):
                 wallpaper = wallpaper.replace("\\", "")
                 chat_id = update.effective_chat.id
                 context.bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
-                               reply_to_message_id=msg_id, timeout=60)
+                            reply_to_message_id=msg_id, timeout=60)
                 context.bot.send_document(
                     chat_id,
                     document=wallpaper,
@@ -441,7 +442,7 @@ def wall(context: CallbackContext, update: Update):
 
 
 @run_async
-def covid(_, update: Update):
+def covid(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(' ', 1)
     if len(text) == 1:

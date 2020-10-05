@@ -36,7 +36,7 @@ for handler_list in dispatcher.handlers:
 
 
 @run_async
-def clean_blue_text_must_click(context: CallbackContext, update: Update):
+def clean_blue_text_must_click(update: Update, context: CallbackContext):
     # sourcery skip: merge-nested-ifs, move-assign
 
     chat = update.effective_chat
@@ -64,7 +64,7 @@ def clean_blue_text_must_click(context: CallbackContext, update: Update):
 @connection_status
 @bot_can_delete
 @user_admin
-def set_blue_text_must_click(context: CallbackContext, update: Update):
+def set_blue_text_must_click(update: Update, context: CallbackContext):
     args = context.args
     chat = update.effective_chat
     message = update.effective_message
@@ -95,7 +95,7 @@ def set_blue_text_must_click(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def add_bluetext_ignore(context: CallbackContext, update: Update):
+def add_bluetext_ignore(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     chat = update.effective_chat
@@ -117,7 +117,7 @@ def add_bluetext_ignore(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def remove_bluetext_ignore(context: CallbackContext, update: Update):
+def remove_bluetext_ignore(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     chat = update.effective_chat
@@ -139,7 +139,7 @@ def remove_bluetext_ignore(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def add_bluetext_ignore_global(context: CallbackContext, update: Update):
+def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     if len(args) >= 1:
@@ -159,7 +159,7 @@ def add_bluetext_ignore_global(context: CallbackContext, update: Update):
 
 @run_async
 @dev_plus
-def remove_bluetext_ignore_global(context: CallbackContext, update: Update):
+def remove_bluetext_ignore_global(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     if len(args) >= 1:
@@ -179,7 +179,7 @@ def remove_bluetext_ignore_global(context: CallbackContext, update: Update):
 
 @run_async
 @dev_plus
-def bluetext_ignore_list(_, update: Update):
+def bluetext_ignore_list(update: Update, _):
     message = update.effective_message
     chat = update.effective_chat
 

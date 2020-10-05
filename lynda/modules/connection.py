@@ -19,7 +19,7 @@ MEMBER_STAUS = ('member')
 
 @user_admin
 @run_async
-def allow_connections(context: CallbackContext, update: Update):
+def allow_connections(update: Update, context: CallbackContext):
     chat = update.effective_chat
     if chat.type != chat.PRIVATE:
         args = context.args
@@ -58,7 +58,7 @@ def allow_connections(context: CallbackContext, update: Update):
 
 
 @run_async
-def connection_chat(context: CallbackContext, update: Update):
+def connection_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -84,7 +84,7 @@ def connection_chat(context: CallbackContext, update: Update):
 
 
 @run_async
-def connect_chat(context: CallbackContext, update: Update):
+def connect_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -223,7 +223,7 @@ def connect_chat(context: CallbackContext, update: Update):
             send_message(msg, "Connection to this chat is not allowed!")
 
 
-def disconnect_chat(_, update: Update):
+def disconnect_chat(update: Update, _):
     chat = update.effective_chat
     msg = update.effective_message
     spam = spamfilters(msg.text, msg.from_user.id, chat.id)
@@ -281,7 +281,7 @@ def connected(context: CallbackContext, update, chat, user_id, need_admin=True):
 
 
 @run_async
-def help_connect_chat(_, update: Update):
+def help_connect_chat(update: Update, _):
     msg = update.effective_message
     spam = spamfilters(msg.text, msg.from_user.id, update.effective_chat.id)
     if spam is True:
@@ -295,7 +295,7 @@ def help_connect_chat(_, update: Update):
 
 
 @run_async
-def connect_button(context: CallbackContext, update: Update):
+def connect_button(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat
     user = update.effective_user

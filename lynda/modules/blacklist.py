@@ -18,7 +18,7 @@ BLACKLIST_GROUP = 11
 
 @run_async
 @connection_status
-def blacklist(context: CallbackContext, update: Update):
+def blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     args = context.args
@@ -57,7 +57,7 @@ def blacklist(context: CallbackContext, update: Update):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(_, update: Update):
+def add_blacklist(update: Update, _):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -88,7 +88,7 @@ def add_blacklist(_, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(_, update: Update):
+def unblacklist(update: Update, _):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -96,7 +96,7 @@ def unblacklist(_, update: Update):
     if len(words) > 1:
         text = words[1]
         to_unblacklist = list({trigger.strip()
-                               for trigger in text.split("\n") if trigger.strip()})
+                            for trigger in text.split("\n") if trigger.strip()})
         successful = 0
 
         for trigger in to_unblacklist:
@@ -135,7 +135,7 @@ def unblacklist(_, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(_, update: Update):
+def del_blacklist(update: Update, _):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)

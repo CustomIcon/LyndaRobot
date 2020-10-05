@@ -13,7 +13,7 @@ from lynda.modules.helper_funcs.chat_status import dev_plus
 
 @run_async
 @dev_plus
-def leave(context: CallbackContext, update: Update):
+def leave(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     if args:

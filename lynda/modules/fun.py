@@ -23,7 +23,7 @@ from lynda.modules.helper_funcs.extraction import extract_user
 
 
 @run_async
-def slap(context: CallbackContext, update: Update):
+def slap(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     chat = update.effective_chat
@@ -75,7 +75,7 @@ def slap(context: CallbackContext, update: Update):
 
 
 @run_async
-def pat(_, update: Update):
+def pat(update: Update, _):
     msg = update.effective_message
     pat = requests.get("https://some-random-api.ml/animu/pat").json()
     link = pat.get("link")
@@ -86,7 +86,7 @@ def pat(_, update: Update):
 
 
 @run_async
-def hug(_, update: Update):
+def hug(update: Update, _):
     msg = update.effective_message
     hug = requests.get("https://some-random-api.ml/animu/hug").json()
     link = hug.get("link")
@@ -97,21 +97,21 @@ def hug(_, update: Update):
 
 
 @run_async
-def insult(_, update: Update):
+def insult(update: Update, _):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(random.choice(fun_strings.INSULT_STRINGS))
 
 
 @run_async
-def shrug(_, update: Update):
+def shrug(update: Update, _):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(r"¯\_(ツ)_/¯")
 
 
 @run_async
-def table(_, update: Update):
+def table(update: Update, _):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
 

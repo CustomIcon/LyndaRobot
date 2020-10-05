@@ -41,7 +41,7 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 """
 
 @run_async
-def get_id(context: CallbackContext, update: Update):
+def get_id(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     message = update.effective_message
@@ -81,7 +81,7 @@ def get_id(context: CallbackContext, update: Update):
 
 
 @run_async
-def gifid(_, update: Update):
+def gifid(update: Update, _):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         update.effective_message.reply_text(
@@ -93,7 +93,7 @@ def gifid(_, update: Update):
 
 
 @run_async
-def info(context: CallbackContext, update: Update):
+def info(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
     message = update.effective_message
@@ -180,7 +180,7 @@ def info(context: CallbackContext, update: Update):
 
 
 @run_async
-def ping(_, update: Update):
+def ping(update: Update, _):
     msg = update.effective_message
     start_time = time.time()
     message = msg.reply_text("Pinging...")
@@ -192,7 +192,7 @@ def ping(_, update: Update):
 
 @run_async
 @user_admin
-def echo(_, update: Update):
+def echo(update: Update, _):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -205,7 +205,7 @@ def echo(_, update: Update):
 
 
 @run_async
-def markdown_help(_, update: Update):
+def markdown_help(update: Update, _):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
@@ -218,7 +218,7 @@ def markdown_help(_, update: Update):
 
 @run_async
 @sudo_plus
-def stats(_, update: Update):
+def stats(update: Update, _):
     stats = "Current stats:\n" + "\n".join(mod.__stats__() for mod in STATS)
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     r = requests.get("https://api.waa.ai/v2/links/Lynda").json()

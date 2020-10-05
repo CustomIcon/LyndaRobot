@@ -21,7 +21,7 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @run_async
 @dev_plus
 @gloggable
-def bl_user(context: CallbackContext, update: Update) -> str:
+def bl_user(update: Update, context: CallbackContext) -> str:
     args = context.args
     message = update.effective_message
     user = update.effective_user
@@ -65,7 +65,7 @@ def bl_user(context: CallbackContext, update: Update) -> str:
 @run_async
 @dev_plus
 @gloggable
-def unbl_user(context: CallbackContext, update: Update) -> str:
+def unbl_user(update: Update, context: CallbackContext) -> str:
     args = context.args
     message = update.effective_message
     user = update.effective_user
@@ -107,7 +107,7 @@ def unbl_user(context: CallbackContext, update: Update) -> str:
 
 @run_async
 @dev_plus
-def bl_users(context: CallbackContext, update: Update):
+def bl_users(update: Update, context: CallbackContext):
     users = []
 
     for each_user in sql.BLACKLIST_USERS:

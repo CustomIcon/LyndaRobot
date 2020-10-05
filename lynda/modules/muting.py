@@ -46,7 +46,7 @@ def check_user(user_id: int, context: CallbackContext, chat: Chat) -> Optional[s
 @bot_admin
 @user_admin
 @loggable
-def mute(context: CallbackContext, update: Update) -> str:
+def mute(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     chat = update.effective_chat
@@ -90,7 +90,7 @@ def mute(context: CallbackContext, update: Update) -> str:
 @bot_admin
 @user_admin
 @loggable
-def unmute(context: CallbackContext, update: Update) -> str:
+def unmute(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     chat = update.effective_chat
@@ -140,7 +140,7 @@ def unmute(context: CallbackContext, update: Update) -> str:
 @can_restrict
 @user_admin
 @loggable
-def temp_mute(context: CallbackContext, update: Update) -> str:
+def temp_mute(update: Update, context: CallbackContext) -> str:
     args = context.args
     bot = context.bot
     chat = update.effective_chat

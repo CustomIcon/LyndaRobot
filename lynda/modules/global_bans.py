@@ -60,7 +60,7 @@ UNGBAN_ERRORS = {
 
 @run_async
 @support_plus
-def gban(context: CallbackContext, update: Update):
+def gban(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
     message = update.effective_message
@@ -245,7 +245,7 @@ def gban(context: CallbackContext, update: Update):
 
 @run_async
 @support_plus
-def ungban(context: CallbackContext, update: Update):
+def ungban(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
     user = update.effective_user
@@ -353,7 +353,7 @@ def ungban(context: CallbackContext, update: Update):
 
 @run_async
 @support_plus
-def gbanlist(_, update: Update):
+def gbanlist(update: Update, _):
     banned_users = sql.get_gban_list()
 
     if not banned_users:
@@ -399,7 +399,7 @@ def check_and_ban(update, user_id, should_message=True):
 
 
 @run_async
-def enforce_gban(context: CallbackContext, update: Update):
+def enforce_gban(update: Update, context: CallbackContext):
     bot = context.bot
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     if (
@@ -427,7 +427,7 @@ def enforce_gban(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def gbanstat(context: CallbackContext, update: Update):
+def gbanstat(update: Update, context: CallbackContext):
     args = context.args
     if args:
         if args[0].lower() in ["on", "yes"]:

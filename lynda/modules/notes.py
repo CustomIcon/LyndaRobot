@@ -147,7 +147,7 @@ def get(context, update, notename, show_none=True, no_format=False):
 
 
 @run_async
-def cmd_get(context: CallbackContext, update: Update):
+def cmd_get(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
@@ -159,7 +159,7 @@ def cmd_get(context: CallbackContext, update: Update):
 
 
 @run_async
-def hash_get(context: CallbackContext, update: Update):
+def hash_get(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message.text
     fst_word = message.split()[0]
@@ -169,7 +169,7 @@ def hash_get(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def save(_, update: Update):
+def save(update: Update, _):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
 
@@ -208,7 +208,7 @@ def save(_, update: Update):
 
 @run_async
 @user_admin
-def clear(context: CallbackContext, update: Update):
+def clear(update: Update, context: CallbackContext):
     args = context.args
     if len(args) >= 1:
         notename = args[0]
@@ -222,7 +222,7 @@ def clear(context: CallbackContext, update: Update):
 
 
 @run_async
-def list_notes(_, update: Update):
+def list_notes(update: Update, _):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
 

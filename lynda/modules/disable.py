@@ -94,7 +94,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable(context: CallbackContext, update: Update):
+    def disable(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
@@ -117,7 +117,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable_module(context: CallbackContext, update: Update, args: List[str]):
+    def disable_module(update: Update, context: CallbackContext):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_module = "lynda.modules." + args[0].rsplit(".", 1)[0]
@@ -167,7 +168,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable(context: CallbackContext, update: Update):
+    def enable(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
@@ -188,7 +189,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable_module(context: CallbackContext, update: Update):
+    def enable_module(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
 
@@ -237,7 +238,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def list_cmds(context: CallbackContext, update: Update):
+    def list_cmds(update: Update, context: CallbackContext):
         if DISABLE_CMDS + DISABLE_OTHER:
             result = ""
             for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
@@ -263,7 +264,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @connection_status
-    def commands(context: CallbackContext, update: Update):
+    def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
         update.effective_message.reply_text(
             build_curr_disabled(

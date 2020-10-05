@@ -1,4 +1,4 @@
-from typing import List
+import os
 
 import requests
 from telegram import Update, ParseMode
@@ -9,7 +9,7 @@ from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def paste(context: CallbackContext, update: Update):
+def paste(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
 
@@ -18,7 +18,13 @@ def paste(context: CallbackContext, update: Update):
 
     elif len(args) >= 1:
         data = message.text.split(None, 1)[1]
-
+    
+    elif message.reply_to_message.document and message.reply_to_message.document.file_size < 2 ** 20 * 10:
+        file_id = message.reply_to_message.document.file_id
+        path = context.bot.get_file(file_id)
+        path.download('nekopaste.txt')
+        with open(path, 'r') as doc:
+            data = doc.read()
     else:
         message.reply_text("What am I supposed to do with this?")
         return
