@@ -20,7 +20,7 @@ from lynda.modules.log_channel import loggable
 @can_promote
 @user_admin
 @loggable
-def promote(context: CallbackContext, update: Update) -> str:
+def promote(update: Update, context: CallbackContext) -> str:
     args = context.args
     message = update.effective_message
     chat = update.effective_chat
@@ -83,7 +83,7 @@ def promote(context: CallbackContext, update: Update) -> str:
 @can_promote
 @user_admin
 @loggable
-def demote(context: CallbackContext, update: Update) -> str:
+def demote(update: Update, context: CallbackContext) -> str:
     args = context.args
     chat = update.effective_chat
     message = update.effective_message
@@ -146,7 +146,7 @@ def demote(context: CallbackContext, update: Update) -> str:
 @bot_admin
 @can_promote
 @user_admin
-def set_title(context: CallbackContext, update: Update):
+def set_title(update: Update, context: CallbackContext):
     args = context.args
     chat = update.effective_chat
     message = update.effective_message
@@ -202,7 +202,7 @@ def set_title(context: CallbackContext, update: Update):
 @can_pin
 @user_admin
 @loggable
-def pin(context: CallbackContext, update: Update) -> str:
+def pin(update: Update, context: CallbackContext) -> str:
     args = context.args
     user = update.effective_user
     chat = update.effective_chat
@@ -235,7 +235,7 @@ def pin(context: CallbackContext, update: Update) -> str:
 @can_pin
 @user_admin
 @loggable
-def unpin(context: CallbackContext, update: Update) -> str:
+def unpin(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -258,7 +258,7 @@ def unpin(context: CallbackContext, update: Update) -> str:
 @run_async
 @bot_admin
 @user_admin
-def invite(context: CallbackContext, update: Update):
+def invite(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     if chat.username:
@@ -276,7 +276,7 @@ def invite(context: CallbackContext, update: Update):
 
 @run_async
 @connection_status
-def adminlist(context: CallbackContext, update: Update):
+def adminlist(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     chat_id = chat.id
@@ -305,15 +305,15 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /adminlist: list of admins in the chat
+-> /adminlist: list of admins in the chat
 
-*Admin only:*
- - /pin: silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
- - /unpin: unpins the currently pinned message
- - /invitelink: gets invitelink
- - /promote: promotes the user replied to
- - /demote: demotes the user replied to
- - /settitle: sets a custom title for an admin that the bot promoted
+──「 *Admin only:* 」──
+-> `/pin`: silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
+-> `/unpin`: unpins the currently pinned message
+-> `/invitelink`: gets invitelink
+-> `/promote`: promotes the user replied to
+-> `/demote`: demotes the user replied to
+-> `/settitle`: sets a custom title for an admin that the bot promoted
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)

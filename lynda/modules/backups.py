@@ -12,7 +12,7 @@ from lynda.modules.helper_funcs.chat_status import user_admin
 
 @run_async
 @user_admin
-def import_data(context: CallbackContext, update: Update):
+def import_data(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     # TODO: allow uploading doc with command, not just as reply
@@ -66,16 +66,16 @@ def import_data(context: CallbackContext, update: Update):
 
 @run_async
 @user_admin
-def export_data(_, update: Update):
+def export_data(update: Update, _):
     msg = update.effective_message
     msg.reply_text("Doesn't work yet.")
 
 
 __help__ = """
 *Admin only:*
- - /import: reply to a group butler backup file to import as much as possible, making the transfer super simple! Note \
+-> `/import`: reply to a group butler backup file to import as much as possible, making the transfer super simple! Note \
 that files/photos can't be imported due to telegram restrictions.
- - /export: !!! This isn't a command yet, but should be coming soon!
+-> `/export`: !!! This isn't a command yet, but should be coming soon!
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data)

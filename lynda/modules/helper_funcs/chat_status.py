@@ -9,8 +9,8 @@ from telegram.ext import CallbackContext
 
 
 def is_whitelist_plus(chat: Chat,
-                      user_id: int,
-                      member: ChatMember = None) -> bool:
+                    user_id: int,
+                    member: ChatMember = None) -> bool:
     return any(
         user_id in user for user in
         [WHITELIST_USERS, SARDEGNA_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS])
@@ -41,8 +41,8 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
 
 
 def is_bot_admin(chat: Chat,
-                 bot_id: int,
-                 bot_member: ChatMember = None) -> bool:
+                bot_id: int,
+                bot_member: ChatMember = None) -> bool:
     if chat.type == 'private' or chat.all_members_are_administrators:
         return True
 
@@ -57,8 +57,8 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 
 
 def is_user_ban_protected(chat: Chat,
-                          user_id: int,
-                          member: ChatMember = None) -> bool:
+                        user_id: int,
+                        member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in SUDO_USERS or
             user_id in DEV_USERS or user_id in WHITELIST_USERS or
             user_id in SARDEGNA_USERS or chat.all_members_are_administrators):
@@ -76,7 +76,6 @@ def is_user_in_chat(chat: Chat, user_id: int) -> bool:
 
 
 def dev_plus(func):
-
     @wraps(func)
     def is_dev_plus_func(update: Update, context: CallbackContext, *args,
                          **kwargs):
@@ -97,7 +96,6 @@ def dev_plus(func):
 
 
 def sudo_plus(func):
-
     @wraps(func)
     def is_sudo_plus_func(update: Update, context: CallbackContext, *args,
                           **kwargs):
@@ -118,7 +116,6 @@ def sudo_plus(func):
 
 
 def support_plus(func):
-
     @wraps(func)
     def is_support_plus_func(update: Update, context: CallbackContext, *args,
                              **kwargs):
@@ -134,7 +131,6 @@ def support_plus(func):
 
 
 def whitelist_plus(func):
-
     @wraps(func)
     def is_whitelist_plus_func(update: Update, context: CallbackContext, *args,
                                **kwargs):
@@ -151,7 +147,6 @@ def whitelist_plus(func):
 
 
 def user_admin(func):
-
     @wraps(func)
     def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
         user = update.effective_user
@@ -171,7 +166,6 @@ def user_admin(func):
 
 
 def user_admin_no_reply(func):
-
     @wraps(func)
     def is_not_admin_no_reply(update: Update, context: CallbackContext, *args,
                               **kwargs):
@@ -189,7 +183,6 @@ def user_admin_no_reply(func):
 
 
 def user_not_admin(func):
-
     @wraps(func)
     def is_not_admin(update: Update, context: CallbackContext, *args, **kwargs):
         user = update.effective_user
@@ -203,7 +196,6 @@ def user_not_admin(func):
 
 
 def bot_admin(func):
-
     @wraps(func)
     def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
         bot = context.bot
@@ -226,7 +218,6 @@ def bot_admin(func):
 
 
 def bot_can_delete(func):
-
     @wraps(func)
     def delete_rights(update: Update, context: CallbackContext, *args,
                       **kwargs):
@@ -250,7 +241,6 @@ def bot_can_delete(func):
 
 
 def can_pin(func):
-
     @wraps(func)
     def pin_rights(update: Update, context: CallbackContext, *args, **kwargs):
         bot = context.bot
@@ -299,7 +289,6 @@ def can_promote(func):
 
 
 def can_restrict(func):
-
     @wraps(func)
     def restrict_rights(update: Update, context: CallbackContext, *args,
                         **kwargs):
@@ -325,8 +314,7 @@ def can_restrict(func):
 def user_can_ban(func):
 
     @wraps(func)
-    def user_is_banhammer(update: Update, context: CallbackContext, *args,
-                          **kwargs):
+    def user_is_banhammer(update: Update, context: CallbackContext, *args, **kwargs):
         user = update.effective_user.id
         member = update.effective_chat.get_member(user)
         if not (member.can_restrict_members or

@@ -16,7 +16,7 @@ FLOOD_GROUP = 3
 
 @run_async
 @loggable
-def check_flood(context: CallbackContext, update: Update) -> str:
+def check_flood(update: Update, context: CallbackContext) -> str:
     user = update.effective_user
     chat = update.effective_chat
     msg = update.effective_message
@@ -67,7 +67,7 @@ def check_flood(context: CallbackContext, update: Update) -> str:
 @user_admin
 @can_restrict
 @loggable
-def set_flood(context: CallbackContext, update: Update) -> str:
+def set_flood(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -129,7 +129,7 @@ def set_flood(context: CallbackContext, update: Update) -> str:
 
 @run_async
 @connection_status
-def flood(_, update: Update):
+def flood(update: Update, _):
     chat = update.effective_chat
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
@@ -165,10 +165,10 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /flood: Get the current flood control setting
+-> `/flood`: Get the current flood control setting
 
 *Admin only:*
- - /setflood <int/'no'/'off'>: enables or disables flood control
+-> `/setflood` <int/'no'/'off'>: enables or disables flood control
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(

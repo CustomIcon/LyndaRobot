@@ -106,7 +106,7 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
-    """Send Help String in PM"""
+    """Send Help String in PM."""
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(chat_id=chat_id,
@@ -144,8 +144,10 @@ def start(update: Update, context: CallbackContext):
             first_name = update.effective_user.first_name
             buttons = InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
-                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
-                 [InlineKeyboardButton(text="❔ Help", url="https://t.me/LyndaRobot?start=help"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
+                [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"),
+                InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
+                [InlineKeyboardButton(text="❔ Help", url="https://t.me/LyndaRobot?start=help"),
+                InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
             update.effective_message.reply_photo(
                 LYNDA_IMG,
                 PM_START_TEXT.format(
@@ -160,7 +162,7 @@ def start(update: Update, context: CallbackContext):
 
 
 # for test purposes
-def error_callback(_bot, _update, error):
+def error_callback(_, __, error):
     """Callback error Handler"""
     try:
         raise error
@@ -190,7 +192,7 @@ def error_callback(_bot, _update, error):
 
 
 @run_async
-def help_button(context: CallbackContext, update: Update):
+def help_button(update: Update, context: CallbackContext):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
@@ -203,7 +205,7 @@ def help_button(context: CallbackContext, update: Update):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "──「 Here is the help for the *{}* module: 」──\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -248,7 +250,7 @@ def help_button(context: CallbackContext, update: Update):
 
 
 @run_async
-def get_help(context: CallbackContext, update: Update):
+def get_help(update: Update, context: CallbackContext):
     """Sends Help String"""
     message = update.effective_message
     chat = update.effective_chat  # type: Optional[Chat]
@@ -258,10 +260,10 @@ def get_help(context: CallbackContext, update: Update):
     if chat.type != chat.PRIVATE:
 
         message.reply_text("Contact me in PM to get the list of possible commands.",
-                           reply_markup=InlineKeyboardMarkup(
-                               [[InlineKeyboardButton(text="Help",
-                                                      url="t.me/{}?start=help".format(
-                                                          context.bot.username))]]))
+                        reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton(text="Help",
+                                                    url="t.me/{}?start=help".format(
+                                                        context.bot.username))]]))
         return
 
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
@@ -280,7 +282,7 @@ def send_settings(chat_id, user_id, user=False):
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join("*{}*:\n{}".format(mod.__mod_name__,
-                                                      mod.__user_settings__(user_id)) for mod in USER_SETTINGS.values())
+                                                    mod.__user_settings__(user_id)) for mod in USER_SETTINGS.values())
             dispatcher.bot.send_message(
                 user_id,
                 "These are your current settings:" +
@@ -315,7 +317,7 @@ def send_settings(chat_id, user_id, user=False):
 
 
 @run_async
-def settings_button(context: CallbackContext, update: Update):
+def settings_button(update: Update, context: CallbackContext):
     """Button for settings"""
     query = update.callback_query
     user = update.effective_user
@@ -385,7 +387,7 @@ def settings_button(context: CallbackContext, update: Update):
 
 
 @run_async
-def get_settings(context: CallbackContext, update: Update):
+def get_settings(update: Update, context: CallbackContext):
     """Getting Settings String"""
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -397,10 +399,10 @@ def get_settings(context: CallbackContext, update: Update):
         if is_user_admin(chat, user.id):
             text = "Click here to get this chat's settings, as well as yours."
             msg.reply_text(text,
-                           reply_markup=InlineKeyboardMarkup(
-                               [[InlineKeyboardButton(text="Settings",
-                                                      url="t.me/{}?start=stngs_{}".format(
-                                                          context.bot.username, chat.id))]]))
+                        reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton(text="Settings",
+                                                    url="t.me/{}?start=stngs_{}".format(
+                                                        context.bot.username, chat.id))]]))
         else:
             text = "Click here to check your settings."
 
@@ -409,7 +411,7 @@ def get_settings(context: CallbackContext, update: Update):
 
 
 @run_async
-def donate(context: CallbackContext, update: Update):
+def donate(update: Update, context: CallbackContext):
     """Donation String"""
     message = update.effective_message
     user = message.from_user
@@ -430,9 +432,9 @@ def donate(context: CallbackContext, update: Update):
     else:
         try:
             context.bot.send_message(user.id, DONATE_STRING,
-                             parse_mode=ParseMode.MARKDOWN,
-                             disable_web_page_preview=True
-                             )
+                            parse_mode=ParseMode.MARKDOWN,
+                            disable_web_page_preview=True
+                            )
 
             message.reply_text("I've PM'ed you about donating to my creator!")
         except Unauthorized:
@@ -440,7 +442,7 @@ def donate(context: CallbackContext, update: Update):
                 "Contact me in PM first to get donation information.")
 
 
-def migrate_chats(_context: CallbackContext, update: Update):
+def migrate_chats(update: Update, _):
     """Chat Migration"""
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
@@ -484,8 +486,8 @@ def main():
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen="127.0.0.1",
-                              port=PORT,
-                              url_path=TOKEN)
+                            port=PORT,
+                            url_path=TOKEN)
 
         if CERT_PATH:
             updater.bot.set_webhook(url=URL + TOKEN,
