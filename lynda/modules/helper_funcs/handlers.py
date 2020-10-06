@@ -9,18 +9,19 @@ CMD_STARTERS = ('/', '!') if ALLOW_EXCL else ('/', )
 
 class CustomCommandHandler(CommandHandler):
 
-    def __init__(self,
-                 command,
-                 callback,
-                 admin_ok=False,
-                 allow_edit=False,
-                 **kwargs):
+    def __init__(
+        self,
+        command,
+        callback,
+        admin_ok=False,
+        #  allow_edit=False,
+        **kwargs):
         super().__init__(command, callback, **kwargs)
 
-        if allow_edit is False:
-            self.filters &= ~(
-                Filters.update.edited_message
-                | Filters.update.edited_channel_post)
+        # if allow_edit is False:
+        self.filters &= ~(
+            Filters.update.edited_message
+            | Filters.update.edited_channel_post)
 
     def check_update(self, update):
         if not isinstance(update, Update) or not update.effective_message:
@@ -62,12 +63,10 @@ class CustomCommandHandler(CommandHandler):
                                             check_result)
             return self.callback(update, context)
         else:
-            optional_args = self.collect_optional_args(dispatcher, update,
-                                                       check_result)
+            optional_args = self.collect_optional_args(dispatcher, update, check_result)
             return self.callback(dispatcher.bot, update, **optional_args)
 
-    def collect_additional_context(self, context, update, dispatcher,
-                                   check_result):
+    def collect_additional_context(self, context, update, dispatcher, check_result):
         if isinstance(check_result, bool):
             context.args = update.effective_message.text.split()[1:]
         else:
@@ -88,13 +87,13 @@ class CustomMessageHandler(MessageHandler):
                 filters,
                 callback,
                 friendly="",
-                allow_edit=False,
+                # allow_edit=False,
                 **kwargs):
         super().__init__(filters, callback, **kwargs)
-        if allow_edit is False:
-            self.filters &= ~(
-                Filters.update.edited_message
-                | Filters.update.edited_channel_post)
+        # if allow_edit is False:
+        self.filters &= ~(
+            Filters.update.edited_message
+            | Filters.update.edited_channel_post)
 
         def check_update(self, update):
             if isinstance(update, Update) and update.effective_message:

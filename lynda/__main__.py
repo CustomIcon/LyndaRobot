@@ -37,19 +37,21 @@ I'm managed by [Poki](https://t.me/pokurt)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
- - /start: start the bot
- - /help: PM's you this message.
- - /help <module name>: PM's you info about that module.
- - /donate: information about how to donate!
- - /settings:
-   - in PM: will send you your settings for all supported modules.
-   - in a group: will redirect you to pm, with all that chat's settings.
+-> `/start`
+start the bot
+-> `/help`
+PM's you this message.
+-> `/help` <module name>
+PM's you info about that module.
+-> `/donate`
+information about how to donate!
+-> `/settings`
+will redirect you to pm, with all that chat's settings.
 
 {}
-And the following:
-""".format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
+""".format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with `/` or `!`.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/35005c01182645232f2d3.jpg"
+LYNDA_IMG = "https://telegra.ph/file/aa808a7a26a011cdf613e.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Lynda is hosted on one of Digital Ocean Servers. \
@@ -168,11 +170,9 @@ def error_callback(_, __, error):
     try:
         raise error
     except Unauthorized:
-        print("no nono1")
         print(error)
         # remove update.message.chat_id from conversation list
     except BadRequest:
-        print("no nono2")
         print("BadRequest caught")
         print(error)
 
@@ -184,7 +184,6 @@ def error_callback(_, __, error):
         print("no nono4")
         # handle other connection problems
     except ChatMigrated as err:
-        print("no nono5")
         print(err)
         # the chat_id of a group has changed, use e.new_chat_id instead
     except TelegramError:
@@ -196,17 +195,12 @@ def error_callback(_, __, error):
 def help_button(update: Update, context: CallbackContext):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
-    prev_match = re.match(r"help_prev\((.+?)\)", query.data)
-    next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back", query.data)
-
-    print(query.message.chat.id)
-
     try:
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "──「 Here is the help for the *{}* module: 」──\n".format(
+                "──「 Here is the help for *{}* 」──\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -220,27 +214,13 @@ def help_button(update: Update, context: CallbackContext):
                 disable_web_page_preview=True
             )
 
-        elif prev_match:
-                curr_page = int(prev_match.group(1))
-                query.message.edit_text(
-                text=HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(curr_page - 1, HELPABLE, "help")))
-
-        elif next_match:
-            next_page = int(next_match.group(1))
-            query.message.edit_text(
-                text=HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(next_page + 1, HELPABLE, "help")))
-
         elif back_match:
             query.message.edit_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")))
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")),
+                disable_web_page_preview=True
+            )
 
         # ensure no spinny white circle
         context.bot.answer_callback_query(query.id)

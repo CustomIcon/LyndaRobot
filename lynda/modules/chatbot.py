@@ -116,7 +116,8 @@ Chatbot utilizes the CoffeeHouse API and allows Lynda to talk back making your c
 This is an ongoing upgrade and is only available in your chats if you reach out to @YorktownEagleUnion and ask for it.
 In future we might make it open for any chat and controllable by group admins.
 Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
-Commands: These only work for Lynda Staff users.
+
+──「 *Commands* 」──
 ->  `/addchat`
 Enables Chatbot mode in the chat.
 -> `/rmchat`
