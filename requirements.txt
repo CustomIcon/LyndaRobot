@@ -33,3 +33,5 @@ py-cpuinfo
 nekos.py
 spamwatch
 telethon
+pytz
+demjson
