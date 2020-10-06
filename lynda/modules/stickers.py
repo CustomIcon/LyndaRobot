@@ -118,10 +118,12 @@ def steal(update: Update, context: CallbackContext):
                 png_sticker=open("stolensticker.png", "rb"),
                 emojis=sticker_emoji,
             )
+            keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
             msg.reply_text(
-                f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
+                f"Sticker successfully added"
                 + f"\nEmoji is: {sticker_emoji}",
                 parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(keyb)
             )
         except OSError as e:
             msg.reply_text('I can only steal images, dude.')
@@ -132,15 +134,13 @@ def steal(update: Update, context: CallbackContext):
                 e.message
                 == 'Internal Server Error: sticker set not found (500)'
             ):
+                keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
                 msg.reply_text(
-                    'Sticker successfully added to [pack](t.me/addstickers/%s)'
-                    % packname
-                    + '\nEmoji is:'
-                    + ' '
-                    + sticker_emoji,
+                    f"Sticker successfully added"
+                    + f"\nEmoji is: {sticker_emoji}",
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=InlineKeyboardMarkup(keyb)
                 )
-
             elif e.message == 'Invalid sticker emojis':
                 msg.reply_text('Invalid emoji(s).')
             elif e.message == 'Sticker_png_dimensions':
@@ -151,11 +151,12 @@ def steal(update: Update, context: CallbackContext):
                     png_sticker=open('stolensticker.png', 'rb'),
                     emojis=sticker_emoji,
                 )
-
+                keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
                 msg.reply_text(
-                    f'Sticker successfully added to [pack](t.me/addstickers/{packname})'
+                    f'Sticker successfully added'
                     + f'\nEmoji is: {sticker_emoji}',
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=InlineKeyboardMarkup(keyb)
                 )
 
             elif e.message == 'Stickers_too_much':
@@ -208,10 +209,12 @@ def steal(update: Update, context: CallbackContext):
                 png_sticker=open("stolensticker.png", "rb"),
                 emojis=sticker_emoji,
             )
+            keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
             msg.reply_text(
-                f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
+                f"Sticker successfully added"
                 + f"\nEmoji is: {sticker_emoji}",
                 parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(keyb)
             )
         except OSError as e:
             msg.reply_text('I can only steal images, dude.')
@@ -221,14 +224,15 @@ def steal(update: Update, context: CallbackContext):
             if (
                 e.message
                 == 'Internal Server Error: sticker set not found (500)'
-            ):
+            ):  
+                keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
                 msg.reply_text(
-                    'Sticker successfully added to [pack](t.me/addstickers/%s)'
-                    % packname
+                    'Sticker successfully added'
                     + '\nEmoji is:'
                     + ' '
                     + sticker_emoji,
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=InlineKeyboardMarkup(keyb)
                 )
 
             elif e.message == 'Invalid sticker emojis':
@@ -241,15 +245,15 @@ def steal(update: Update, context: CallbackContext):
                     png_sticker=open('stolensticker.png', 'rb'),
                     emojis=sticker_emoji,
                 )
-
+                keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
                 msg.reply_text(
-                    'Sticker successfully added to [pack](t.me/addstickers/%s)'
-                    % packname
+                    'Sticker successfully added'
                     + '\n'
                     + 'Emoji is:'
                     + ' '
                     + sticker_emoji,
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=InlineKeyboardMarkup(keyb)
                 )
 
             elif e.message == 'Stickers_too_much':
@@ -299,9 +303,11 @@ def makepack_internal(msg, user, png_sticker, emoji, bot, packname, packnum):
     except TelegramError as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
+            keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
             msg.reply_text(
-                "Your pack can be found [here](t.me/addstickers/%s)" % packname,
+                "Your pack can be found here:",
                 parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(keyb)
             )
         elif e.message == "Peer_id_invalid":
             msg.reply_text(
@@ -311,10 +317,11 @@ def makepack_internal(msg, user, png_sticker, emoji, bot, packname, packnum):
                 ),
             )
         elif e.message == "Internal Server Error: created sticker set not found (500)":
+            keyb = [[InlineKeyboardButton('Sticker Pack', url=f'https://t.me/addstickers/{packname}')]]
             msg.reply_text(
-                "Sticker pack successfully created! Get it [here](t.me/addstickers/%s)"
-                % packname,
+                "Sticker pack successfully created!",
                 parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(keyb)
             )
         return
 
@@ -327,6 +334,21 @@ def makepack_internal(msg, user, png_sticker, emoji, bot, packname, packnum):
     else:
         msg.reply_text("Failed to create sticker pack.")
 
+__mod_name__ = "Stickers"
+
+__help__ = """
+──「 *Steal Sticker* 」──
+-> `/steal`
+Reply a sticker/image, and sticker is yours.
+
+──「 *Sticker ID* 」── 
+-> `/stickerid`
+Reply a sticker to get the ID of the Sticker
+
+──「 *Sticker to PNG* 」── 
+-> `/getsticker`
+Reply a sticker to get the the document format of the Sticker
+"""
 
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
