@@ -125,7 +125,7 @@ def locktypes(update: Update, _):
 @connection_status
 @bot_can_delete
 @loggable
-def lock(context: CallbackContext, update: Update) -> str:
+def lock(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     message = update.effective_message
     bot = context.bot
@@ -186,7 +186,7 @@ def lock(context: CallbackContext, update: Update) -> str:
 @connection_status
 @user_admin
 @loggable
-def unlock(context: CallbackContext, update: Update) -> str:
+def unlock(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
@@ -242,7 +242,7 @@ def unlock(context: CallbackContext, update: Update) -> str:
 
 @run_async
 @user_not_admin
-def del_lockables(context: CallbackContext, update: Update):
+def del_lockables(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
@@ -277,7 +277,7 @@ def del_lockables(context: CallbackContext, update: Update):
 
 @run_async
 @user_not_admin
-def rest_handler(context: CallbackContext, update: Update):
+def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, _filter in RESTRICTION_TYPES.items():
