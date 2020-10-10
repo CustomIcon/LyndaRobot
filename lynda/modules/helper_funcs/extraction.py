@@ -34,11 +34,7 @@ def extract_user_and_text(message: Message, args: List[str]) -> (Optional[int], 
     text = ""
 
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
-    if len(entities) > 0:
-        ent = entities[0]
-    else:
-        ent = None
-
+    ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
@@ -50,7 +46,7 @@ def extract_user_and_text(message: Message, args: List[str]) -> (Optional[int], 
         user_id = get_user_id(user)
         if not user_id:
             message.reply_text("No idea who this user is. You'll be able to interact with them if "
-                               "you reply to that person's message instead, or forward one of that user's messages.")
+                            "you reply to that person's message instead, or forward one of that user's messages.")
             return None, None
 
         else:
@@ -102,11 +98,7 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
     text = ""
 
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
-    if len(entities) > 0:
-        ent = entities[0]
-    else:
-        ent = None
-
+    ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]

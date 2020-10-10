@@ -187,41 +187,38 @@ START_CHAR = ('\'', '"', SMART_OPEN)
 
 
 def split_quotes(text: str) -> List:
-    if any(text.startswith(char) for char in START_CHAR):
-        counter = 1  # ignore first char -> is some kind of quote
-        while counter < len(text):
-            if text[counter] == "\\":
-                counter += 1
-            elif text[counter] == text[0] or (text[0] == SMART_OPEN and text[counter] == SMART_CLOSE):
-                break
+    if not any(text.startswith(char) for char in START_CHAR):
+        return text.split(None, 1)
+    counter = 1  # ignore first char -> is some kind of quote
+    while counter < len(text):
+        if text[counter] == "\\":
             counter += 1
-        else:
-            return text.split(None, 1)
-
-        # 1 to avoid starting quote, and counter is exclusive so avoids ending
-        key = remove_escapes(text[1:counter].strip())
-        # index will be in range, or `else` would have been executed and returned
-        rest = text[counter + 1:].strip()
-        if not key:
-            key = text[0] + text[0]
-        return list(filter(None, [key, rest]))
+        elif text[counter] == text[0] or (text[0] == SMART_OPEN and text[counter] == SMART_CLOSE):
+            break
+        counter += 1
     else:
         return text.split(None, 1)
 
+    # 1 to avoid starting quote, and counter is exclusive so avoids ending
+    key = remove_escapes(text[1:counter].strip())
+    # index will be in range, or `else` would have been executed and returned
+    rest = text[counter + 1:].strip()
+    if not key:
+        key = text[0] + text[0]
+    return list(filter(None, [key, rest]))
+
 
 def remove_escapes(text: str) -> str:
-    counter = 0
     res = ""
     is_escaped = False
-    while counter < len(text):
+    for item in text:
         if is_escaped:
-            res += text[counter]
+            res += item
             is_escaped = False
-        elif text[counter] == "\\":
+        elif item == "\\":
             is_escaped = True
         else:
-            res += text[counter]
-        counter += 1
+            res += item
     return res
 
 

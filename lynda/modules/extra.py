@@ -10,8 +10,8 @@ from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 import requests
 from typing import List
-from telegram import ParseMode, InputMediaPhoto, Update, Bot, TelegramError, ChatAction
-from telegram.ext import CommandHandler, run_async
+from telegram import ParseMode, InputMediaPhoto, Update, TelegramError, ChatAction
+from telegram.ext import CommandHandler, run_async, CallbackContext
 from lynda import dispatcher, TIME_API_KEY, CASH_API_KEY, WALL_API
 from lynda.modules.disable import DisableAbleCommandHandler
 
@@ -21,7 +21,7 @@ opener.addheaders = [('User-agent', useragent)]
 
 
 @run_async
-def app(_bot: Bot, update: Update):
+def app(update: Update, _):
     message = update.effective_message
     try:
         progress_message = update.effective_message.reply_text(
@@ -70,7 +70,7 @@ def app(_bot: Bot, update: Update):
 
 
 @run_async
-def ud(_bot: Bot, update: Update):
+def ud(update: Update, _):
     message = update.effective_message
     text = message.text[len('/ud '):]
     results = requests.get(
@@ -83,7 +83,8 @@ def ud(_bot: Bot, update: Update):
 
 
 @run_async
-def tts(_bot: Bot, update: Update, args):
+def tts(context: CallbackContext, update: Update):
+    args = context.args
     datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
     datetime.now().strftime("%d%m%y-%H%M%S%f")
     reply = " ".join(args)
@@ -104,7 +105,8 @@ def tts(_bot: Bot, update: Update, args):
 
 
 @run_async
-def reverse(bot: Bot, update: Update, args: List[str]):
+def reverse(update: Update, context: CallbackContext):
+    args = context.args
     if os.path.isfile("okgoogle.png"):
         os.remove("okgoogle.png")
 
@@ -124,7 +126,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         else:
             msg.reply_text("Reply to an image or sticker to lookup.")
             return
-        image_file = bot.get_file(file_id)
+        image_file = context.bot.get_file(file_id)
         image_file.download(imagename)
         if args:
             txt = args[0]
@@ -135,7 +137,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
                 lim = 2
         else:
             lim = 2
-    elif args and not reply:
+    elif args:
         splatargs = msg.text.split(" ")
         if len(splatargs) == 3:
             img_link = splatargs[1]
@@ -187,11 +189,11 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         fetchUrl = response.headers['Location']
 
         if response != 400:
-            xx = bot.send_message(
+            xx = context.bot.send_message(
                 chat_id, "Image was successfully uploaded to Google."
                 "\nParsing source now. Maybe.", reply_to_message_id=rtmid)
         else:
-            bot.send_message(
+            context.bot.send_message(
                 chat_id,
                 "Google told me to go away.",
                 reply_to_message_id=rtmid)
@@ -228,7 +230,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             lmao = InputMediaPhoto(media=str(link))
             imglinks.append(lmao)
 
-        bot.send_media_group(
+        context.bot.send_media_group(
             chat_id=chat_id,
             media=imglinks,
             reply_to_message_id=rtmid)
@@ -257,7 +259,6 @@ def ParseSauce(googleurl):
             results['override'] = url
     except Exception as e:
         print(e)
-        pass
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
         url = 'https://www.google.com/search?tbm=isch&q=' + \
             urllib.parse.quote_plus(similar_image.get('value'))
@@ -304,11 +305,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 country_zone = zone['zoneName']
                 country_code = zone['countryCode']
 
-                if zone['dst'] == 1:
-                    daylight_saving = "Yes"
-                else:
-                    daylight_saving = "No"
-
+                daylight_saving = "Yes" if zone['dst'] == 1 else "No"
                 date_fmt = r"%d-%m-%Y"
                 time_fmt = r"%H:%M:%S"
                 day_fmt = r"%A"
@@ -322,13 +319,14 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 break
 
     try:
-        result = (f"<b>Country :</b> <code>{country_name}</code>\n"
-                  f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
-                  f"<b>Country Code :</b> <code>{country_code}</code>\n"
-                  f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
-                  f"<b>Day :</b> <code>{current_day}</code>\n"
-                  f"<b>Current Time :</b> <code>{current_time}</code>\n"
-                  f"<b>Current Date :</b> <code>{current_date}</code>")
+        result = (
+            f"<b>Country :</b> <code>{country_name}</code>\n"
+            f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
+            f"<b>Country Code :</b> <code>{country_code}</code>\n"
+            f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
+            f"<b>Day :</b> <code>{current_day}</code>\n"
+            f"<b>Current Time :</b> <code>{current_time}</code>\n"
+            f"<b>Current Date :</b> <code>{current_date}</code>")
     except Exception:
         result = None
 
@@ -336,36 +334,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
 
 @run_async
-def gettime(_bot: Bot, update: Update):
-    message = update.effective_message
-
-    try:
-        query = message.text.strip().split(" ", 1)[1]
-    except Exception:
-        message.reply_text(
-            "Provide a country name/abbreviation/timezone to find.")
-        return
-    send_message = message.reply_text(
-        f"Finding timezone info for <b>{query}</b>",
-        parse_mode=ParseMode.HTML)
-
-    query_timezone = query.lower()
-    if len(query_timezone) == 2:
-        result = generate_time(query_timezone, ["countryCode"])
-    else:
-        result = generate_time(query_timezone, ["zoneName", "countryName"])
-
-    if not result:
-        send_message.edit_text(
-            f"Timezone info not available for <b>{query}</b>",
-            parse_mode=ParseMode.HTML)
-        return
-
-    send_message.edit_text(result, parse_mode=ParseMode.HTML)
-
-
-@run_async
-def convert(_bot: Bot, update: Update):
+def convert(update: Update, _):
     args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
 
@@ -385,11 +354,12 @@ def convert(_bot: Bot, update: Update):
                 "You forgot to mention the currency code to convert into.")
             return
 
-        request_url = (f"https://www.alphavantage.co/query"
-                       f"?function=CURRENCY_EXCHANGE_RATE"
-                       f"&from_currency={orig_cur}"
-                       f"&to_currency={new_cur}"
-                       f"&apikey={CASH_API_KEY}")
+        request_url = (
+            f"https://www.alphavantage.co/query"
+            f"?function=CURRENCY_EXCHANGE_RATE"
+            f"&from_currency={orig_cur}"
+            f"&to_currency={new_cur}"
+            f"&apikey={CASH_API_KEY}")
         response = requests.get(request_url).json()
         try:
             current_rate = float(
@@ -405,34 +375,27 @@ def convert(_bot: Bot, update: Update):
 
 
 @run_async
-def wall(bot: Bot, update: Update, args):
-    chat_id = update.effective_chat.id
+def wall(update: Update, context: CallbackContext):
+    args = context.args
     msg = update.effective_message
     msg_id = update.effective_message.message_id
     query = " ".join(args)
-    if not query:
-        msg.reply_text("Please enter a query!")
-        return
-    else:
+    if query:
         caption = query
         term = query.replace(" ", "%20")
         json_rep = requests.get(
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}").json()
-        if not json_rep.get("success"):
-            msg.reply_text("An error occurred! Report this @LyndaEagleSupport")
-        else:
+        if json_rep.get("success"):
             wallpapers = json_rep.get("wallpapers")
-            if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
-                return
-            else:
+            if wallpapers:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
                 wallpaper = wallpapers[index]
                 wallpaper = wallpaper.get("url_image")
                 wallpaper = wallpaper.replace("\\", "")
-                bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
-                               reply_to_message_id=msg_id, timeout=60)
-                bot.send_document(
+                chat_id = update.effective_chat.id
+                context.bot.send_photo(chat_id, photo=wallpaper, caption='Preview',
+                            reply_to_message_id=msg_id, timeout=60)
+                context.bot.send_document(
                     chat_id,
                     document=wallpaper,
                     filename='wallpaper',
@@ -440,9 +403,18 @@ def wall(bot: Bot, update: Update, args):
                     reply_to_message_id=msg_id,
                     timeout=60)
 
+            else:
+                msg.reply_text("No results found! Refine your search.")
+                return
+        else:
+            msg.reply_text("An error occurred! Report this @LyndaEagleSupport")
+    else:
+        msg.reply_text("Please enter a query!")
+        return
+
 
 @run_async
-def covid(_bot: Bot, update: Update):
+def covid(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(' ', 1)
     if len(text) == 1:
@@ -457,44 +429,49 @@ def covid(_bot: Bot, update: Update):
 
 
 __help__ = """
-**Covid - 19:
- - /covid To get Global data
- - /covid <country> To get data of a country
+──「 *Corona:* 」──
+-> `/covid`
+To get Global data
+-> `/covid` <country>
+To get data of a country
 
-**Urban Dictionary :**
- - /ud <word>: Type the word or expression you want to search use.
+──「 *Urban Dictionary:* 」──
+-> `/ud` <word>: Type the word or expression you want to search use.
 
-**Get Time :**
-Available queries : Country Code/Country Name/Timezone Name
- - /time <query> : Gives information about a timezone.
+──「 *Currency Converter:* 」──
+Example syntax: `/cash 1 USD INR`
+-> `/cash`
+currency converter
 
-**Currency Converter: **
-Example syntax: /cash 1 USD INR
- - /cash : currency converter
+──「 *Wallpapers:* 」──
+-> `/wall` <query>
+get a wallpaper from wall.alphacoders.com
 
-**Wallpapers: **
- - /wall <query>: get a wallpaper from wall.alphacoders.com
+──「 *Google Reverse Search:* 」──
+-> `/reverse`
+Does a reverse image search of the media which it was replied to.
 
-**Google Reverse Search: **
- - /reverse: Does a reverse image search of the media which it was replied to.
+──「 *Text-to-Speach* 」──
+-> `/tts` <sentence>
+Text to Speech!
 
-**Text-to-Speach**
- - /tts <sentence>:  Text to Speech!
+──「 *Last FM:* 」──
+-> `/setuser` <username>
+sets your last.fm username.
+-> `/clearuser`
+removes your last.fm username from the bot's database.
+-> `/lastfm`
+returns what you're scrobbling on last.fm.
 
-**Last FM:**
- - /setuser <username>: sets your last.fm username.
- - /clearuser: removes your last.fm username from the bot's database.
- - /lastfm: returns what you're scrobbling on last.fm.
-
-**Playstore:**
- - /app <app name>: finds an app in playstore for you
+──「 *Playstore:* 」──
+-> `/app` <app name>
+finds an app in playstore for you
 """
 APP_HANDLER = DisableAbleCommandHandler("app", app)
 UD_HANDLER = DisableAbleCommandHandler("ud", ud)
 COVID_HANDLER = DisableAbleCommandHandler(["covid", "corona"], covid)
 WALL_HANDLER = DisableAbleCommandHandler("wall", wall, pass_args=True)
-CONVERTER_HANDLER = CommandHandler('cash', convert)
-TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
+CONVERTER_HANDLER = DisableAbleCommandHandler('cash', convert)
 REVERSE_HANDLER = DisableAbleCommandHandler(
     "reverse", reverse, pass_args=True, admin_ok=True)
 TTS_HANDLER = DisableAbleCommandHandler('tts', tts, pass_args=True)
@@ -503,14 +480,12 @@ dispatcher.add_handler(APP_HANDLER)
 dispatcher.add_handler(COVID_HANDLER)
 dispatcher.add_handler(REVERSE_HANDLER)
 dispatcher.add_handler(WALL_HANDLER)
-dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
 dispatcher.add_handler(TTS_HANDLER)
 dispatcher.add_handler(UD_HANDLER)
 
 __mod_name__ = "Extras"
 __command_list__ = [
-    "time",
     "cash",
     "wall",
     "reverse",
@@ -520,7 +495,6 @@ __command_list__ = [
     "ud",
     "app"]
 __handlers__ = [
-    TIME_HANDLER,
     CONVERTER_HANDLER,
     WALL_HANDLER,
     REVERSE_HANDLER,

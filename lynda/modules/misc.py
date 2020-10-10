@@ -4,9 +4,9 @@ from typing import List
 import time
 
 import requests
-from telegram import Bot, Update, MessageEntity, ParseMode
+from telegram import Update, MessageEntity, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
+from telegram.ext import CommandHandler, run_async, Filters, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, SARDEGNA_USERS, WHITELIST_USERS
@@ -41,9 +41,10 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 """
 
 @run_async
-def get_id(bot: Bot, update: Update, args: List[str]):
+def get_id(update: Update, context: CallbackContext):
+    args = context.args
+    bot = context.bot
     message = update.effective_message
-    chat = update.effective_chat
     msg = update.effective_message
     user_id = extract_user(msg, args)
 
@@ -69,17 +70,18 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
     else:
 
+        chat = update.effective_chat
         if chat.type == "private":
             msg.reply_text(f"Your id is <code>{chat.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+                        parse_mode=ParseMode.HTML)
 
         else:
             msg.reply_text(f"This group's id is <code>{chat.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+                        parse_mode=ParseMode.HTML)
 
 
 @run_async
-def gifid(_bot: Bot, update: Update):
+def gifid(update: Update, _):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         update.effective_message.reply_text(
@@ -91,7 +93,9 @@ def gifid(_bot: Bot, update: Update):
 
 
 @run_async
-def info(bot: Bot, update: Update, args: List[str]):
+def info(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
     message = update.effective_message
     chat = update.effective_chat
     user_id = extract_user(update.effective_message, args)
@@ -102,9 +106,13 @@ def info(bot: Bot, update: Update, args: List[str]):
     elif not message.reply_to_message and not args:
         user = message.from_user
 
-    elif not message.reply_to_message and (not args or (
-            len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not message.parse_entities(
-                [MessageEntity.TEXT_MENTION]))):
+    elif (
+        not message.reply_to_message
+        and len(args) >= 1
+        and not args[0].startswith("@")
+        and not args[0].isdigit()
+        and not message.parse_entities([MessageEntity.TEXT_MENTION])
+    ):
         message.reply_text("I can't extract a user from this.")
         return
 
@@ -172,19 +180,19 @@ def info(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def ping(bot: Bot, update: Update):
+def ping(update: Update, _):
     msg = update.effective_message
     start_time = time.time()
     message = msg.reply_text("Pinging...")
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text("*Pong!!!*\n`{}ms`".format(ping_time),
-                      parse_mode=ParseMode.MARKDOWN)
+                    parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
 @user_admin
-def echo(_bot: Bot, update: Update):
+def echo(update: Update, _):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -197,7 +205,7 @@ def echo(_bot: Bot, update: Update):
 
 
 @run_async
-def markdown_help(_bot: Bot, update: Update):
+def markdown_help(update: Update, _):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
@@ -210,7 +218,7 @@ def markdown_help(_bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def stats(_bot: Bot, update: Update):
+def stats(update: Update, _):
     stats = "Current stats:\n" + "\n".join(mod.__stats__() for mod in STATS)
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     r = requests.get("https://api.waa.ai/v2/links/Lynda").json()
@@ -219,11 +227,14 @@ def stats(_bot: Bot, update: Update):
 
 
 __help__ = """
- - /id: get the current group id. If used by replying to a message, gets that user's id.
- - /gifid: reply to a gif to me to tell you its file ID.
- - /info: get information about a user.
- - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
- - /karma - Coming soon
+-> `/id`
+get the current group id. If used by replying to a message, gets that user's id.
+-> `/gifid`
+reply to a gif to me to tell you its file ID.
+-> `/info`
+get information about a user.
+-> `/markdownhelp`
+quick summary of how markdown works in telegram - can only be called in private chats.
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)

@@ -1,5 +1,5 @@
 import speedtest
-from telegram import Update, Bot, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import run_async, CallbackQueryHandler
 
 from lynda import dispatcher, DEV_USERS
@@ -13,18 +13,18 @@ def convert(speed):
 
 @dev_plus
 @run_async
-def speedtestxyz(_bot: Bot, update: Update):
+def speedtestxyz(update: Update, _):
     buttons = [[InlineKeyboardButton("Image",
-                                     callback_data="speedtest_image"),
+                                    callback_data="speedtest_image"),
                 InlineKeyboardButton("Text",
-                                     callback_data="speedtest_text")]]
+                                    callback_data="speedtest_text")]]
     update.effective_message.reply_text(
         "Select SpeedTest Mode",
         reply_markup=InlineKeyboardMarkup(buttons))
 
 
 @run_async
-def speedtestxyz_callback(_bot: Bot, update: Update):
+def speedtestxyz_callback(update: Update, _):
     query = update.callback_query
 
     if query.from_user.id in DEV_USERS:

@@ -2,10 +2,10 @@ import html
 from typing import List
 
 import telegram.ext as tg
-from telegram import Bot, Update, ParseMode, MessageEntity
+from telegram import Update, ParseMode, MessageEntity
 from telegram import TelegramError
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 import lynda.modules.sql.locks_sql as sql
@@ -76,7 +76,7 @@ tg.CommandHandler = CustomCommandHandler
 
 # NOT ASYNC
 def restr_members(
-        bot,
+        context,
         chat_id,
         members,
         messages=False,
@@ -84,10 +84,8 @@ def restr_members(
         other=False,
         previews=False):
     for mem in members:
-        if mem.user in SUDO_USERS or mem.user in DEV_USERS:
-            pass
         try:
-            bot.restrict_chat_member(chat_id, mem.user,
+            context.bot.restrict_chat_member(chat_id, mem.user,
                                      can_send_messages=messages,
                                      can_send_media_messages=media,
                                      can_send_other_messages=other,
@@ -98,7 +96,7 @@ def restr_members(
 
 # NOT ASYNC
 def unrestr_members(
-        bot,
+        context,
         chat_id,
         members,
         messages=True,
@@ -107,18 +105,18 @@ def unrestr_members(
         previews=True):
     for mem in members:
         try:
-            bot.restrict_chat_member(chat_id, mem.user,
-                                     can_send_messages=messages,
-                                     can_send_media_messages=media,
-                                     can_send_other_messages=other,
-                                     can_add_web_page_previews=previews)
+            context.bot.restrict_chat_member(chat_id, mem.user,
+                                    can_send_messages=messages,
+                                    can_send_media_messages=media,
+                                    can_send_other_messages=other,
+                                    can_add_web_page_previews=previews)
         except TelegramError:
             pass
 
 
 @run_async
 @connection_status
-def locktypes(_bot: Bot, update: Update):
+def locktypes(update: Update, _):
     update.effective_message.reply_text(
         "\n - ".join(["Locks: "] + list(LOCK_TYPES) + list(RESTRICTION_TYPES)))
 
@@ -127,13 +125,15 @@ def locktypes(_bot: Bot, update: Update):
 @connection_status
 @bot_can_delete
 @loggable
-def lock(bot: Bot, update: Update, args: List[str]) -> str:
+def lock(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
-    user = update.effective_user
     message = update.effective_message
+    bot = context.bot
 
     if can_delete(chat, bot.id):
+        args = context.args
         if len(args) >= 1:
+            user = update.effective_user
             if args[0] in LOCK_TYPES:
                 sql.update_lock(chat.id, args[0], locked=True)
                 message.reply_text(
@@ -186,13 +186,15 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
 @connection_status
 @user_admin
 @loggable
-def unlock(bot: Bot, update: Update, args: List[str]) -> str:
+def unlock(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
     chat = update.effective_chat
-    user = update.effective_user
     message = update.effective_message
 
     if is_user_admin(chat, message.from_user.id):
+        args = context.args
         if len(args) >= 1:
+            user = update.effective_user
             if args[0] in LOCK_TYPES:
                 sql.update_lock(chat.id, args[0], locked=False)
                 message.reply_text(f"Unlocked {args[0]} for everyone!")
@@ -240,7 +242,8 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_not_admin
-def del_lockables(bot: Bot, update: Update):
+def del_lockables(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
 
@@ -267,17 +270,14 @@ def del_lockables(bot: Bot, update: Update):
                 try:
                     message.delete()
                 except BadRequest as excp:
-                    if excp.message == "Message to delete not found":
-                        pass
-                    else:
-                        LOGGER.exception("ERROR in lockables")
-
+                    if excp.message != 'Message to delete not found':
+                        LOGGER.exception('ERROR in lockables')
             break
 
 
 @run_async
 @user_not_admin
-def rest_handler(bot: Bot, update: Update):
+def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, _filter in RESTRICTION_TYPES.items():
@@ -285,34 +285,32 @@ def rest_handler(bot: Bot, update: Update):
                 chat.id,
                 restriction) and can_delete(
                 chat,
-                bot.id):
+                context.bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
-                    pass
-                else:
-                    LOGGER.exception("ERROR in restrictions")
+                if excp.message != 'Message to delete not found':
+                    LOGGER.exception('ERROR in restrictions')
             break
 
 
 def format_lines(lst, spaces):
     widths = [max(len(str(lst[i][j])) for i in range(len(lst)))
-              for j in range(len(lst[0]))]
+            for j in range(len(lst[0]))]
 
     lines = [(" " *
               spaces).join([" " *
                             int((widths[i] -
-                                 len(str(r[i]))) /
+                                len(str(r[i]))) /
                                 2) +
                             str(r[i]) +
                             " " *
                             int((widths[i] -
-                                 len(str(r[i])) +
-                                 (1 if widths[i] %
-                                  2 != len(str(r[i])) %
-                                  2 else 0)) /
-                                2) for i in range(len(r))]) for r in lst]
+                                len(str(r[i])) +
+                            (1 if widths[i] %
+                                2 != len(str(r[i])) %
+                                2 else 0)) /
+                            2) for i in range(len(r))]) for r in lst]
 
     return "\n".join(lines)
 
@@ -378,7 +376,7 @@ def build_lock_message(chat_id):
 @run_async
 @connection_status
 @user_admin
-def list_locks(_bot: Bot, update: Update):
+def list_locks(update: Update, _):
     chat = update.effective_chat
 
     res = build_lock_message(chat.id)
@@ -395,12 +393,15 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /locktypes: a list of possible locktypes
+-> /locktypes: a list of possible locktypes
 
-*Admin only:*
- - /lock <type>: lock items of a certain type (not available in private)
- - /unlock <type>: unlock items of a certain type (not available in private)
- - /locks: the current list of locks in this chat.
+──「 *Admin only:*  」──
+-> `/lock` <type>
+lock items of a certain type (not available in private)
+-> `/unlock` <type>
+unlock items of a certain type (not available in private)
+-> `/locks`
+the current list of locks in this chat.
 
 Locks can be used to restrict a group's users.
 eg:

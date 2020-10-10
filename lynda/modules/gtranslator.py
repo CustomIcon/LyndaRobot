@@ -1,19 +1,16 @@
 from emoji import UNICODE_EMOJI
 from googletrans import Translator, LANGUAGES
-from telegram import Bot, Update, ParseMode
-from telegram.ext import run_async
+from telegram import Update, ParseMode
+from telegram.ext import run_async, CallbackContext
 
 from lynda import dispatcher
 from lynda.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def totranslate(_bot: Bot, update: Update):
+def totranslate(update: Update, _):
     msg = update.effective_message
-    problem_lang_code = []
-    for key in LANGUAGES:
-        if "-" in key:
-            problem_lang_code.append(key)
+    problem_lang_code = [key for key in LANGUAGES if "-" in key]
     try:
         if msg.reply_to_message and msg.reply_to_message.text:
 
@@ -123,13 +120,14 @@ def totranslate(_bot: Bot, update: Update):
 
 
 __help__ = """
-- /tr (language code) as reply to a long message.
+-> `/tr` (language code)
+Translates Languages to a desired Language code.
 """
 
 TRANSLATE_HANDLER = DisableAbleCommandHandler("tr", totranslate)
 
 dispatcher.add_handler(TRANSLATE_HANDLER)
 
-__mod_name__ = "Translator"
+__mod_name__ = "Translate"
 __command_list__ = ["tr"]
 __handlers__ = [TRANSLATE_HANDLER]

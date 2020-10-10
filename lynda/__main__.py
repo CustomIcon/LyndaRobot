@@ -1,11 +1,11 @@
 import importlib
 import re
 from sys import argv
-from typing import Optional, List
+from typing import Optional
 
-from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
-from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, Filters
+from telegram.ext import CallbackContext, CommandHandler, MessageHandler, CallbackQueryHandler, Filters
 from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 
@@ -37,19 +37,21 @@ I'm managed by [Poki](https://t.me/pokurt)
 Chatbot module from [TheRealPhoenixBot](https://github.com/rsktg/TheRealPhoenixBot.git)
 Disaster module from [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
 *Main* commands available:
- - /start: start the bot
- - /help: PM's you this message.
- - /help <module name>: PM's you info about that module.
- - /donate: information about how to donate!
- - /settings:
-   - in PM: will send you your settings for all supported modules.
-   - in a group: will redirect you to pm, with all that chat's settings.
+-> `/start`
+start the bot
+-> `/help`
+PM's you this message.
+-> `/help` <module name>
+PM's you info about that module.
+-> `/donate`
+information about how to donate!
+-> `/settings`
+will redirect you to pm, with all that chat's settings.
 
 {}
-And the following:
-""".format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
+""".format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with `/` or `!`.\n")
 
-LYNDA_IMG = "https://telegra.ph/file/35005c01182645232f2d3.jpg"
+LYNDA_IMG = "https://telegra.ph/file/aa808a7a26a011cdf613e.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Lynda is hosted on one of Digital Ocean Servers. \
@@ -106,23 +108,25 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
-    """Send Help String in PM"""
+    """Send Help String in PM."""
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(chat_id=chat_id,
                                 text=text,
                                 parse_mode=ParseMode.MARKDOWN,
-                                reply_markup=keyboard)
+                                reply_markup=keyboard,
+                                disable_web_page_preview=True)
 
 
 @run_async
-def start(bot: Bot, update: Update, args: List[str]):
-    """Triggers start command in pm and in groupchats"""
-    message = update.effective_message
+def start(update: Update, context: CallbackContext):
     if update.effective_chat.type == "private":
+        args = context.args
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
+            elif args[0].lower() == "markdownhelp":
+                IMPORTED["extras"].markdown_help_sender(update)
             elif args[0].lower() == "nations":
                 IMPORTED["nations"].send_nations(update)
             elif args[0].lower().startswith("stngs_"):
@@ -143,32 +147,32 @@ def start(bot: Bot, update: Update, args: List[str]):
             first_name = update.effective_user.first_name
             buttons = InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="👥 Add Lynda to your group", url="https://t.me/LyndaRobot?startgroup=new")],
-                 [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"), InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
-                 [InlineKeyboardButton(text="❔ Help", callback_data="help_back"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
-            message.reply_photo(
+                [InlineKeyboardButton(text="🙋 Support Group", url="https://t.me/LyndaEagleSupport"),
+                InlineKeyboardButton(text="🚫 Global Logs", url="https://t.me/LyndaGLogs")],
+                [InlineKeyboardButton(text="❔ Help", url="https://t.me/LyndaRobot?start=help"),
+                InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/LyndaUpdateLogs")]])
+            update.effective_message.reply_photo(
                 LYNDA_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
                     escape_markdown(
-                        bot.first_name),
+                        context.bot.first_name),
                     OWNER_ID),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=buttons)
     else:
-        message.reply_text("Hola!")
+        update.effective_message.reply_text("Hola!")
 
 
 # for test purposes
-def error_callback(_bot, _update, error):
+def error_callback(_, __, error):
     """Callback error Handler"""
     try:
         raise error
     except Unauthorized:
-        print("no nono1")
         print(error)
         # remove update.message.chat_id from conversation list
     except BadRequest:
-        print("no nono2")
         print("BadRequest caught")
         print(error)
 
@@ -180,7 +184,6 @@ def error_callback(_bot, _update, error):
         print("no nono4")
         # handle other connection problems
     except ChatMigrated as err:
-        print("no nono5")
         print(err)
         # the chat_id of a group has changed, use e.new_chat_id instead
     except TelegramError:
@@ -189,20 +192,15 @@ def error_callback(_bot, _update, error):
 
 
 @run_async
-def help_button(bot: Bot, update: Update):
+def help_button(update: Update, context: CallbackContext):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
-    prev_match = re.match(r"help_prev\((.+?)\)", query.data)
-    next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back", query.data)
-
-    print(query.message.chat.id)
-
     try:
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "──「 Here is the help for *{}* 」──\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -213,32 +211,19 @@ def help_button(bot: Bot, update: Update):
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
                 ),
+                disable_web_page_preview=True
             )
-
-        elif prev_match:
-                curr_page = int(prev_match.group(1))
-                query.message.edit_text(
-                text=HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(curr_page - 1, HELPABLE, "help")))
-
-        elif next_match:
-            next_page = int(next_match.group(1))
-            query.message.edit_text(
-                text=HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(next_page + 1, HELPABLE, "help")))
 
         elif back_match:
             query.message.edit_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")))
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")),
+                disable_web_page_preview=True
+            )
 
         # ensure no spinny white circle
-        bot.answer_callback_query(query.id)
+        context.bot.answer_callback_query(query.id)
         # query.message.delete()
 
     except BadRequest:
@@ -247,20 +232,20 @@ def help_button(bot: Bot, update: Update):
 
 
 @run_async
-def get_help(bot: Bot, update: Update):
+def get_help(update: Update, context: CallbackContext):
     """Sends Help String"""
     message = update.effective_message
     chat = update.effective_chat  # type: Optional[Chat]
-    args = message.text.split(None, 1)
+    args = context.args
 
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:
 
         message.reply_text("Contact me in PM to get the list of possible commands.",
-                           reply_markup=InlineKeyboardMarkup(
-                               [[InlineKeyboardButton(text="Help",
-                                                      url="t.me/{}?start=help".format(
-                                                          bot.username))]]))
+                        reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton(text="Help",
+                                                    url="t.me/{}?start=help".format(
+                                                        context.bot.username))]]))
         return
 
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
@@ -279,7 +264,7 @@ def send_settings(chat_id, user_id, user=False):
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join("*{}*:\n{}".format(mod.__mod_name__,
-                                                      mod.__user_settings__(user_id)) for mod in USER_SETTINGS.values())
+                                                    mod.__user_settings__(user_id)) for mod in USER_SETTINGS.values())
             dispatcher.bot.send_message(
                 user_id,
                 "These are your current settings:" +
@@ -314,7 +299,7 @@ def send_settings(chat_id, user_id, user=False):
 
 
 @run_async
-def settings_button(bot: Bot, update: Update):
+def settings_button(update: Update, context: CallbackContext):
     """Button for settings"""
     query = update.callback_query
     user = update.effective_user
@@ -326,7 +311,7 @@ def settings_button(bot: Bot, update: Update):
         if mod_match:
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
-            chat = bot.get_chat(chat_id)
+            chat = context.bot.get_chat(chat_id)
             text = "*{}* has the following settings for the *{}* module:\n\n".format(
                 escape_markdown(
                     chat.title),
@@ -339,7 +324,7 @@ def settings_button(bot: Bot, update: Update):
         elif prev_match:
             chat_id = prev_match.group(1)
             curr_page = int(prev_match.group(2))
-            chat = bot.get_chat(chat_id)
+            chat = context.bot.get_chat(chat_id)
             query.message.reply_text(
                 "Hi there! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(
@@ -350,7 +335,7 @@ def settings_button(bot: Bot, update: Update):
         elif next_match:
             chat_id = next_match.group(1)
             next_page = int(next_match.group(2))
-            chat = bot.get_chat(chat_id)
+            chat = context.bot.get_chat(chat_id)
             query.message.reply_text(
                 "Hi there! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(
@@ -360,7 +345,7 @@ def settings_button(bot: Bot, update: Update):
 
         elif back_match:
             chat_id = back_match.group(1)
-            chat = bot.get_chat(chat_id)
+            chat = context.bot.get_chat(chat_id)
             query.message.reply_text(
                 text="Hi there! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(
@@ -370,7 +355,7 @@ def settings_button(bot: Bot, update: Update):
                         0, CHAT_SETTINGS, "stngs", chat=chat_id)))
 
         # ensure no spinny white circle
-        bot.answer_callback_query(query.id)
+        context.bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
         if (
@@ -384,7 +369,7 @@ def settings_button(bot: Bot, update: Update):
 
 
 @run_async
-def get_settings(bot: Bot, update: Update):
+def get_settings(update: Update, context: CallbackContext):
     """Getting Settings String"""
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -396,10 +381,10 @@ def get_settings(bot: Bot, update: Update):
         if is_user_admin(chat, user.id):
             text = "Click here to get this chat's settings, as well as yours."
             msg.reply_text(text,
-                           reply_markup=InlineKeyboardMarkup(
-                               [[InlineKeyboardButton(text="Settings",
-                                                      url="t.me/{}?start=stngs_{}".format(
-                                                          bot.username, chat.id))]]))
+                        reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton(text="Settings",
+                                                    url="t.me/{}?start=stngs_{}".format(
+                                                        context.bot.username, chat.id))]]))
         else:
             text = "Click here to check your settings."
 
@@ -408,7 +393,7 @@ def get_settings(bot: Bot, update: Update):
 
 
 @run_async
-def donate(bot: Bot, update: Update):
+def donate(update: Update, context: CallbackContext):
     """Donation String"""
     message = update.effective_message
     user = message.from_user
@@ -428,10 +413,10 @@ def donate(bot: Bot, update: Update):
 
     else:
         try:
-            bot.send_message(user.id, DONATE_STRING,
-                             parse_mode=ParseMode.MARKDOWN,
-                             disable_web_page_preview=True
-                             )
+            context.bot.send_message(user.id, DONATE_STRING,
+                            parse_mode=ParseMode.MARKDOWN,
+                            disable_web_page_preview=True
+                            )
 
             message.reply_text("I've PM'ed you about donating to my creator!")
         except Unauthorized:
@@ -439,7 +424,7 @@ def donate(bot: Bot, update: Update):
                 "Contact me in PM first to get donation information.")
 
 
-def migrate_chats(_bot: Bot, update: Update):
+def migrate_chats(update: Update, _):
     """Chat Migration"""
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
@@ -483,8 +468,8 @@ def main():
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen="127.0.0.1",
-                              port=PORT,
-                              url_path=TOKEN)
+                            port=PORT,
+                            url_path=TOKEN)
 
         if CERT_PATH:
             updater.bot.set_webhook(url=URL + TOKEN,

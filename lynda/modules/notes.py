@@ -3,9 +3,9 @@ from io import BytesIO
 from typing import Optional, List
 
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, InlineKeyboardMarkup
-from telegram import Message, Update, Bot
+from telegram import Message, Update
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, RegexHandler
+from telegram.ext import CommandHandler, RegexHandler, CallbackContext
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 
@@ -44,7 +44,8 @@ ENUM_FUNC_MAP = {
 
 
 # Do not async
-def get(bot, update, notename, show_none=True, no_format=False):
+def get(context, update, notename, show_none=True, no_format=False):
+    bot = context.bot
     chat_id = update.effective_chat.id
     note = sql.get_note(chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
@@ -146,7 +147,9 @@ def get(bot, update, notename, show_none=True, no_format=False):
 
 
 @run_async
-def cmd_get(bot: Bot, update: Update, args: List[str]):
+def cmd_get(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
         get(bot, update, args[0], show_none=True, no_format=True)
     elif len(args) >= 1:
@@ -156,7 +159,8 @@ def cmd_get(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def hash_get(bot: Bot, update: Update):
+def hash_get(update: Update, context: CallbackContext):
+    bot = context.bot
     message = update.effective_message.text
     fst_word = message.split()[0]
     no_hash = fst_word[1:]
@@ -165,7 +169,7 @@ def hash_get(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def save(_bot: Bot, update: Update):
+def save(update: Update, _):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
 
@@ -204,7 +208,8 @@ def save(_bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def clear(_bot: Bot, update: Update, args: List[str]):
+def clear(update: Update, context: CallbackContext):
+    args = context.args
     if len(args) >= 1:
         notename = args[0]
 
@@ -217,24 +222,24 @@ def clear(_bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def list_notes(_bot: Bot, update: Update):
+def list_notes(update: Update, _):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
 
-    msg = "*Notes in chat:*\n"
+    msg = "<b>Notes in chat:</b>\n"
     for note in note_list:
-        note_name = escape_markdown(f" - {note.name}\n")
+        note_name = f" - <code>#{note.name}</code>\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
-                msg, parse_mode=ParseMode.MARKDOWN)
+                msg, parse_mode=ParseMode.HTML)
             msg = ""
         msg += note_name
 
-    if msg == "*Notes in chat:*\n":
+    if msg == "<b>Notes in chat:</b>\n":
         update.effective_message.reply_text("No notes in this chat!")
 
     elif len(msg) != 0:
-        update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 def __import_data__(chat_id, data):
@@ -277,19 +282,25 @@ def __chat_settings__(chat_id, _user_id):
 
 
 __help__ = """
- - /get <notename>: get the note with this notename
- - #<notename>: same as /get
- - /notes or /saved: list all saved notes in this chat
+-> `/get` <notename>
+get the note with this notename
+-> `#<notename>`
+same as /get
+-> `/notes` or `/saved`
+list all saved notes in this chat
 
 If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note.
 
-*Admin only:*
- - /save <notename> <notedata>: saves notedata as a note with name notename
+──「 *Admin only:* 」──
+-> `/save` <notename> <notedata>
+saves notedata as a note with name notename
 A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
 `buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check /markdownhelp for more info.
- - /save <notename>: save the replied message as a note with name notename
- - /clear <notename>: clear note with this name
+-> `/save` <notename>
+save the replied message as a note with name notename
+-> `/clear` <notename>
+clear note with this name
 """
 
 __mod_name__ = "Notes"

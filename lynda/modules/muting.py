@@ -2,9 +2,9 @@ import html
 
 from typing import Optional, List
 
-from telegram import Bot, Chat, Update, ParseMode
+from telegram import Chat, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async
+from telegram.ext import CommandHandler, run_async, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from lynda import dispatcher, LOGGER, SARDEGNA_USERS
@@ -15,7 +15,8 @@ from lynda.modules.helper_funcs.string_handling import extract_time
 from lynda.modules.log_channel import loggable
 
 
-def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
+def check_user(user_id: int, context: CallbackContext, chat: Chat) -> Optional[str]:
+    bot = context.bot
     if not user_id:
         reply = "You don't seem to be referring to a user."
         return reply
@@ -45,7 +46,9 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
 @bot_admin
 @user_admin
 @loggable
-def mute(bot: Bot, update: Update, args: List[str]) -> str:
+def mute(update: Update, context: CallbackContext) -> str:
+    args = context.args
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -87,9 +90,10 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @user_admin
 @loggable
-def unmute(bot: Bot, update: Update, args: List[str]) -> str:
+def unmute(update: Update, context: CallbackContext) -> str:
+    args = context.args
+    bot = context.bot
     chat = update.effective_chat
-    user = update.effective_user
     message = update.effective_message
 
     user_id = extract_user(message, args)
@@ -100,7 +104,12 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
 
     member = chat.get_member(int(user_id))
 
-    if member.status != 'kicked' and member.status != 'left':
+    if member.status in ['kicked', 'left']:
+        message.reply_text(
+            "This user isn't even in the chat, unmuting them won't make them talk more than they "
+            "already do!")
+
+    else:
         if (member.can_send_messages
                 and member.can_send_media_messages
                 and member.can_send_other_messages
@@ -116,16 +125,12 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
                 chat.id,
                 f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
                 parse_mode=ParseMode.HTML)
+            user = update.effective_user
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#UNMUTE\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
-    else:
-        message.reply_text(
-            "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!")
-
     return ""
 
 
@@ -135,7 +140,9 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
+def temp_mute(update: Update, context: CallbackContext) -> str:
+    args = context.args
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -157,11 +164,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     split_reason = reason.split(None, 1)
 
     time_val = split_reason[0].lower()
-    if len(split_reason) > 1:
-        reason = split_reason[1]
-    else:
-        reason = ""
-
+    reason = split_reason[1] if len(split_reason) > 1 else ""
     mutetime = extract_time(message, time_val)
 
     if not mutetime:
@@ -210,10 +213,13 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 __help__ = """
-*Admin only:*
- - /mute <userhandle>: silences a user. Can also be used as a reply, muting the replied to user.
- - /tmute <userhandle> x(m/h/d): mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
- - /unmute <userhandle>: unmutes a user. Can also be used as a reply, muting the replied to user.
+──「 *Admin only:* 」──
+-> `/mute` <userhandle>
+silences a user. Can also be used as a reply, muting the replied to user.
+-> `/tmute` <userhandle> x(m/h/d)
+mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+-> `/unmute` <userhandle>
+unmutes a user. Can also be used as a reply, muting the replied to user.
 """
 
 MUTE_HANDLER = CommandHandler("mute", mute, pass_args=True)

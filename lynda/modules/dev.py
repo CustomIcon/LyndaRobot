@@ -4,8 +4,8 @@ import sys
 from time import sleep
 from typing import List
 
-from telegram import Bot, Update, TelegramError
-from telegram.ext import CommandHandler, run_async
+from telegram import Update, TelegramError
+from telegram.ext import CommandHandler, run_async, CallbackContext
 
 from lynda import dispatcher
 from lynda.modules.helper_funcs.chat_status import dev_plus
@@ -13,12 +13,13 @@ from lynda.modules.helper_funcs.chat_status import dev_plus
 
 @run_async
 @dev_plus
-def leave(bot: Bot, update: Update, args: List[str]):
+def leave(update: Update, context: CallbackContext):
+    args = context.args
     message = update.effective_message
     if args:
         chat_id = str(args[0])
         try:
-            bot.leave_chat(int(chat_id))
+            context.bot.leave_chat(int(chat_id))
             message.reply_text(
                 "Beep boop, I left that soup!.")
         except TelegramError:
