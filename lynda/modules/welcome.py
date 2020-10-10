@@ -659,12 +659,9 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
 
 @run_async
 def user_button(update: Update, context: CallbackContext):
-    bot = context.bot
-    chat = update.effective_chat
     user = update.effective_user
     query = update.callback_query
     match = re.match(r"user_join_\((.+?)\)", query.data)
-    message = update.effective_message
     join_user = int(match.group(1))
 
     if join_user == user.id:
@@ -672,10 +669,13 @@ def user_button(update: Update, context: CallbackContext):
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
         query.answer(text="Yeet! You're a human, unmuted!")
+        bot = context.bot
+        chat = update.effective_chat
         bot.restrict_chat_member(chat.id, user.id, can_send_messages=True,
                                  can_send_media_messages=True,
                                  can_send_other_messages=True,
                                  can_add_web_page_previews=True)
+        message = update.effective_message
         bot.deleteMessage(chat.id, message.message_id)
         if member_dict["should_welc"]:
             sent = send(

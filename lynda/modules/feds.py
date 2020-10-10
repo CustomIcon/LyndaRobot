@@ -1116,7 +1116,6 @@ def get_frules(update: Update, context: CallbackContext):
 @run_async
 def fed_broadcast(update: Update, context: CallbackContext):
     args = context.args
-    user = update.effective_user
     chat = update.effective_chat
     message = update.effective_message
     if chat.type == 'private':
@@ -1128,6 +1127,7 @@ def fed_broadcast(update: Update, context: CallbackContext):
         chat = update.effective_chat
         fed_id = sql.get_fed_id(chat.id)
         fedinfo = sql.get_fed_info(fed_id)
+        user = update.effective_user
         if is_user_fed_owner(fed_id, user.id) is False:
             message.reply_text(
                 "Only federation owners can do this!")

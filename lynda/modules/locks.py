@@ -187,7 +187,6 @@ def lock(update: Update, context: CallbackContext) -> str:
 @user_admin
 @loggable
 def unlock(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
 
@@ -235,6 +234,7 @@ def unlock(update: Update, context: CallbackContext) -> str:
                     "What are you trying to unlock...? Try /locktypes for the list of lockables")
 
         else:
+            bot = context.bot
             bot.sendMessage(chat.id, "What are you trying to unlock...?")
 
     return ""

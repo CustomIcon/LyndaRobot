@@ -242,7 +242,6 @@ def disconnect_chat(update: Update, _):
 
 
 def connected(context: CallbackContext, update, chat, user_id, need_admin=True):
-    user = update.effective_user
     msg = update.effective_message
     spam = spamfilters(msg.text, msg.from_user.id, update.effective_chat.id)
 
@@ -257,6 +256,7 @@ def connected(context: CallbackContext, update, chat, user_id, need_admin=True):
         ismember = getstatusadmin.status in MEMBER_STAUS
         isallow = sql.allow_connect_to_chat(conn_id)
 
+        user = update.effective_user
         if isadmin or (
             isallow and ismember) or (
             user.id in SUDO_USERS) or (
