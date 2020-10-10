@@ -135,7 +135,7 @@ def reverse(bot: Bot, update: Update, args: List[str]):
                 lim = 2
         else:
             lim = 2
-    elif args and not reply:
+    elif args:
         splatargs = msg.text.split(" ")
         if len(splatargs) == 3:
             img_link = splatargs[1]
@@ -152,12 +152,12 @@ def reverse(bot: Bot, update: Update, args: List[str]):
         try:
             urllib.request.urlretrieve(img_link, imagename)
         except HTTPError as HE:
-            if HE.reason == 'Not Found':
-                msg.reply_text("Image not found.")
-                return
-            elif HE.reason == 'Forbidden':
+            if HE.reason == 'Forbidden':
                 msg.reply_text(
                     "Couldn't access the provided link, The website might have blocked accessing to the website by bot or the website does not existed.")
+                return
+            elif HE.reason == 'Not Found':
+                msg.reply_text("Image not found.")
                 return
         except URLError as UE:
             msg.reply_text(f"{UE.reason}")
@@ -186,17 +186,17 @@ def reverse(bot: Bot, update: Update, args: List[str]):
             allow_redirects=False)
         fetchUrl = response.headers['Location']
 
-        if response != 400:
-            xx = bot.send_message(
-                chat_id, "Image was successfully uploaded to Google."
-                "\nParsing source now. Maybe.", reply_to_message_id=rtmid)
-        else:
+        if response == 400:
             bot.send_message(
                 chat_id,
                 "Google told me to go away.",
                 reply_to_message_id=rtmid)
             return
 
+        else:
+            xx = bot.send_message(
+                chat_id, "Image was successfully uploaded to Google."
+                "\nParsing source now. Maybe.", reply_to_message_id=rtmid)
         os.remove(imagename)
         match = ParseSauce(fetchUrl + "&hl=en")
         guess = match['best_guess']
@@ -257,7 +257,6 @@ def ParseSauce(googleurl):
             results['override'] = url
     except Exception as e:
         print(e)
-        pass
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
         url = 'https://www.google.com/search?tbm=isch&q=' + \
             urllib.parse.quote_plus(similar_image.get('value'))
