@@ -39,7 +39,7 @@ async def haruka_is_admin(chat_id: int):
     status = False
     haruka = await telethn.get_me()
     async for user in telethn.iter_participants(chat_id,
-                                             filter=ChannelParticipantsAdmins):
+                                            filter=ChannelParticipantsAdmins):
         if haruka.id == user.id:
             status = True
             break
