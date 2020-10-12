@@ -53,7 +53,7 @@ def check_message(context: CallbackContext, message):
     if message.text.lower() == "lynda":
         return True
     if reply_msg:
-        if reply_msg.from_user.id == context.bot.get_me().id:
+        if reply_msg.from_user.id == 1149336653:
             return True
     else:
         return False
