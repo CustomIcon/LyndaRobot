@@ -83,7 +83,7 @@ def last_fm(update: Update, _):
         rep += f"\n(<code>{scrobbles}</code> scrobbles so far)"
 
     buttons = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("📺 Youtube", url=f'https://www.youtube.com/results?search_query={song}')]]
+        [[InlineKeyboardButton("📺 Youtube", url=f'https://www.youtube.com/results?search_query={artist}+-+{song}')]]
         )
     msg.reply_text(rep, reply_markup=buttons, parse_mode=ParseMode.HTML)
 
