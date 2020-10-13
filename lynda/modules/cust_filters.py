@@ -245,7 +245,7 @@ def reply_filter(update: Update, context: CallbackContext):
 
 
 def __stats__():
-    return "-> `{}` filters, across `{}` chats.".format(
+    return "-> <code>{}</code> filters, across <code>{}</code> chats.".format(
         sql.num_filters(), sql.num_chats())
 
 

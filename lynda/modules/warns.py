@@ -410,8 +410,8 @@ def set_warn_strength(update: Update, context: CallbackContext):
 
 def __stats__():
     return (
-        f"-> `{sql.num_warns()}` overall warns, across `{sql.num_warn_chats()}` chats.\n"
-        f"-> `{sql.num_warn_filters()}` warn filters, across `{sql.num_warn_filter_chats()}` chats.")
+        f"-> <code>{sql.num_warns()}</code> overall warns, across <code>{sql.num_warn_chats()}</code> chats.\n"
+        f"-> <code>{sql.num_warn_filters()}</code> warn filters, across <code>{sql.num_warn_filter_chats()}</code> chats.")
 
 
 def __import_data__(chat_id, data):
