@@ -219,11 +219,11 @@ def markdown_help(update: Update, _):
 @run_async
 @sudo_plus
 def stats(update: Update, _):
-    stats = "Current stats:\n" + "\n".join(mod.__stats__() for mod in STATS)
-    result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
+    stats = "──「 *Current stats* 」──\n" + "\n".join(mod.__stats__() for mod in STATS)
+    result = re.sub(r'(\d+)', r'```\1```', stats)
     r = requests.get("https://api.waa.ai/v2/links/Lynda").json()
-    result += f"\nClicks on Repository: {r['data']['clicks']}"
-    update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
+    result += f"\n-> `{r['data']['clicks']}` clicks on repository"
+    update.effective_message.reply_text(result, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """

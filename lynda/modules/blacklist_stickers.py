@@ -468,11 +468,11 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, _user_id):
     blacklisted = sql.num_stickers_chat_filters(chat_id)
-    return "There are `{} `blacklisted stickers.".format(blacklisted)
+    return "There are `{}` blacklisted stickers.".format(blacklisted)
 
 
 def __stats__():
-    return "{} blacklist stickers, across {} chats.".format(
+    return "-> `{}` blacklist stickers, across `{}` chats.".format(
         sql.num_stickers_filters(), sql.num_stickers_filter_chats())
 
 
