@@ -2,7 +2,7 @@
 
 import requests
 
-from telegram import Update, ParseMode
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import run_async, CommandHandler, CallbackContext
 
 from lynda import dispatcher, LASTFM_API_KEY
@@ -82,7 +82,10 @@ def last_fm(update: Update, _):
         scrobbles = last_user.get("playcount")
         rep += f"\n(<code>{scrobbles}</code> scrobbles so far)"
 
-    msg.reply_text(rep, parse_mode=ParseMode.HTML)
+    buttons = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("📺 Youtube", url=f'https://www.youtube.com/results?search_query={song}')]]
+        )
+    msg.reply_text(rep, reply_markup=buttons, parse_mode=ParseMode.HTML)
 
 
 __mod_name__ = "Last.FM"
