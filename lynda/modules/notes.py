@@ -173,7 +173,7 @@ def get(update, context, notename, show_none=True, no_format=False):
 @run_async
 @connection_status
 def cmd_get(update: Update, context: CallbackContext):
-    bot, args = context.bot, context.args
+    args = context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
         get(update, context, args[0].lower(), show_none=True, no_format=True)
     elif len(args) >= 1:
@@ -247,10 +247,10 @@ def save(update: Update, context: CallbackContext):
 @connection_status
 def clear(update: Update, context: CallbackContext):
     args = context.args
-    chat_id = update.effective_chat.id
     if len(args) >= 1:
         notename = args[0].lower()
 
+        chat_id = update.effective_chat.id
         if sql.rm_note(chat_id, notename):
             update.effective_message.reply_text("Successfully removed note.")
         else:
