@@ -1,33 +1,84 @@
-![Lynda](https://img4.goodfon.com/original/2120x1348/3/58/ayanami-azur-lane-art-anime-devushka-strela.jpg)
+# NoorRobot_bot - chat bot
+It is repository for chat bot: [@NoorRobot_bot](https://t.me/NoorRobot_bot)
+
+## What it is?
+This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.
+
+[Bots.Business](https://bots.business) - it is probably the first CBPaaS - Chat Bot Platform as a Service.
+
+A CBPaaS is a cloud-based platform that enables developers to create chatbots without needing to build backend infrastructure.
+
+## Create your own bot for Telegram from this Git repo
+
+How to create bot?
+1. Create bot with [@BotFather](https://telegram.me/BotFather) and take Secret Token
+2. Create bot in App and add Secret Token
+3. Add Public Key from App as [Deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) with read access (and write access for bot exporting if you need it)
+4. Do import for this git repo
+
+Now you can talk with yours new Telegram Bot
+
+See [more](https://help.bots.business/getting-started)
+
+## Commands - in commands folder
+File name - it is command name (Bot it can be rewritten in command description)
+
+Command can have: `name`, `help`, `aliases` (second names), `answer`, `keyboard`, `scnarios` (for simple logic) and other options.
+
+### Command description
+It is file header:
+
+    /*CMD
+      command: /test
+      help: this is help for ccommand
+      need_reply: [ true or false here ]
+      auto_retry_time: [ time in sec ]
+      answer: it is example answer for /test command
+      keyboard: button1, button2
+      aliases: /test2, /test3
+    CMD*/
+
+See [more](https://help.bots.business/commands)
+
+### Command body
+It is command code in JavaScript.
+Use Bot Java Script for logic in command.
+
+For example:
+> Bot.sendMessage(2+2);
+
+See [more](https://help.bots.business/scenarios-and-bjs)
 
 
-# [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?)
-[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/pokurt/LyndaRobot/?ref=repository-badge)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Join Support!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/LyndaEagleSupport) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/pokurt/LyndaRobot/graphs/contributors/)
+## Libraries - in libs folder
+You can store common code in the libs folder. File name - it is library name.
 
-A modular telegram Python bot running on python3 with an sqlalchemy database.
+For example code in myLib.js:
 
-Originally a [Kigyō](https://t.me/kigyorobot) fork - Lynda has evolved further and was built to be more useful for Anime Chats. 
+    function hello(){ Bot.sendMessage("Hello from lib!") }
+    function goodbye(name){ Bot.sendMessage("Goodbye, " + name) }
 
-Can be found on telegram as [Lynda](https://t.me/LyndaRobot).
+    publish({
+      sayHello: hello,
+      sayGoodbyeTo: goodbye
+    })
 
-The Support group can be reached out to at [Eagle Union](https://t.me/YorktownEagleUnion), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+then you can run in any bot's command:
 
-## Credits
-The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
-This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
+    Libs.myLib.hello()
+    Libs.myLib.sayGoodbyeTo("Alice")
 
-Most modules including Blacklists, Lyrics and much more are taken from [TheRealPhoenixBot](https://t.me/TheRealPhoenixBot)
+See [more](https://help.bots.business/git/library)
 
-Thank you for contributing with me in this Project:
-+ [TheRealPhoenix](https://github.com/rsktg)
-+ [DragSama](https://github.com/DragSama)
-+ [TsunayoshiSawada](https://github.com/TsunayoshiSawada)
-+ [Athphane](https://github.com/athphane)
-+ [Dank-del](https://github.com/Dank-del)
+## Other bots example
+See other bots examples in the [github](https://github.com/bots-business?utf8=✓&tab=repositories&q=&type=public&language=javascript) or in the [Bot Store](https://bots.business/)
 
-Any other authorship/credits can be seen through the commits.
 
-[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+## Other help
+[Help.bots.business](https://help.bots.business)
 
-Should any be missing kindly let us know at [Eagle Union](https://t.me/YorktownEagleUnion) or simply submit a pull request on the readme.
+## API
+See [API](https://api.bots.business/docs#/docs/summary)
+
+
+![](https://bots.business/images/web-logo.png)
